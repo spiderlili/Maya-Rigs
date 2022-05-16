@@ -1,0 +1,116 @@
+import maya.cmds as cmds
+''' Place locators to define rig shape '''
+
+def SetColorOverrideBlue(s):
+    cmds.setAttr(s + '.overrideEnabled', 1)
+    cmds.setAttr(s + '.overrideColor', 15)
+
+def SetColorOverrideYellow(s):
+    cmds.setAttr(s + '.overrideEnabled', 1)
+    cmds.setAttr(s + '.overrideColor', 17)
+
+def SetColorOverrideRed(s):
+    cmds.setAttr(s + '.overrideEnabled', 1)
+    cmds.setAttr(s + '.overrideColor', 13)
+
+hindToe = cmds.spaceLocator(n='L_hindToe_LOC')
+cmds.setAttr(hindToe[0]+'.translateX', 12)
+cmds.setAttr(hindToe[0]+'.translateZ', -20)
+SetColorOverrideBlue(hindToe[0])
+
+hindAnkle = cmds.spaceLocator(n='L_hindAnkle_LOC')
+cmds.setAttr(hindAnkle[0]+'.translateX', 12)
+cmds.setAttr(hindAnkle[0]+'.translateY', 5)
+cmds.setAttr(hindAnkle[0]+'.translateZ', -23)
+SetColorOverrideBlue(hindAnkle[0])
+
+hindKnee = cmds.spaceLocator(n='L_hindKnee_LOC')
+cmds.setAttr(hindKnee[0]+'.translateX', 12)
+cmds.setAttr(hindKnee[0]+'.translateY', 25)
+cmds.setAttr(hindKnee[0]+'.translateZ', -28)
+SetColorOverrideBlue(hindKnee[0])
+
+hindUpperKnee = cmds.spaceLocator(n='L_hindUpperKnee_LOC')
+cmds.setAttr(hindUpperKnee[0]+'.translateX', 12)
+cmds.setAttr(hindUpperKnee[0]+'.translateY', 36)
+cmds.setAttr(hindUpperKnee[0]+'.translateZ', -19)
+SetColorOverrideBlue(hindUpperKnee[0])
+
+hindFemur = cmds.spaceLocator(n='L_hindFemur_LOC')
+cmds.setAttr(hindFemur[0]+'.translateX', 12)
+cmds.setAttr(hindFemur[0]+'.translateY', 50)
+cmds.setAttr(hindFemur[0]+'.translateZ', -25)
+SetColorOverrideBlue(hindFemur[0])
+
+hindPelvis = cmds.spaceLocator(n='L_hindPelvis_LOC')
+cmds.setAttr(hindPelvis[0]+'.translateY', 54)
+cmds.setAttr(hindPelvis[0]+'.translateZ', -24)
+SetColorOverrideYellow(hindPelvis[0])
+
+hindLocGrp = cmds.group(hindToe,hindAnkle, hindKnee, hindUpperKnee, hindFemur, hindPelvis, n='HindPlacement_GRP')
+
+''' Front leg locator placement '''
+frontToe = cmds.spaceLocator(n='L_frontToe_LOC')
+cmds.setAttr(frontToe[0]+'.translateX', 12)
+cmds.setAttr(frontToe[0]+'.translateZ', 24)
+SetColorOverrideBlue(frontToe[0])
+
+frontAnkle = cmds.spaceLocator(n='L_frontAnkle_LOC')
+cmds.setAttr(frontAnkle[0]+'.translateX', 12)
+cmds.setAttr(frontAnkle[0]+'.translateY', 5)
+cmds.setAttr(frontAnkle[0]+'.translateZ', 21)
+SetColorOverrideBlue(frontAnkle[0])
+
+frontKnee = cmds.spaceLocator(n='L_hindKnee_LOC')
+cmds.setAttr(frontKnee[0]+'.translateX', 12)
+cmds.setAttr(frontKnee[0]+'.translateY', 25)
+cmds.setAttr(frontKnee[0]+'.translateZ', 24)
+SetColorOverrideBlue(frontKnee[0])
+
+frontUpperKnee = cmds.spaceLocator(n='L_frontUpperKnee_LOC')
+cmds.setAttr(frontUpperKnee[0]+'.translateX', 12)
+cmds.setAttr(frontUpperKnee[0]+'.translateY', 36)
+cmds.setAttr(frontUpperKnee[0]+'.translateZ', 18)
+SetColorOverrideBlue(frontUpperKnee[0])
+
+frontFemur = cmds.spaceLocator(n='L_frontFemur_LOC')
+cmds.setAttr(frontFemur[0]+'.translateX', 12)
+cmds.setAttr(frontFemur[0]+'.translateY', 44)
+cmds.setAttr(frontFemur[0]+'.translateZ', 25)
+SetColorOverrideBlue(frontFemur[0])
+
+frontPelvis = cmds.spaceLocator(n='L_frontPelvis_LOC')
+cmds.setAttr(frontPelvis[0]+'.translateY', 54)
+cmds.setAttr(frontPelvis[0]+'.translateZ', 20)
+SetColorOverrideYellow(frontPelvis[0])
+
+frontLocGrp = cmds.group(frontToe, frontAnkle, frontKnee, frontUpperKnee, frontFemur, frontPelvis, n='FrontPlacement_GRP')
+
+''' Neck locators '''
+neckRoot = cmds.spaceLocator(n='NeckRoot_LOC')
+cmds.setAttr(neckRoot[0]+'.translateY', 48)
+cmds.setAttr(neckRoot[0]+'.translateZ', 30)
+SetColorOverrideYellow(frontKnee[0])
+
+neckEnd = cmds.spaceLocator(n='NeckRoot_LOC')
+cmds.setAttr(neckRoot[0]+'.translateY', 58)
+cmds.setAttr(neckRoot[0]+'.translateZ', 50)
+SetColorOverrideYellow(frontKnee[0])
+
+neckLocGrp = cmds.group(neckRoot, neckEnd, n='NeckPlacement_GRP')
+
+''' Tail locators '''
+tailRoot = cmds.spaceLocator(n='TailRoot_LOC')
+cmds.setAttr(tailRoot[0]+'.translateY', 54)
+cmds.setAttr(tailRoot[0]+'.translateZ', -32)
+SetColorOverrideYellow(tailRoot[0])
+
+tailEnd = cmds.spaceLocator(n='TailEnd_LOC')
+cmds.setAttr(tailEnd[0]+'.translateY', 54)
+cmds.setAttr(tailEnd[0]+'.translateZ', -62)
+SetColorOverrideYellow(frontKnee[0])
+
+tailLocGrp = cmds.group(tailRoot, tailEnd, n='TailPlacement_GRP')
+
+''' Finalize placement locator module '''
+mainLocGrp = cmds.group(tailLocGrp, neckLocGrp, frontLocGrp, hindLocGrp, n='MainPlacementLoc_GRP')
