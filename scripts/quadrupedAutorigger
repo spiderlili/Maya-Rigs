@@ -90,12 +90,12 @@ frontLocGrp = cmds.group(frontToe, frontAnkle, frontKnee, frontUpperKnee, frontF
 neckRoot = cmds.spaceLocator(n='NeckRoot_LOC')
 cmds.setAttr(neckRoot[0]+'.translateY', 48)
 cmds.setAttr(neckRoot[0]+'.translateZ', 30)
-SetColorOverrideYellow(frontKnee[0])
+SetColorOverrideYellow(neckRoot[0])
 
-neckEnd = cmds.spaceLocator(n='NeckRoot_LOC')
-cmds.setAttr(neckRoot[0]+'.translateY', 58)
-cmds.setAttr(neckRoot[0]+'.translateZ', 50)
-SetColorOverrideYellow(frontKnee[0])
+neckEnd = cmds.spaceLocator(n='neckEnd_LOC')
+cmds.setAttr(neckEnd[0]+'.translateY', 58)
+cmds.setAttr(neckEnd[0]+'.translateZ', 50)
+SetColorOverrideYellow(neckEnd[0])
 
 neckLocGrp = cmds.group(neckRoot, neckEnd, n='NeckPlacement_GRP')
 
@@ -108,7 +108,7 @@ SetColorOverrideYellow(tailRoot[0])
 tailEnd = cmds.spaceLocator(n='TailEnd_LOC')
 cmds.setAttr(tailEnd[0]+'.translateY', 54)
 cmds.setAttr(tailEnd[0]+'.translateZ', -62)
-SetColorOverrideYellow(frontKnee[0])
+SetColorOverrideYellow(tailEnd[0])
 
 tailLocGrp = cmds.group(tailRoot, tailEnd, n='TailPlacement_GRP')
 
