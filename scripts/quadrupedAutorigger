@@ -184,17 +184,17 @@ xPos = cmds.getAttr(L_hindToeJnt + '.tx')
 R_hindToeJnt = R_hindToeJnt[0]
 cmds.setAttr(R_hindToeJnt + '.tx', -xPos)
 
-R_hindAnkleJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindAnkle_JNT')
+R_hindAnkleJnt = cmds.duplicate(L_hindAnkleJnt, n = 'R_HindAnkle_JNT')
 xPos = cmds.getAttr(L_hindAnkleJnt + '.tx')
 R_hindAnkleJnt = R_hindAnkleJnt[0]
 cmds.setAttr(R_hindAnkleJnt + '.tx', -xPos)
 
-R_hindKneeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindKnee_JNT')
+R_hindKneeJnt = cmds.duplicate(L_hindKneeJnt, n = 'R_HindKnee_JNT')
 xPos = cmds.getAttr(L_hindKneeJnt + '.tx')
 R_hindKneeJnt = R_hindKneeJnt[0]
 cmds.setAttr(R_hindKneeJnt + '.tx', -xPos)
 
-R_hindUpperKneeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindUpperKnee_JNT')
+R_hindUpperKneeJnt = cmds.duplicate(L_hindUpperKneeJnt, n = 'R_HindUpperKnee_JNT')
 xPos = cmds.getAttr(L_hindUpperKneeJnt + '.tx')
 R_hindUpperKneeJnt = R_hindUpperKneeJnt[0]
 cmds.setAttr(R_hindUpperKneeJnt + '.tx', -xPos)
@@ -214,9 +214,7 @@ cmds.setAttr(L_hindToeEndJnt + '.visibility', 0)
 cmds.select(d = True)
 
 R_hindToeEndJnt = cmds.joint(n = 'R_HindToeEnd_JNT')
-constraint = cmds.pointConstraint(hindToe, R_hindToeEndJnt)
-cmds.delete(constraint)
-cmds.parent(R_hindToeEndJnt, R_hindToeJnt)
+cmds.parent(R_hindToeEndJnt, R_hindToeJnt, r = True)
 cmds.setAttr(R_hindToeEndJnt + '.tz', 0.04)
 cmds.setAttr(R_hindToeEndJnt + '.visibility', 0)
 cmds.select(d = True)
@@ -228,11 +226,13 @@ cmds.parent(L_hindKneeJnt, L_hindUpperKneeJnt)
 cmds.parent(L_hindUpperKneeJnt, L_hindFemurJnt)
 cmds.parent(L_hindFemurJnt, hindPelvisJnt)
 
+
 cmds.parent(R_hindToeJnt, R_hindAnkleJnt)
 cmds.parent(R_hindAnkleJnt, R_hindKneeJnt)
 cmds.parent(R_hindKneeJnt, R_hindUpperKneeJnt)
 cmds.parent(R_hindUpperKneeJnt, R_hindFemurJnt)
 cmds.parent(R_hindFemurJnt, hindPelvisJnt)
+
 
 # Orient joints
 cmds.select(L_hindFemurJnt)
