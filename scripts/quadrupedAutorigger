@@ -212,3 +212,31 @@ cmds.parent(L_hindToeEndJnt, L_hindToeJnt)
 cmds.setAttr(L_hindToeEndJnt + '.tz', 0.04)
 cmds.setAttr(L_hindToeEndJnt + '.visibility', 0)
 cmds.select(d = True)
+
+R_hindToeEndJnt = cmds.joint(n = 'R_HindToeEnd_JNT')
+constraint = cmds.pointConstraint(hindToe, R_hindToeEndJnt)
+cmds.delete(constraint)
+cmds.parent(R_hindToeEndJnt, R_hindToeJnt)
+cmds.setAttr(R_hindToeEndJnt + '.tz', 0.04)
+cmds.setAttr(R_hindToeEndJnt + '.visibility', 0)
+cmds.select(d = True)
+
+# Parent hind leg joints, set up both L & R joint chains
+cmds.parent(L_hindToeJnt, L_hindAnkleJnt)
+cmds.parent(L_hindAnkleJnt, L_hindKneeJnt)
+cmds.parent(L_hindKneeJnt, L_hindUpperKneeJnt)
+cmds.parent(L_hindUpperKneeJnt, L_hindFemurJnt)
+cmds.parent(L_hindFemurJnt, hindPelvisJnt)
+
+cmds.parent(R_hindToeJnt, R_hindAnkleJnt)
+cmds.parent(R_hindAnkleJnt, R_hindKneeJnt)
+cmds.parent(R_hindKneeJnt, R_hindUpperKneeJnt)
+cmds.parent(R_hindUpperKneeJnt, R_hindFemurJnt)
+cmds.parent(R_hindFemurJnt, hindPelvisJnt)
+
+# Orient joints
+cmds.select(L_hindFemurJnt)
+cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
+cmds.select(R_hindFemurJnt)
+cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
+cmds.select(d = True)
