@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+
 ''' Place locators to define rig shape '''
 
 def SetColorOverrideBlue(s):
@@ -12,6 +13,21 @@ def SetColorOverrideYellow(s):
 def SetColorOverrideRed(s):
     cmds.setAttr(s + '.overrideEnabled', 1)
     cmds.setAttr(s + '.overrideColor', 13)
+    
+def lockTranslate(s):
+    cmds.setAttr(s + '.tx', key = False, l = True)
+    cmds.setAttr(s + '.ty', key = False, l = True)
+    cmds.setAttr(s + '.tz', key = False, l = True)
+
+def lockScale(s):
+    cmds.setAttr(s + '.sx', key = False, l = True)
+    cmds.setAttr(s + '.sy', key = False, l = True)
+    cmds.setAttr(s + '.sz', key = False, l = True)
+
+def lockRotate(s):
+    cmds.setAttr(s + '.rx', key = False, l = True)
+    cmds.setAttr(s + '.ry', key = False, l = True)
+    cmds.setAttr(s + '.rz', key = False, l = True)
 
 hindToe = cmds.spaceLocator(n='L_hindToe_LOC')
 cmds.setAttr(hindToe[0]+'.translateX', 12)
@@ -61,7 +77,7 @@ cmds.setAttr(frontAnkle[0]+'.translateY', 5)
 cmds.setAttr(frontAnkle[0]+'.translateZ', 21)
 SetColorOverrideBlue(frontAnkle[0])
 
-frontKnee = cmds.spaceLocator(n='L_hindKnee_LOC')
+frontKnee = cmds.spaceLocator(n='L_frontKnee_LOC')
 cmds.setAttr(frontKnee[0]+'.translateX', 12)
 cmds.setAttr(frontKnee[0]+'.translateY', 25)
 cmds.setAttr(frontKnee[0]+'.translateZ', 24)
@@ -114,3 +130,85 @@ tailLocGrp = cmds.group(tailRoot, tailEnd, n='TailPlacement_GRP')
 
 ''' Finalize placement locator module '''
 mainLocGrp = cmds.group(tailLocGrp, neckLocGrp, frontLocGrp, hindLocGrp, n='MainPlacementLoc_GRP')
+
+''' World Controller. TODO: Replace with Custom Curves'''
+worldCtrl = cmds.circle(nr = [0,1,0], n = 'World Controller')
+worldCtrl = worldCtrl[0]
+subworldCtrl = cmds.circle(nr = [0,1,0],n = 'Sub World Controller')
+subworldCtrl = subworldCtrl[0]
+cmds.scale(0.7, 0.7, 0.7, subworldCtrl + '.cv[0:16]')
+cmds.parent(subworldCtrl, worldCtrl)
+SetColorOverrideYellow(worldCtrl)
+
+# Joints
+''' Create legs module '''
+hindPelvisJnt = cmds.joint(n = 'C_HindPelvis_JNT')
+SetColorOverrideYellow(hindPelvisJnt)
+constraint = cmds.pointConstraint(hindPelvis, hindPelvisJnt)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindToeJnt = cmds.joint(n = 'L_HindToe_JNT')
+SetColorOverrideYellow(L_hindToeJnt)
+constraint = cmds.pointConstraint(hindToe, L_hindToeJnt)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindAnkleJnt = cmds.joint(n = 'L_HindAnkle_JNT')
+SetColorOverrideYellow(L_hindAnkleJnt)
+constraint = cmds.pointConstraint(hindAnkle, L_hindAnkleJnt)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindKneeJnt = cmds.joint(n = 'L_HindKnee_JNT')
+SetColorOverrideYellow(L_hindKneeJnt)
+constraint = cmds.pointConstraint(hindKnee, L_hindKneeJnt)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindUpperKneeJnt = cmds.joint(n = 'L_HindUpperKnee_JNT')
+SetColorOverrideYellow(L_hindUpperKneeJnt) 
+constraint = cmds.pointConstraint(hindUpperKnee, L_hindUpperKneeJnt)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindFemurJnt = cmds.joint(n = 'L_HindFemur_JNT') 
+SetColorOverrideYellow(L_hindFemurJnt)
+constraint = cmds.pointConstraint(hindFemur, L_hindFemurJnt)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+# Mirror joints to L & R sides
+R_hindToeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindToe_JNT')
+xPos = cmds.getAttr(L_hindToeJnt + '.tx')
+R_hindToeJnt = R_hindToeJnt[0]
+cmds.setAttr(R_hindToeJnt + '.tx', -xPos)
+
+R_hindAnkleJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindAnkle_JNT')
+xPos = cmds.getAttr(L_hindAnkleJnt + '.tx')
+R_hindAnkleJnt = R_hindAnkleJnt[0]
+cmds.setAttr(R_hindAnkleJnt + '.tx', -xPos)
+
+R_hindKneeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindKnee_JNT')
+xPos = cmds.getAttr(L_hindKneeJnt + '.tx')
+R_hindKneeJnt = R_hindKneeJnt[0]
+cmds.setAttr(R_hindKneeJnt + '.tx', -xPos)
+
+R_hindUpperKneeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindUpperKnee_JNT')
+xPos = cmds.getAttr(L_hindUpperKneeJnt + '.tx')
+R_hindUpperKneeJnt = R_hindUpperKneeJnt[0]
+cmds.setAttr(R_hindUpperKneeJnt + '.tx', -xPos)
+
+R_hindFemurJnt = cmds.duplicate(L_hindFemurJnt, n = 'R_HindFemur_JNT')
+xPos = cmds.getAttr(L_hindFemurJnt + '.tx')
+R_hindFemurJnt = R_hindFemurJnt[0]
+cmds.setAttr(R_hindFemurJnt + '.tx', -xPos)
+
+# End joints for Maya skinning
+L_hindToeEndJnt = cmds.joint(n = 'L_HindToeEnd_JNT')
+constraint = cmds.pointConstraint(hindToe, L_hindToeEndJnt)
+cmds.delete(constraint)
+cmds.parent(L_hindToeEndJnt, L_hindToeJnt)
+cmds.setAttr(L_hindToeEndJnt + '.tz', 0.04)
+cmds.setAttr(L_hindToeEndJnt + '.visibility', 0)
+cmds.select(d = True)
