@@ -214,7 +214,7 @@ cmds.setAttr(L_hindToeEndJnt + '.visibility', 0)
 cmds.select(d = True)
 
 R_hindToeEndJnt = cmds.joint(n = 'R_HindToeEnd_JNT')
-cmds.parent(R_hindToeEndJnt, R_hindToeJnt, r = True)
+cmds.parent(R_hindToeEndJnt, R_hindToeJnt, r=True)
 cmds.setAttr(R_hindToeEndJnt + '.tz', 0.04)
 cmds.setAttr(R_hindToeEndJnt + '.visibility', 0)
 cmds.select(d = True)
@@ -226,17 +226,159 @@ cmds.parent(L_hindKneeJnt, L_hindUpperKneeJnt)
 cmds.parent(L_hindUpperKneeJnt, L_hindFemurJnt)
 cmds.parent(L_hindFemurJnt, hindPelvisJnt)
 
-
 cmds.parent(R_hindToeJnt, R_hindAnkleJnt)
 cmds.parent(R_hindAnkleJnt, R_hindKneeJnt)
 cmds.parent(R_hindKneeJnt, R_hindUpperKneeJnt)
 cmds.parent(R_hindUpperKneeJnt, R_hindFemurJnt)
 cmds.parent(R_hindFemurJnt, hindPelvisJnt)
 
-
 # Orient joints
 cmds.select(L_hindFemurJnt)
 cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
 cmds.select(R_hindFemurJnt)
+cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
+cmds.select(d = True)
+
+''' IK Hind Legs '''
+L_hindToeJntIK = cmds.joint(n='L_HindToeIK_JNT')
+constraint = cmds.pointConstraint(hindToe, L_hindToeJntIK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindAnkleJntIK = cmds.joint(n = 'L_HindAnkleIK_JNT')
+constraint = cmds.pointConstraint(hindAnkle, L_hindAnkleJntIK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindKneeJntIK = cmds.joint(n = 'L_HindKneeIK_JNT')
+constraint = cmds.pointConstraint(hindKnee, L_hindKneeJntIK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindUpperKneeJntIK = cmds.joint(n = 'L_HindUpperKneeIK_JNT')
+constraint = cmds.pointConstraint(hindUpperKnee, L_hindUpperKneeJntIK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindFemurJntIK = cmds.joint(n = 'L_HindFemurIK_JNT') 
+constraint = cmds.pointConstraint(hindFemur, L_hindFemurJntIK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+# Mirror IK joints to L & R sides
+R_hindToeJntIK = cmds.duplicate(L_hindToeJntIK, n = 'R_HindToeIK_JNT')
+xPos = cmds.getAttr(L_hindToeJntIK + '.tx')
+R_hindToeJntIK = R_hindToeJntIK[0]
+cmds.setAttr(R_hindToeJntIK + '.tx', -xPos)
+
+R_hindAnkleJntIK = cmds.duplicate(L_hindAnkleJntIK, n = 'R_HindAnkleIK_JNT')
+xPos = cmds.getAttr(L_hindAnkleJntIK + '.tx')
+R_hindAnkleJntIK = R_hindAnkleJntIK[0]
+cmds.setAttr(R_hindAnkleJntIK + '.tx', -xPos)
+
+R_hindKneeJntIK = cmds.duplicate(L_hindKneeJntIK, n = 'R_HindKneeIK_JNT')
+xPos = cmds.getAttr(L_hindKneeJntIK + '.tx')
+R_hindKneeJntIK = R_hindKneeJntIK[0]
+cmds.setAttr(R_hindKneeJntIK + '.tx', -xPos)
+
+R_hindUpperKneeJntIK = cmds.duplicate(L_hindUpperKneeJntIK, n = 'R_HindUpperKneeIK_JNT')
+xPos = cmds.getAttr(L_hindUpperKneeJntIK + '.tx')
+R_hindUpperKneeJntIK = R_hindUpperKneeJntIK[0]
+cmds.setAttr(R_hindUpperKneeJntIK + '.tx', -xPos)
+
+R_hindFemurJntIK = cmds.duplicate(L_hindFemurJntIK, n = 'R_HindFemurIK_JNT')
+xPos = cmds.getAttr(L_hindFemurJntIK + '.tx')
+R_hindFemurJntIK = R_hindFemurJntIK[0]
+cmds.setAttr(R_hindFemurJntIK + '.tx', -xPos)
+
+# Parent hind leg IK joints, set up both L & R IK joint chains
+cmds.parent(L_hindToeJntIK, L_hindAnkleJntIK)
+cmds.parent(L_hindAnkleJntIK, L_hindKneeJntIK)
+cmds.parent(L_hindKneeJntIK, L_hindUpperKneeJntIK)
+cmds.parent(L_hindUpperKneeJntIK, L_hindFemurJntIK)
+cmds.parent(L_hindFemurJntIK, hindPelvisJnt)
+
+cmds.parent(R_hindToeJntIK, R_hindAnkleJntIK)
+cmds.parent(R_hindAnkleJntIK, R_hindKneeJntIK)
+cmds.parent(R_hindKneeJntIK, R_hindUpperKneeJntIK)
+cmds.parent(R_hindUpperKneeJntIK, R_hindFemurJntIK)
+cmds.parent(R_hindFemurJntIK, hindPelvisJnt)
+
+# Orient IK joints chain correctly
+cmds.select(L_hindFemurJntIK)
+cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
+cmds.select(R_hindFemurJntIK)
+cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
+cmds.select(d = True)
+
+''' FK Hind Legs '''
+L_hindToeJntFK = cmds.joint(n='L_HindToeFK_JNT')
+constraint = cmds.pointConstraint(hindToe, L_hindToeJntFK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindAnkleJntFK = cmds.joint(n = 'L_HindAnkleFK_JNT')
+constraint = cmds.pointConstraint(hindAnkle, L_hindAnkleJntFK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindKneeJntFK = cmds.joint(n = 'L_HindKneeFK_JNT')
+constraint = cmds.pointConstraint(hindKnee, L_hindKneeJntFK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindUpperKneeJntFK = cmds.joint(n = 'L_HindUpperKneeFK_JNT')
+constraint = cmds.pointConstraint(hindUpperKnee, L_hindUpperKneeJntFK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+L_hindFemurJntFK = cmds.joint(n = 'L_HindFemurFK_JNT') 
+constraint = cmds.pointConstraint(hindFemur, L_hindFemurJntFK)
+cmds.delete(constraint)
+cmds.select(d = True)
+
+# Mirror FK joints to L & R sides
+R_hindToeJntFK = cmds.duplicate(L_hindToeJntFK, n = 'R_HindToeFK_JNT')
+xPos = cmds.getAttr(L_hindToeJntFK + '.tx')
+R_hindToeJntFK = R_hindToeJntFK[0]
+cmds.setAttr(R_hindToeJntFK + '.tx', -xPos)
+
+R_hindAnkleJntFK = cmds.duplicate(L_hindAnkleJntFK, n = 'R_HindAnkleFK_JNT')
+xPos = cmds.getAttr(L_hindAnkleJntFK + '.tx')
+R_hindAnkleJntFK = R_hindAnkleJntFK[0]
+cmds.setAttr(R_hindAnkleJntFK + '.tx', -xPos)
+
+R_hindKneeJntFK = cmds.duplicate(L_hindKneeJntFK, n = 'R_HindKneeFK_JNT')
+xPos = cmds.getAttr(L_hindKneeJntFK + '.tx')
+R_hindKneeJntFK = R_hindKneeJntFK[0]
+cmds.setAttr(R_hindKneeJntFK + '.tx', -xPos)
+
+R_hindUpperKneeJntFK = cmds.duplicate(L_hindUpperKneeJntFK, n = 'R_HindUpperKneeFK_JNT')
+xPos = cmds.getAttr(L_hindUpperKneeJntFK + '.tx')
+R_hindUpperKneeJntFK = R_hindUpperKneeJntFK[0]
+cmds.setAttr(R_hindUpperKneeJntFK + '.tx', -xPos)
+
+R_hindFemurJntFK = cmds.duplicate(L_hindFemurJntFK, n = 'R_HindFemurFK_JNT')
+xPos = cmds.getAttr(L_hindFemurJntFK + '.tx')
+R_hindFemurJntFK = R_hindFemurJntFK[0]
+cmds.setAttr(R_hindFemurJntFK + '.tx', -xPos)
+
+# Parent hind leg FK joints, set up both L & R FK joint chains
+cmds.parent(L_hindToeJntFK, L_hindAnkleJntFK)
+cmds.parent(L_hindAnkleJntFK, L_hindKneeJntFK)
+cmds.parent(L_hindKneeJntFK, L_hindUpperKneeJntFK)
+cmds.parent(L_hindUpperKneeJntFK, L_hindFemurJntFK)
+cmds.parent(L_hindFemurJntFK, hindPelvisJnt)
+
+cmds.parent(R_hindToeJntFK, R_hindAnkleJntFK)
+cmds.parent(R_hindAnkleJntFK, R_hindKneeJntFK)
+cmds.parent(R_hindKneeJntFK, R_hindUpperKneeJntFK)
+cmds.parent(R_hindUpperKneeJntFK, R_hindFemurJntFK)
+cmds.parent(R_hindFemurJntFK, hindPelvisJnt)
+
+# Orient FK joints chain correctly
+cmds.select(L_hindFemurJntFK)
+cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
+cmds.select(R_hindFemurJntFK)
 cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
 cmds.select(d = True)
