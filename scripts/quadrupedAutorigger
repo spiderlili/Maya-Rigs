@@ -139,6 +139,7 @@ subworldCtrl = subworldCtrl[0]
 cmds.scale(0.7, 0.7, 0.7, subworldCtrl + '.cv[0:16]')
 cmds.parent(subworldCtrl, worldCtrl)
 SetColorOverrideYellow(worldCtrl)
+cmds.select(d = True)
 
 # Hind Joints
 ''' Create legs module '''
