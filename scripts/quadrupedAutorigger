@@ -634,7 +634,7 @@ L_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)],
 # Get distance to get controller with decent scale from front hind leg toe to back hind leg toe
 dist = cmds.createNode('distanceDimShape', n='temp_to_delete') 
 legStart = cmds.xform(L_hindToeJntIK, q = True, ws = True, rp = True) # q = query for specific value, ws = world space, rq = rotation pivot point
-legEnd = cmds.xform(L_frontToeJntIK, q = True, ws = True, rp = True) # q = query for specific value, ws = world space, rq = rotation pivot point
+legEnd = cmds.xform(L_frontToeJntIK, q = True, ws = True, rp = True) 
 cmds.setAttr(dist + '.endPoint', *(legStart)) # Star sign to unpack the variable = different way to access values in a list
 cmds.setAttr(dist + '.startPoint', *(legEnd))
 distance = cmds.getAttr(dist + '.distance')
