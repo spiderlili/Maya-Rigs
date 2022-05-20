@@ -627,7 +627,7 @@ cmds.select(R_frontFemurJntFK)
 cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
 cmds.select(d = True)
 
-# IK controller
+# IK controller: Left side
 L_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_hindLeg_IK', sj = L_hindFemurJntIK, ee = L_hindAnkleJntIK)
 L_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='L_FootIK_CTRL')
 
@@ -646,10 +646,38 @@ cmds.setAttr(L_hindIKCtrl + '.sz', distance)
 cmds.makeIdentity(L_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(L_hindIKCtrl)
 L_hindIKCtrlGrp = cmds.group(L_hindIKCtrl, n = 'L_footIKCtrl_GRP')
-# SetColorOverrideBlue(L_hindIKCtrlGrp)
+SetColorOverrideBlue(L_hindIKCtrlGrp)
 
 constraint = cmds.pointConstraint(L_hindToeJnt, L_hindIKCtrlGrp)
 cmds.delete(constraint)
 cmds.parent(L_IK[0], L_hindIKCtrl)
 cmds.setAttr(L_IK[0] + '.visibility', 0)
 
+# Aim constraint makes the upper hind femur joints follow by some but lets the leg fold up like it should
+cmds.aimConstraint(L_hindIKCtrl, L_hindFemurJntIK, n = 'L_Femur_Aim_Towards_Foot_CTRL', mo = True, wu = [0,0,0])
+L_IK_Toe = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_HindToe_IK', sj = L_hindAnkleJntIK, ee = L_hindToeJntIK)
+cmds.parent(L_IK_Toe[0], L_hindIKCtrl)
+cmds.setAttr(L_IK_Toe[0] + '.visibility', 0)
+
+''' Right hind leg '''
+R_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_hindLeg_IK', sj = R_hindFemurJntIK, ee = R_hindAnkleJntIK)
+R_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='R_FootIK_CTRL')
+
+cmds.setAttr(R_hindIKCtrl + '.sx', distance)
+cmds.setAttr(R_hindIKCtrl + '.sy', distance)
+cmds.setAttr(R_hindIKCtrl + '.sz', distance)
+cmds.makeIdentity(R_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
+lockScale(R_hindIKCtrl)
+R_hindIKCtrlGrp = cmds.group(R_hindIKCtrl, n = 'R_footIKCtrl_GRP')
+SetColorOverrideBlue(R_hindIKCtrlGrp)
+
+constraint = cmds.pointConstraint(R_hindToeJnt, R_hindIKCtrlGrp)
+cmds.delete(constraint)
+cmds.parent(R_IK[0], R_hindIKCtrl)
+cmds.setAttr(R_IK[0] + '.visibility', 0)
+
+# Aim constraint makes the upper hind femur joints follow by some but lets the leg fold up like it should
+cmds.aimConstraint(R_hindIKCtrl, R_hindFemurJntIK, n = 'R_Femur_Aim_Towards_Foot_CTRL', mo = True, wu = [0,0,0])
+R_IK_Toe = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_HindToe_IK', sj = R_hindAnkleJntIK, ee = R_hindToeJntIK)
+cmds.parent(R_IK_Toe[0], R_hindIKCtrl)
+cmds.setAttr(R_IK_Toe[0] + '.visibility', 0)
