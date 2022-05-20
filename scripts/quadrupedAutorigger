@@ -627,8 +627,9 @@ cmds.select(R_frontFemurJntFK)
 cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
 cmds.select(d = True)
 
-# IK controller: Left hind leg
-L_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_hindLeg_IK', sj = L_hindFemurJntIK, ee = L_hindAnkleJntIK)
+# IK controllers
+''' IK controllers: Left hind leg''' 
+L_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_HindLeg_IK', sj = L_hindFemurJntIK, ee = L_hindAnkleJntIK)
 L_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='L_FootIK_CTRL')
 
 # Get distance to get controller with decent scale from front hind leg toe to back hind leg toe
@@ -645,7 +646,7 @@ cmds.setAttr(L_hindIKCtrl + '.sy', distance)
 cmds.setAttr(L_hindIKCtrl + '.sz', distance)
 cmds.makeIdentity(L_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(L_hindIKCtrl)
-L_hindIKCtrlGrp = cmds.group(L_hindIKCtrl, n = 'L_footIKCtrl_GRP')
+L_hindIKCtrlGrp = cmds.group(L_hindIKCtrl, n = 'L_FootIKCtrl_GRP')
 SetColorOverrideBlue(L_hindIKCtrlGrp)
 
 constraint = cmds.pointConstraint(L_hindToeJnt, L_hindIKCtrlGrp)
@@ -660,7 +661,7 @@ cmds.parent(L_IK_Toe[0], L_hindIKCtrl)
 cmds.setAttr(L_IK_Toe[0] + '.visibility', 0)
 
 ''' IK Controller: Right hind leg '''
-R_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_hindLeg_IK', sj = R_hindFemurJntIK, ee = R_hindAnkleJntIK)
+R_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_HindLeg_IK', sj = R_hindFemurJntIK, ee = R_hindAnkleJntIK)
 R_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='R_FootIK_CTRL')
 
 cmds.setAttr(R_hindIKCtrl + '.sx', distance)
@@ -668,7 +669,7 @@ cmds.setAttr(R_hindIKCtrl + '.sy', distance)
 cmds.setAttr(R_hindIKCtrl + '.sz', distance)
 cmds.makeIdentity(R_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(R_hindIKCtrl)
-R_hindIKCtrlGrp = cmds.group(R_hindIKCtrl, n = 'R_footIKCtrl_GRP')
+R_hindIKCtrlGrp = cmds.group(R_hindIKCtrl, n = 'R_FootIKCtrl_GRP')
 SetColorOverrideBlue(R_hindIKCtrlGrp)
 
 constraint = cmds.pointConstraint(R_hindToeJnt, R_hindIKCtrlGrp)
@@ -681,3 +682,33 @@ cmds.aimConstraint(R_hindIKCtrl, R_hindFemurJntIK, n = 'R_Femur_Aim_Towards_Foot
 R_IK_Toe = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_HindToe_IK', sj = R_hindAnkleJntIK, ee = R_hindToeJntIK)
 cmds.parent(R_IK_Toe[0], R_hindIKCtrl)
 cmds.setAttr(R_IK_Toe[0] + '.visibility', 0)
+
+''' IK Controller: Left front leg '''
+L_Front_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_FrontLeg_IK', sj = L_frontUpperKneeJntIK, ee = L_frontAnkleJntIK)
+L_frontIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='L_Front_Foot_IK_CTRL')
+cmds.setAttr(L_frontIKCtrl + '.sx', distance)
+cmds.setAttr(L_frontIKCtrl + '.sy', distance)
+cmds.setAttr(L_frontIKCtrl + '.sz', distance)
+cmds.makeIdentity(L_frontIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
+lockScale(L_frontIKCtrl)
+L_frontIKCtrlGrp = cmds.group(L_frontIKCtrl, n = 'L_FrontFoot_IK_Ctrl_GRP')
+SetColorOverrideBlue(L_frontIKCtrlGrp)
+constraint = cmds.pointConstraint(L_frontToeJnt, L_frontIKCtrlGrp)
+cmds.delete(constraint)
+cmds.parent(L_Front_IK[0], L_frontIKCtrl)
+cmds.setAttr(L_Front_IK[0] + '.visibility', 0)
+
+''' IK Controller: Right front leg '''
+R_Front_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_FrontLeg_IK', sj = R_frontUpperKneeJntIK, ee = R_frontAnkleJntIK)
+R_frontIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='R_Front_Foot_IK_CTRL')
+cmds.setAttr(R_frontIKCtrl + '.sx', distance)
+cmds.setAttr(R_frontIKCtrl + '.sy', distance)
+cmds.setAttr(R_frontIKCtrl + '.sz', distance)
+cmds.makeIdentity(R_frontIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
+lockScale(R_frontIKCtrl)
+R_frontIKCtrlGrp = cmds.group(R_frontIKCtrl, n = 'R_FrontFoot_IK_Ctrl_GRP')
+SetColorOverrideBlue(R_frontIKCtrlGrp)
+constraint = cmds.pointConstraint(R_frontToeJnt, R_frontIKCtrlGrp)
+cmds.delete(constraint)
+cmds.parent(R_Front_IK[0], R_frontIKCtrl)
+cmds.setAttr(R_Front_IK[0] + '.visibility', 0)
