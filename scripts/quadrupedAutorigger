@@ -704,12 +704,22 @@ cmds.setAttr(R_frontIKCtrl + '.sy', distance)
 cmds.setAttr(R_frontIKCtrl + '.sz', distance)
 cmds.makeIdentity(R_frontIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(R_frontIKCtrl)
+
 R_frontIKCtrlGrp = cmds.group(R_frontIKCtrl, n = 'R_FrontFoot_IK_Ctrl_GRP')
 SetColorOverrideRed(R_frontIKCtrlGrp)
 constraint = cmds.pointConstraint(R_frontToeJnt, R_frontIKCtrlGrp)
 cmds.delete(constraint)
 cmds.parent(R_Front_IK[0], R_frontIKCtrl)
 cmds.setAttr(R_Front_IK[0] + '.visibility', 0)
+
+# Right IK Front Leg Rotation Controller
+R_frontLeg_Rotation=cmds.circle(nr = (1, 0, 0), c = (0, 0, 0), n = 'R_FrontLeg_Rotate_CTRL')[0]
+R_frontLeg_Rotation_GRP = cmds.group(R_frontLeg_Rotation, n = 'R_FrontLeg_Rotate_CTRL_GRP')
+cmds.scale(distance, distance, distance)
+cmds.makeIdentity(R_frontLeg_Rotation_GRP, apply=True, t=1, r=1, s=1, n=0) 
+constraint=cmds.pointConstraint(R_frontFemurJntFK, R_frontLeg_Rotation_GRP)
+cmds.delete(constraint)
+SetColorOverrideRed(R_frontLeg_Rotation)
 
 R_FrontToe_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_FrontToe_IK', sj = R_frontAnkleJntIK[0], ee = R_frontToeJntIK[0])
 cmds.parent(R_FrontToe_IK[0],R_frontIKCtrl)
@@ -725,7 +735,6 @@ cmds.delete(constraint)
 SetColorOverrideBlue(L_frontLeg_Rotation)
 
 ''' Create IK polevector for L hind IK '''
-
 # Left Hind IK PoleVector
 L_hindPole = cmds.curve(d=1, p=[(-1.03923,0,0.6),(1.03923,0,0.6),(0,0,-1.2),(-1.03923,0,0.6)], k=[0,1,2,3],n='L_HindPoleVector_CTRL')
 cmds.scale(distance/2, distance/2, distance/2)
@@ -787,6 +796,8 @@ lockRotate(R_frontPole)
 R_FrontPole_GRP = cmds.group(R_frontPole, n = 'R_FrontPoleVector_CTRL_GRP')
 constraint = cmds.parentConstraint(frontKnee, R_FrontPole_GRP)
 cmds.delete(constraint)
+addDist=cmds.getAttr(R_FrontPole_GRP+'.tz')
+cmds.setAttr(R_FrontPole_GRP+'.tz', distance*2)
 reverseDist = cmds.getAttr(R_FrontPole_GRP + '.translateX')
 cmds.setAttr(R_FrontPole_GRP + '.translateX', -reverseDist)
 SetColorOverrideRed(R_frontPole)
@@ -794,15 +805,6 @@ cmds.poleVectorConstraint(R_frontPole, R_Front_IK[0])
 # If the leg rotates in a weird way: set the twist of the IK to 180 degrees to get the leg back to normal. Not always necessary. 
 # cmds.setAttr(R_Front_IK[0] + '.twist', 180) 
 
-# Right IK Front Leg Rotation Controller
-R_frontLeg_Rotation=cmds.circle(nr = (1, 0, 0), c = (0, 0, 0), n = 'R_FrontLeg_Rotate_CTRL')[0]
-R_frontLeg_Rotation_GRP = cmds.group(R_frontLeg_Rotation, n = 'R_FrontLeg_Rotate_CTRL_GRP')
-cmds.scale(distance, distance, distance)
-cmds.makeIdentity(R_frontLeg_Rotation_GRP, apply=True, t=1, r=1, s=1, n=0) 
-constraint=cmds.pointConstraint(R_frontFemurJntFK, R_frontLeg_Rotation_GRP)
-cmds.delete(constraint)
-cmds.setAttr(R_hindPoleGRP + '.tz', distance * 2)
-SetColorOverrideRed(R_frontLeg_Rotation)
-
 # Group Pole Vectors
-poleVectorGRP = cmds.group(L_FrontPole_GRP, R_FrontPole_GRP, L_HindPole_GRP, R_HindPole_GRP, n = 'C_PoleVector_GRP')
+poleVectorGRP = cmds.group(L_FrontPole_GRP, R_FrontPole_GRP, L_HindPole_GRP, R_HindPole_GRP, n='C_PoleVector_GRP')
+IK_CTRL_GRP=cmds.group(poleVectorGRP,R_frontLeg_Rotation_GRP,L_frontLeg_Rotation_GRP,R_frontIKCtrlGrp,L_frontIKCtrlGrp,R_hindIKCtrlGrp,L_hindIKCtrlGrp, n='C_IK_CTRL_GRP')
