@@ -475,6 +475,8 @@ cmds.parent(R_frontAnkleJnt, R_frontKneeJnt)
 cmds.parent(R_frontKneeJnt, R_frontUpperKneeJnt)
 cmds.parent(R_frontUpperKneeJnt, R_frontFemurJnt)
 cmds.parent(R_frontFemurJnt, frontPelvisJnt)
+cmds.select(d = True)
+cmds.parent(frontPelvisJnt, subworldCtrl)
 
 # Orient joints
 cmds.select(L_frontFemurJnt)
@@ -670,7 +672,7 @@ cmds.setAttr(R_hindIKCtrl + '.sz', distance)
 cmds.makeIdentity(R_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(R_hindIKCtrl)
 R_hindIKCtrlGrp = cmds.group(R_hindIKCtrl, n = 'R_FootIKCtrl_GRP')
-SetColorOverrideBlue(R_hindIKCtrlGrp)
+SetColorOverrideRed(R_hindIKCtrlGrp)
 
 constraint = cmds.pointConstraint(R_hindToeJnt, R_hindIKCtrlGrp)
 cmds.delete(constraint)
@@ -707,8 +709,26 @@ cmds.setAttr(R_frontIKCtrl + '.sz', distance)
 cmds.makeIdentity(R_frontIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(R_frontIKCtrl)
 R_frontIKCtrlGrp = cmds.group(R_frontIKCtrl, n = 'R_FrontFoot_IK_Ctrl_GRP')
-SetColorOverrideBlue(R_frontIKCtrlGrp)
+SetColorOverrideRed(R_frontIKCtrlGrp)
 constraint = cmds.pointConstraint(R_frontToeJnt, R_frontIKCtrlGrp)
 cmds.delete(constraint)
 cmds.parent(R_Front_IK[0], R_frontIKCtrl)
 cmds.setAttr(R_Front_IK[0] + '.visibility', 0)
+
+''' Left IK Front Leg Rotation Controller '''
+L_frontLeg_Rotation=cmds.circle(nr = (1, 0, 0), c = (0, 0, 0), n = 'L_FrontLeg_Rotate_CTRL')[0]
+L_frontLeg_Rotation_GRP = cmds.group(L_frontLeg_Rotation, n = 'L_FrontLeg_Rotate_CTRL_GRP')
+cmds.scale(distance,distance,distance)
+cmds.makeIdentity(L_frontLeg_Rotation_GRP,apply=True, t=1, r=1, s=1, n=0)
+constraint=cmds.pointConstraint(L_frontFemurJntFK, L_frontLeg_Rotation_GRP)
+cmds.delete(constraint)
+SetColorOverrideBlue(L_frontLeg_Rotation)
+
+''' Right IK Front Leg Rotation Controller '''
+R_frontLeg_Rotation=cmds.circle(nr = (1, 0, 0), c = (0, 0, 0), n = 'R_FrontLeg_Rotate_CTRL')[0]
+R_frontLeg_Rotation_GRP = cmds.group(R_frontLeg_Rotation, n = 'R_FrontLeg_Rotate_CTRL_GRP')
+cmds.scale(distance, distance, distance)
+cmds.makeIdentity(R_frontLeg_Rotation_GRP, apply=True, t=1, r=1, s=1, n=0) 
+constraint=cmds.pointConstraint(R_frontFemurJntFK, R_frontLeg_Rotation_GRP)
+cmds.delete(constraint)
+SetColorOverrideRed(R_frontLeg_Rotation)
