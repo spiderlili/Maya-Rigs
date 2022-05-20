@@ -627,7 +627,7 @@ cmds.select(R_frontFemurJntFK)
 cmds.joint(e = True, zso = True, oj = 'xyz', secondaryAxisOrient = 'yup', ch = True)
 cmds.select(d = True)
 
-# IK controller: Left side
+# IK controller: Left hind leg
 L_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_hindLeg_IK', sj = L_hindFemurJntIK, ee = L_hindAnkleJntIK)
 L_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='L_FootIK_CTRL')
 
@@ -659,7 +659,7 @@ L_IK_Toe = cmds.ikHandle(sol = 'ikRPsolver', n = 'L_HindToe_IK', sj = L_hindAnkl
 cmds.parent(L_IK_Toe[0], L_hindIKCtrl)
 cmds.setAttr(L_IK_Toe[0] + '.visibility', 0)
 
-''' Right hind leg '''
+''' IK Controller: Right hind leg '''
 R_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_hindLeg_IK', sj = R_hindFemurJntIK, ee = R_hindAnkleJntIK)
 R_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='R_FootIK_CTRL')
 
