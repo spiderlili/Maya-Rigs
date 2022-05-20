@@ -15,19 +15,19 @@ def SetColorOverrideRed(s):
     cmds.setAttr(s + '.overrideColor', 13)
     
 def lockTranslate(s):
-    cmds.setAttr(s + '.tx', key = False, l = True)
-    cmds.setAttr(s + '.ty', key = False, l = True)
+    cmds.setAttr(s + '.tx', k = False, l = True)
+    cmds.setAttr(s + '.ty', k = False, l = True)
     cmds.setAttr(s + '.tz', key = False, l = True)
 
 def lockScale(s):
-    cmds.setAttr(s + '.sx', key = False, l = True)
-    cmds.setAttr(s + '.sy', key = False, l = True)
-    cmds.setAttr(s + '.sz', key = False, l = True)
+    cmds.setAttr(s + '.sx', k = False, l = True)
+    cmds.setAttr(s + '.sy', k = False, l = True)
+    cmds.setAttr(s + '.sz', k = False, l = True)
 
 def lockRotate(s):
-    cmds.setAttr(s + '.rx', key = False, l = True)
-    cmds.setAttr(s + '.ry', key = False, l = True)
-    cmds.setAttr(s + '.rz', key = False, l = True)
+    cmds.setAttr(s + '.rx', k = False, l = True)
+    cmds.setAttr(s + '.ry', k = False, l = True)
+    cmds.setAttr(s + '.rz', k = False, l = True)
 
 hindToe = cmds.spaceLocator(n='L_hindToe_LOC')
 cmds.setAttr(hindToe[0]+'.translateX', 12)
@@ -634,7 +634,22 @@ L_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)],
 # Get distance to get controller with decent scale from front hind leg toe to back hind leg toe
 dist = cmds.createNode('distanceDimShape', n='temp_to_delete') 
 legStart = cmds.xform(L_hindToeJntIK, q = True, ws = True, rp = True) # q = query for specific value, ws = world space, rq = rotation pivot point
-legEnd = cmds.xform(L_frontToeJntIK, q = True, ws = True, rp = True) 
+legEnd = cmds.xform(L_frontToeJntIK, q = True, ws = True, rp = True) # q = query for specific value, ws = world space, rq = rotation pivot point
 cmds.setAttr(dist + '.endPoint', *(legStart)) # Star sign to unpack the variable = different way to access values in a list
 cmds.setAttr(dist + '.startPoint', *(legEnd))
 distance = cmds.getAttr(dist + '.distance')
+cmds.delete(cmds.listRelatives(dist, p = True))
+distance = distance / 8
+cmds.setAttr(L_hindIKCtrl + '.sx', distance)
+cmds.setAttr(L_hindIKCtrl + '.sy', distance)
+cmds.setAttr(L_hindIKCtrl + '.sz', distance)
+cmds.makeIdentity(L_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
+lockScale(L_hindIKCtrl)
+L_hindIKCtrlGrp = cmds.group(L_hindIKCtrl, n = 'L_footIKCtrl_GRP')
+# SetColorOverrideBlue(L_hindIKCtrlGrp)
+
+constraint = cmds.pointConstraint(L_hindToeJnt, L_hindIKCtrlGrp)
+cmds.delete(constraint)
+cmds.parent(L_IK[0], L_hindIKCtrl)
+cmds.setAttr(L_IK[0] + '.visibility', 0)
+
