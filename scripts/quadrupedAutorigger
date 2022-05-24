@@ -17,7 +17,7 @@ def SetColorOverrideRed(s):
 def lockTranslate(s):
     cmds.setAttr(s + '.tx', k = False, l = True)
     cmds.setAttr(s + '.ty', k = False, l = True)
-    cmds.setAttr(s + '.tz', key = False, l = True)
+    cmds.setAttr(s + '.tz', k = False, l = True)
 
 def lockScale(s):
     cmds.setAttr(s + '.sx', k = False, l = True)
@@ -640,10 +640,10 @@ cmds.setAttr(L_hindIKCtrl + '.sy', distance)
 cmds.setAttr(L_hindIKCtrl + '.sz', distance)
 cmds.makeIdentity(L_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(L_hindIKCtrl)
-L_hindIKCtrlGrp = cmds.group(L_hindIKCtrl, n = 'L_FootIKCtrl_GRP')
-SetColorOverrideBlue(L_hindIKCtrlGrp)
+L_HindIK_CTRL_GRP = cmds.group(L_hindIKCtrl, n = 'L_FootIKCtrl_GRP')
+SetColorOverrideBlue(L_HindIK_CTRL_GRP)
 
-constraint = cmds.pointConstraint(L_hindToeJnt, L_hindIKCtrlGrp)
+constraint = cmds.pointConstraint(L_hindToeJnt, L_HindIK_CTRL_GRP)
 cmds.delete(constraint)
 cmds.parent(L_IK[0], L_hindIKCtrl)
 cmds.setAttr(L_IK[0] + '.visibility', 0)
@@ -661,10 +661,10 @@ R_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1), (-1,0,1), (1,0,1),(1,0,-1)
 cmds.scale(distance,distance,distance)
 cmds.makeIdentity(R_hindIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(R_hindIKCtrl)
-R_hindIKCtrlGrp = cmds.group(R_hindIKCtrl, n = 'R_FootIKCtrl_GRP')
-SetColorOverrideRed(R_hindIKCtrlGrp)
+R_HindIK_CTRL_GRP = cmds.group(R_hindIKCtrl, n = 'R_FootIKCtrl_GRP')
+SetColorOverrideRed(R_HindIK_CTRL_GRP)
 
-constraint = cmds.pointConstraint(R_hindToeJnt, R_hindIKCtrlGrp)
+constraint = cmds.pointConstraint(R_hindToeJnt, R_HindIK_CTRL_GRP)
 cmds.delete(constraint)
 cmds.parent(R_IK[0], R_hindIKCtrl)
 cmds.setAttr(R_IK[0] + '.visibility', 0)
@@ -806,7 +806,7 @@ cmds.setAttr(R_Front_IK[0] + '.twist', 180)
 
 # Group IK Pole Vectors
 poleVectorGRP = cmds.group(L_FrontPole_GRP, R_FrontPole_GRP, L_HindPole_GRP, R_HindPole_GRP, n='C_PoleVector_GRP')
-IK_CTRL_GRP=cmds.group(poleVectorGRP,R_frontLeg_Rotation_GRP,L_frontLeg_Rotation_GRP,R_frontIKCtrlGrp,L_frontIKCtrlGrp,R_hindIKCtrlGrp,L_hindIKCtrlGrp, n='C_IK_CTRL_GRP')
+IK_CTRL_GRP=cmds.group(poleVectorGRP,R_frontLeg_Rotation_GRP,L_frontLeg_Rotation_GRP,R_frontIKCtrlGrp,L_frontIKCtrlGrp,R_HindIK_CTRL_GRP,L_HindIK_CTRL_GRP, n='C_IK_CTRL_GRP')
 
 # cont
 ''' FK Leg Setup '''
@@ -1028,3 +1028,95 @@ cmds.parentConstraint(frontPelvisJnt,R_FrontLeg_FK_CTRL_GRP,mo=True)
 
 # Group fk controllers...
 FK_CTRL_GRP=cmds.group(L_HindLeg_FK_CTRL_GRP,R_HindLeg_FK_CTRL_GRP,L_FrontLeg_FK_CTRL_GRP,R_FrontLeg_FK_CTRL_GRP, n='C_FK_CTRL_GRP')
+
+''' IK FK Switch '''
+# L & R Hind Leg Switch
+L_hindSwitch=cmds.curve(d=3, p=[(0.474561,0,-1.241626),(0.171579,0,-1.214307),(-0.434384,0,-1.159672),(-1.124061,0,-0.419971),(-1.169741,0,0.305922),(-0.792507,0,1.018176),(-0.0412486,0,1.262687),(0.915809,0,1.006098),(1.258635,0,0.364883),(1.032378,0,-0.461231),(0.352527,0,-0.810017),(-0.451954,0,-0.43765),(-0.634527,0,0.208919),(-0.0751226,0,0.696326),(0.292338,0,0.414161),(0.476068,0,0.273078)],k=[0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,13],n='l_hindSwitch_CTRL')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(apply=True, t=1,r=1,s=1,n=0)
+lockScale(L_hindSwitch)
+lockTranslate(L_hindSwitch)
+lockRotate(L_hindSwitch)
+
+L_HindSwitch_GRP=cmds.group(L_hindSwitch, n='L_HindSwitch_CTRL_GRP')
+constraint=cmds.pointConstraint(L_hindAnkleJnt, L_HindSwitch_GRP)
+cmds.delete(constraint)
+dist=cmds.getAttr(L_HindSwitch_GRP+'.tz')
+cmds.setAttr(L_HindSwitch_GRP+'.tz',dist-distance)
+
+constraint=cmds.pointConstraint(L_hindAnkleJnt,L_HindSwitch_GRP,mo=True)
+SetColorOverrideBlue(L_hindSwitch)
+cmds.addAttr(L_hindSwitch,longName='Leg_functions',at='enum',en=('____'),k=True)
+cmds.setAttr(L_hindSwitch+'.Leg_functions',l=True)
+cmds.addAttr(L_hindSwitch,longName='IK_FK',at='float', min=0, max=1, k=True)
+
+R_hindSwitch=cmds.curve(d=3, p=[(0.474561,0,-1.241626),(0.171579,0,-1.214307),(-0.434384,0,-1.159672),(-1.124061,0,-0.419971),(-1.169741,0,0.305922),(-0.792507,0,1.018176),(-0.0412486,0,1.262687),(0.915809,0,1.006098),(1.258635,0,0.364883),(1.032378,0,-0.461231),(0.352527,0,-0.810017),(-0.451954,0,-0.43765),(-0.634527,0,0.208919),(-0.0751226,0,0.696326),(0.292338,0,0.414161),(0.476068,0,0.273078)],k=[0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,13],n='l_hindSwitch_CTRR')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(apply=True, t=1,r=1,s=1,n=0)
+lockScale(R_hindSwitch)
+lockTranslate(R_hindSwitch)
+lockRotate(R_hindSwitch)
+
+R_HindSwitch_GRP=cmds.group(R_hindSwitch, n='R_HindSwitch_CTRR_GRP')
+constraint=cmds.pointConstraint(R_hindAnkleJnt, R_HindSwitch_GRP)
+cmds.delete(constraint)
+dist=cmds.getAttr(R_HindSwitch_GRP+'.tz')
+cmds.setAttr(R_HindSwitch_GRP+'.tz',dist-distance)
+
+constraint=cmds.pointConstraint(R_hindAnkleJnt,R_HindSwitch_GRP,mo=True)
+SetColorOverrideRed(R_hindSwitch)
+cmds.addAttr(R_hindSwitch,longName='Leg_functions',at='enum',en=('____'),k=True)
+cmds.setAttr(R_hindSwitch+'.Leg_functions',l=True)
+cmds.addAttr(R_hindSwitch,longName='IK_FK',at='float', min=0, max=1, k=True)
+
+# Visibility of controllers: make sure you don't see the extra controllers when they're not active.
+cmds.connectAttr(L_hindSwitch+'.IK_FK',L_HindLeg_FK_CTRL_GRP+'.visibility') 
+cmds.connectAttr(R_hindSwitch+'.IK_FK',R_HindLeg_FK_CTRL_GRP+'.visibility')
+Ik_FK_Hind_Reverse = cmds.createNode('reverse', n='IK_FK_HindLeg_REV')
+cmds.connectAttr(L_hindSwitch+'.IK_FK', Ik_FK_Hind_Reverse+'.ix')
+cmds.connectAttr(R_hindSwitch+'.IK_FK', Ik_FK_Hind_Reverse+'.iy')
+cmds.connectAttr(Ik_FK_Hind_Reverse+'.ox', L_HindIK_CTRL_GRP+'.visibility') 
+cmds.connectAttr(Ik_FK_Hind_Reverse+'.oy', R_HindIK_CTRL_GRP+'.visibility') 
+cmds.connectAttr(Ik_FK_Hind_Reverse+'.ox', L_HindPole_GRP+'.visibility') 
+cmds.connectAttr(Ik_FK_Hind_Reverse+'.oy', R_HindPole_GRP+'.visibility') 
+
+# L & R Front Leg Switch
+L_frontSwitch=cmds.curve(d=3, p=[(0.474561,0,-1.241626),(0.171579,0,-1.214307),(-0.434384,0,-1.159672),(-1.124061,0,-0.419971),(-1.169741,0,0.305922),(-0.792507,0,1.018176),(-0.0412486,0,1.262687),(0.915809,0,1.006098),(1.258635,0,0.364883),(1.032378,0,-0.461231),(0.352527,0,-0.810017),(-0.451954,0,-0.43765),(-0.634527,0,0.208919),(-0.0751226,0,0.696326),(0.292338,0,0.414161),(0.476068,0,0.273078)],k=[0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,13],n='l_frontSwitch_CTRL')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(apply=True, t=1,r=1,s=1,n=0)
+lockScale(L_frontSwitch)
+lockTranslate(L_frontSwitch)
+lockRotate(L_frontSwitch)
+
+L_FrontSwitch_GRP=cmds.group(L_frontSwitch, n='L_FrontSwitch_CTRL_GRP')
+constraint=cmds.pointConstraint(L_frontAnkleJnt, L_FrontSwitch_GRP)
+cmds.delete(constraint)
+dist=cmds.getAttr(L_FrontSwitch_GRP+'.tz')
+cmds.setAttr(L_FrontSwitch_GRP+'.tz',dist-distance)
+
+constraint=cmds.pointConstraint(L_frontAnkleJnt,L_FrontSwitch_GRP,mo=True)
+SetColorOverrideBlue(L_frontSwitch)
+cmds.addAttr(L_frontSwitch,longName='Leg_functions',at='enum',en=('____'),k=True)
+cmds.setAttr(L_frontSwitch+'.Leg_functions',l=True)
+cmds.addAttr(L_frontSwitch,longName='IK_FK',at='float', min=0, max=1, k=True)
+
+R_frontSwitch=cmds.curve(d=3, p=[(0.474561,0,-1.241626),(0.171579,0,-1.214307),(-0.434384,0,-1.159672),(-1.124061,0,-0.419971),(-1.169741,0,0.305922),(-0.792507,0,1.018176),(-0.0412486,0,1.262687),(0.915809,0,1.006098),(1.258635,0,0.364883),(1.032378,0,-0.461231),(0.352527,0,-0.810017),(-0.451954,0,-0.43765),(-0.634527,0,0.208919),(-0.0751226,0,0.696326),(0.292338,0,0.414161),(0.476068,0,0.273078)],k=[0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,13],n='l_frontSwitch_CTRR')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(apply=True, t=1,r=1,s=1,n=0)
+lockScale(R_frontSwitch)
+lockTranslate(R_frontSwitch)
+lockRotate(R_frontSwitch)
+
+R_FrontSwitch_GRP=cmds.group(R_frontSwitch, n='R_FrontSwitch_CTRR_GRP')
+constraint=cmds.pointConstraint(R_frontAnkleJnt, R_FrontSwitch_GRP)
+cmds.delete(constraint)
+dist=cmds.getAttr(R_FrontSwitch_GRP+'.tz')
+cmds.setAttr(R_FrontSwitch_GRP+'.tz',dist-distance)
+
+constraint=cmds.pointConstraint(R_frontAnkleJnt,R_FrontSwitch_GRP,mo=True)
+SetColorOverrideRed(R_frontSwitch)
+cmds.addAttr(R_frontSwitch,longName='Leg_functions',at='enum',en=('____'),k=True)
+cmds.setAttr(R_frontSwitch+'.Leg_functions',l=True)
+cmds.addAttr(R_frontSwitch,longName='IK_FK',at='float', min=0, max=1, k=True)
+
+
