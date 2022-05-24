@@ -1133,3 +1133,25 @@ cmds.connectAttr(IkFkfrontRev+'.oy', R_FrontPole_GRP+'.visibility')
 # Group IK FK switch system
 legSwitchGrp=cmds.group(L_FrontSwitch_GRP,R_FrontSwitch_GRP,L_HindSwitch_GRP,R_HindSwitch_GRP, n='C_LegSwitch_CTRL_GRP')
 leg_CTRL_GRP=cmds.group(IK_CTRL_GRP,FK_CTRL_GRP, n='C_Leg_CTRL_GRP')
+
+# Blend IK FK joint influence...
+def BlendJoints(ikJoints,fkJoints,skinJoints,master):
+    count=0
+    for e in skinJoints:
+        #order is IK - FK - Main
+        blendr1=cmds.shadingNode('blendColors',asUtility=True, n='L_IKFK_Switch_rotate_1')
+        cmds.connectAttr(ikJoints[count]+'.rx',blendr1+'.color1R')
+        cmds.connectAttr(ikJoints[count]+'.ry',blendr1+'.color1G')
+        cmds.connectAttr(ikJoints[count]+'.rz',blendr1+'.color1B')
+        cmds.connectAttr(fkJoints[count]+'.rx',blendr1+'.color2R')
+        cmds.connectAttr(fkJoints[count]+'.ry',blendr1+'.color2G')
+        cmds.connectAttr(fkJoints[count]+'.rz',blendr1+'.color2B')
+        cmds.connectAttr(blendr1+'.output.outputR',skinJoints[count]+'.rx')
+        cmds.connectAttr(blendr1+'.output.outputG',skinJoints[count]+'.ry')
+        cmds.connectAttr(blendr1+'.output.outputB',skinJoints[count]+'.rz')
+        cmds.connectAttr(master,blendr1+'.blender')
+        count+=1
+
+skinJoints=[L_hindToeJnt,L_hindAnkleJnt,L_hindKneeJnt,L_hindUpperKneeJnt,L_hindFemurJnt]
+ikJoints=[L_hindToeJntIK,L_hindAnkleJntIK,L_hindKneeJntIK,L_hindUpperKneeJntIK,L_hindFemurJntIK]
+fkJoints=[L_hindToeJntFK,L_hindAnkleJntFK,L_hindKneeJntFK,L_hindUpperKneeJntFK,L_hindFemurJntFK]
