@@ -693,9 +693,9 @@ cmds.setAttr(L_frontIKCtrl + '.sy', distance)
 cmds.setAttr(L_frontIKCtrl + '.sz', distance)
 cmds.makeIdentity(L_frontIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(L_frontIKCtrl)
-L_frontIKCtrlGrp = cmds.group(L_frontIKCtrl, n = 'L_FrontFoot_IK_Ctrl_GRP')
-SetColorOverrideBlue(L_frontIKCtrlGrp)
-constraint = cmds.pointConstraint(L_frontToeJnt, L_frontIKCtrlGrp)
+L_FrontIK_CTRL_GRP = cmds.group(L_frontIKCtrl, n = 'L_FrontFoot_IK_Ctrl_GRP')
+SetColorOverrideBlue(L_FrontIK_CTRL_GRP)
+constraint = cmds.pointConstraint(L_frontToeJnt, L_FrontIK_CTRL_GRP)
 cmds.delete(constraint)
 cmds.parent(L_Front_IK[0], L_frontIKCtrl)
 cmds.setAttr(L_Front_IK[0] + '.visibility', 0)
@@ -718,9 +718,9 @@ cmds.setAttr(R_frontIKCtrl + '.sz', distance)
 cmds.makeIdentity(R_frontIKCtrl, apply = True, t = 1, r = 1, s = 1, n = 0)
 lockScale(R_frontIKCtrl)
 
-R_frontIKCtrlGrp = cmds.group(R_frontIKCtrl, n = 'R_FrontFoot_IK_Ctrl_GRP')
-SetColorOverrideRed(R_frontIKCtrlGrp)
-constraint = cmds.pointConstraint(R_frontToeJnt, R_frontIKCtrlGrp)
+R_FrontIK_CTRL_GRP = cmds.group(R_frontIKCtrl, n = 'R_FrontFoot_IK_Ctrl_GRP')
+SetColorOverrideRed(R_FrontIK_CTRL_GRP)
+constraint = cmds.pointConstraint(R_frontToeJnt, R_FrontIK_CTRL_GRP)
 cmds.delete(constraint)
 cmds.parent(R_Front_IK[0], R_frontIKCtrl)
 cmds.setAttr(R_Front_IK[0] + '.visibility', 0)
@@ -806,7 +806,7 @@ cmds.setAttr(R_Front_IK[0] + '.twist', 180)
 
 # Group IK Pole Vectors
 poleVectorGRP = cmds.group(L_FrontPole_GRP, R_FrontPole_GRP, L_HindPole_GRP, R_HindPole_GRP, n='C_PoleVector_GRP')
-IK_CTRL_GRP=cmds.group(poleVectorGRP,R_frontLeg_Rotation_GRP,L_frontLeg_Rotation_GRP,R_frontIKCtrlGrp,L_frontIKCtrlGrp,R_HindIK_CTRL_GRP,L_HindIK_CTRL_GRP, n='C_IK_CTRL_GRP')
+IK_CTRL_GRP=cmds.group(poleVectorGRP,R_frontLeg_Rotation_GRP,L_frontLeg_Rotation_GRP,R_FrontIK_CTRL_GRP,L_FrontIK_CTRL_GRP,R_HindIK_CTRL_GRP,L_HindIK_CTRL_GRP, n='C_IK_CTRL_GRP')
 
 # cont
 ''' FK Leg Setup '''
@@ -1119,4 +1119,17 @@ cmds.addAttr(R_frontSwitch,longName='Leg_functions',at='enum',en=('____'),k=True
 cmds.setAttr(R_frontSwitch+'.Leg_functions',l=True)
 cmds.addAttr(R_frontSwitch,longName='IK_FK',at='float', min=0, max=1, k=True)
 
+# Visibility of controllers: make sure you don't see the extra controllers when they're not active.
+cmds.connectAttr(L_frontSwitch+'.IK_FK',L_FrontLeg_FK_CTRL_GRP+'.visibility')
+cmds.connectAttr(R_frontSwitch+'.IK_FK',R_FrontLeg_FK_CTRL_GRP+'.visibility')
+IkFkfrontRev=cmds.createNode('reverse', n='IK_FK_frontLeg_REV')
+cmds.connectAttr(L_frontSwitch+'.IK_FK', IkFkfrontRev+'.ix')
+cmds.connectAttr(R_frontSwitch+'.IK_FK', IkFkfrontRev+'.iy')
+cmds.connectAttr(IkFkfrontRev+'.ox', L_FrontIK_CTRL_GRP+'.visibility')
+cmds.connectAttr(IkFkfrontRev+'.oy', R_FrontIK_CTRL_GRP+'.visibility')
+cmds.connectAttr(IkFkfrontRev+'.ox', L_FrontPole_GRP+'.visibility')
+cmds.connectAttr(IkFkfrontRev+'.oy', R_FrontPole_GRP+'.visibility')
 
+# Group IK FK switch system
+legSwitchGrp=cmds.group(L_FrontSwitch_GRP,R_FrontSwitch_GRP,L_HindSwitch_GRP,R_HindSwitch_GRP, n='C_LegSwitch_CTRL_GRP')
+leg_CTRL_GRP=cmds.group(IK_CTRL_GRP,FK_CTRL_GRP, n='C_Leg_CTRL_GRP')
