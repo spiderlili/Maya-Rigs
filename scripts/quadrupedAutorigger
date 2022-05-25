@@ -1138,20 +1138,45 @@ leg_CTRL_GRP=cmds.group(IK_CTRL_GRP,FK_CTRL_GRP, n='C_Leg_CTRL_GRP')
 def BlendJoints(ikJoints,fkJoints,skinJoints,master):
     count=0
     for e in skinJoints:
-        #order is IK - FK - Main
-        blendr1=cmds.shadingNode('blendColors',asUtility=True, n='L_IKFK_Switch_rotate_1')
-        cmds.connectAttr(ikJoints[count]+'.rx',blendr1+'.color1R')
-        cmds.connectAttr(ikJoints[count]+'.ry',blendr1+'.color1G')
-        cmds.connectAttr(ikJoints[count]+'.rz',blendr1+'.color1B')
-        cmds.connectAttr(fkJoints[count]+'.rx',blendr1+'.color2R')
-        cmds.connectAttr(fkJoints[count]+'.ry',blendr1+'.color2G')
-        cmds.connectAttr(fkJoints[count]+'.rz',blendr1+'.color2B')
-        cmds.connectAttr(blendr1+'.output.outputR',skinJoints[count]+'.rx')
-        cmds.connectAttr(blendr1+'.output.outputG',skinJoints[count]+'.ry')
-        cmds.connectAttr(blendr1+'.output.outputB',skinJoints[count]+'.rz')
-        cmds.connectAttr(master,blendr1+'.blender')
+        # Order: IK - FK - Main
+        blendR1=cmds.shadingNode('blendColors',asUtility=True, n='L_IKFK_Switch_rotate_1')
+        cmds.connectAttr(ikJoints[count]+'.rx',blendR1+'.color1R')
+        cmds.connectAttr(ikJoints[count]+'.ry',blendR1+'.color1G')
+        cmds.connectAttr(ikJoints[count]+'.rz',blendR1+'.color1B')
+        cmds.connectAttr(fkJoints[count]+'.rx',blendR1+'.color2R')
+        cmds.connectAttr(fkJoints[count]+'.ry',blendR1+'.color2G')
+        cmds.connectAttr(fkJoints[count]+'.rz',blendR1+'.color2B')
+        # Connect the master to the blender attribute
+        cmds.connectAttr(blendR1+'.output.outputR',skinJoints[count]+'.rx')
+        cmds.connectAttr(blendR1+'.output.outputG',skinJoints[count]+'.ry')
+        cmds.connectAttr(blendR1+'.output.outputB',skinJoints[count]+'.rz')
+        cmds.connectAttr(master,blendR1+'.blender')
         count+=1
 
 skinJoints=[L_hindToeJnt,L_hindAnkleJnt,L_hindKneeJnt,L_hindUpperKneeJnt,L_hindFemurJnt]
 ikJoints=[L_hindToeJntIK,L_hindAnkleJntIK,L_hindKneeJntIK,L_hindUpperKneeJntIK,L_hindFemurJntIK]
 fkJoints=[L_hindToeJntFK,L_hindAnkleJntFK,L_hindKneeJntFK,L_hindUpperKneeJntFK,L_hindFemurJntFK]
+master = Ik_FK_Hind_Reverse + '.ox'
+BlendJoints(ikJoints,fkJoints,skinJoints,master)
+
+R_hindToeJnt = R_hindToeJnt[0]
+R_hindAnkleJnt = R_hindAnkleJnt[0]
+R_hindKneeJnt = R_hindKneeJnt[0]
+R_hindUpperKneeJnt = R_hindUpperKneeJnt[0]
+R_hindFemurJnt = R_hindFemurJnt[0]
+R_hindToeJntIK = R_hindToeJntIK[0]
+R_hindAnkleJntIK = R_hindAnkleJntIK[0]
+R_hindKneeJntIK = R_hindKneeJntIK[0]
+R_hindUpperKneeJntIK = R_hindUpperKneeJntIK[0]
+R_hindFemurJntIK = R_hindFemurJntIK[0]
+R_hindToeJntFK = R_hindToeJntFK[0]
+R_hindAnkleJntFK = R_hindAnkleJntFK[0]
+R_hindKneeJntFK = R_hindKneeJntFK[0]
+R_hindUpperKneeJntFK = R_hindUpperKneeJntFK[0]
+R_hindFemurJntFK = R_hindFemurJntFK[0]
+
+skinJoints=[R_hindToeJnt,R_hindAnkleJnt,R_hindKneeJnt,R_hindUpperKneeJnt,R_hindFemurJnt]
+ikJoints=[R_hindToeJntIK,R_hindAnkleJntIK,R_hindKneeJntIK,R_hindUpperKneeJntIK,R_hindFemurJntIK]
+fkJoints=[R_hindToeJntFK,R_hindAnkleJntFK,R_hindKneeJntFK,R_hindUpperKneeJntFK,R_hindFemurJntFK]
+master = Ik_FK_Hind_Reverse + '.ox'
+BlendJoints(ikJoints,fkJoints,skinJoints,master)
