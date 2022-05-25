@@ -182,27 +182,22 @@ cmds.select(d = True)
 # Mirror joints to L & R sides
 R_hindToeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindToe_JNT')
 xPos = cmds.getAttr(L_hindToeJnt + '.tx')
-R_hindToeJnt = R_hindToeJnt[0]
 cmds.setAttr(R_hindToeJnt + '.tx', -xPos)
 
 R_hindAnkleJnt = cmds.duplicate(L_hindAnkleJnt, n = 'R_HindAnkle_JNT')
 xPos = cmds.getAttr(L_hindAnkleJnt + '.tx')
-R_hindAnkleJnt = R_hindAnkleJnt[0]
 cmds.setAttr(R_hindAnkleJnt + '.tx', -xPos)
 
 R_hindKneeJnt = cmds.duplicate(L_hindKneeJnt, n = 'R_HindKnee_JNT')
 xPos = cmds.getAttr(L_hindKneeJnt + '.tx')
-R_hindKneeJnt = R_hindKneeJnt[0]
 cmds.setAttr(R_hindKneeJnt + '.tx', -xPos)
 
 R_hindUpperKneeJnt = cmds.duplicate(L_hindUpperKneeJnt, n = 'R_HindUpperKnee_JNT')
 xPos = cmds.getAttr(L_hindUpperKneeJnt + '.tx')
-R_hindUpperKneeJnt = R_hindUpperKneeJnt[0]
 cmds.setAttr(R_hindUpperKneeJnt + '.tx', -xPos)
 
 R_hindFemurJnt = cmds.duplicate(L_hindFemurJnt, n = 'R_HindFemur_JNT')
 xPos = cmds.getAttr(L_hindFemurJnt + '.tx')
-R_hindFemurJnt = R_hindFemurJnt[0]
 cmds.setAttr(R_hindFemurJnt + '.tx', -xPos)
 
 # End joints for Maya skinning
@@ -269,17 +264,14 @@ cmds.select(d = True)
 # Mirror IK joints to L & R sides
 R_hindToeJntIK = cmds.duplicate(L_hindToeJntIK, n = 'R_HindToeIK_JNT')
 xPos = cmds.getAttr(L_hindToeJntIK + '.tx')
-R_hindToeJntIK = R_hindToeJntIK[0]
 cmds.setAttr(R_hindToeJntIK + '.tx', -xPos)
 
 R_hindAnkleJntIK = cmds.duplicate(L_hindAnkleJntIK, n = 'R_HindAnkleIK_JNT')
 xPos = cmds.getAttr(L_hindAnkleJntIK + '.tx')
-R_hindAnkleJntIK = R_hindAnkleJntIK[0]
 cmds.setAttr(R_hindAnkleJntIK + '.tx', -xPos)
 
 R_hindKneeJntIK = cmds.duplicate(L_hindKneeJntIK, n = 'R_HindKneeIK_JNT')
 xPos = cmds.getAttr(L_hindKneeJntIK + '.tx')
-R_hindKneeJntIK = R_hindKneeJntIK[0]
 cmds.setAttr(R_hindKneeJntIK + '.tx', -xPos)
 
 R_hindUpperKneeJntIK = cmds.duplicate(L_hindUpperKneeJntIK, n = 'R_HindUpperKneeIK_JNT')
@@ -288,7 +280,6 @@ cmds.setAttr(R_hindUpperKneeJntIK[0] + '.tx', -xPos)
 
 R_hindFemurJntIK = cmds.duplicate(L_hindFemurJntIK, n = 'R_HindFemurIK_JNT')
 xPos = cmds.getAttr(L_hindFemurJntIK + '.tx')
-R_hindFemurJntIK = R_hindFemurJntIK[0]
 cmds.setAttr(R_hindFemurJntIK + '.tx', -xPos)
 
 # Parent hind leg IK joints, set up both L & R IK joint chains
@@ -340,27 +331,22 @@ cmds.select(d = True)
 # Mirror FK joints to L & R sides
 R_hindToeJntFK = cmds.duplicate(L_hindToeJntFK, n = 'R_HindToeFK_JNT')
 xPos = cmds.getAttr(L_hindToeJntFK + '.tx')
-R_hindToeJntFK = R_hindToeJntFK[0]
 cmds.setAttr(R_hindToeJntFK + '.tx', -xPos)
 
 R_hindAnkleJntFK = cmds.duplicate(L_hindAnkleJntFK, n = 'R_HindAnkleFK_JNT')
 xPos = cmds.getAttr(L_hindAnkleJntFK + '.tx')
-R_hindAnkleJntFK = R_hindAnkleJntFK[0]
 cmds.setAttr(R_hindAnkleJntFK + '.tx', -xPos)
 
 R_hindKneeJntFK = cmds.duplicate(L_hindKneeJntFK, n = 'R_HindKneeFK_JNT')
 xPos = cmds.getAttr(L_hindKneeJntFK + '.tx')
-R_hindKneeJntFK = R_hindKneeJntFK[0]
 cmds.setAttr(R_hindKneeJntFK + '.tx', -xPos)
 
 R_hindUpperKneeJntFK = cmds.duplicate(L_hindUpperKneeJntFK, n = 'R_HindUpperKneeFK_JNT')
 xPos = cmds.getAttr(L_hindUpperKneeJntFK + '.tx')
-R_hindUpperKneeJntFK = R_hindUpperKneeJntFK[0]
 cmds.setAttr(R_hindUpperKneeJntFK + '.tx', -xPos)
 
 R_hindFemurJntFK = cmds.duplicate(L_hindFemurJntFK, n = 'R_HindFemurFK_JNT')
 xPos = cmds.getAttr(L_hindFemurJntFK + '.tx')
-R_hindFemurJntFK = R_hindFemurJntFK[0]
 cmds.setAttr(R_hindFemurJntFK + '.tx', -xPos)
 
 # Parent hind leg FK joints, set up both L & R FK joint chains
@@ -1159,6 +1145,7 @@ fkJoints=[L_hindToeJntFK,L_hindAnkleJntFK,L_hindKneeJntFK,L_hindUpperKneeJntFK,L
 master = Ik_FK_Hind_Reverse + '.ox'
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
 
+# TODO: shift the below lines up to correct places
 R_hindToeJnt = R_hindToeJnt[0]
 R_hindAnkleJnt = R_hindAnkleJnt[0]
 R_hindKneeJnt = R_hindKneeJnt[0]
@@ -1180,3 +1167,4 @@ ikJoints=[R_hindToeJntIK,R_hindAnkleJntIK,R_hindKneeJntIK,R_hindUpperKneeJntIK,R
 fkJoints=[R_hindToeJntFK,R_hindAnkleJntFK,R_hindKneeJntFK,R_hindUpperKneeJntFK,R_hindFemurJntFK]
 master = Ik_FK_Hind_Reverse + '.ox'
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
+
