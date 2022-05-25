@@ -180,23 +180,23 @@ cmds.delete(constraint)
 cmds.select(d = True)
 
 # Mirror joints to L & R sides
-R_hindToeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindToe_JNT')
+R_hindToeJnt = cmds.duplicate(L_hindToeJnt, n = 'R_HindToe_JNT')[0]
 xPos = cmds.getAttr(L_hindToeJnt + '.tx')
 cmds.setAttr(R_hindToeJnt + '.tx', -xPos)
 
-R_hindAnkleJnt = cmds.duplicate(L_hindAnkleJnt, n = 'R_HindAnkle_JNT')
+R_hindAnkleJnt = cmds.duplicate(L_hindAnkleJnt, n = 'R_HindAnkle_JNT')[0]
 xPos = cmds.getAttr(L_hindAnkleJnt + '.tx')
 cmds.setAttr(R_hindAnkleJnt + '.tx', -xPos)
 
-R_hindKneeJnt = cmds.duplicate(L_hindKneeJnt, n = 'R_HindKnee_JNT')
+R_hindKneeJnt = cmds.duplicate(L_hindKneeJnt, n = 'R_HindKnee_JNT')[0]
 xPos = cmds.getAttr(L_hindKneeJnt + '.tx')
 cmds.setAttr(R_hindKneeJnt + '.tx', -xPos)
 
-R_hindUpperKneeJnt = cmds.duplicate(L_hindUpperKneeJnt, n = 'R_HindUpperKnee_JNT')
+R_hindUpperKneeJnt = cmds.duplicate(L_hindUpperKneeJnt, n = 'R_HindUpperKnee_JNT')[0]
 xPos = cmds.getAttr(L_hindUpperKneeJnt + '.tx')
 cmds.setAttr(R_hindUpperKneeJnt + '.tx', -xPos)
 
-R_hindFemurJnt = cmds.duplicate(L_hindFemurJnt, n = 'R_HindFemur_JNT')
+R_hindFemurJnt = cmds.duplicate(L_hindFemurJnt, n = 'R_HindFemur_JNT')[0]
 xPos = cmds.getAttr(L_hindFemurJnt + '.tx')
 cmds.setAttr(R_hindFemurJnt + '.tx', -xPos)
 
@@ -262,23 +262,23 @@ cmds.delete(constraint)
 cmds.select(d = True)
 
 # Mirror IK joints to L & R sides
-R_hindToeJntIK = cmds.duplicate(L_hindToeJntIK, n = 'R_HindToeIK_JNT')
+R_hindToeJntIK = cmds.duplicate(L_hindToeJntIK, n = 'R_HindToeIK_JNT')[0]
 xPos = cmds.getAttr(L_hindToeJntIK + '.tx')
 cmds.setAttr(R_hindToeJntIK + '.tx', -xPos)
 
-R_hindAnkleJntIK = cmds.duplicate(L_hindAnkleJntIK, n = 'R_HindAnkleIK_JNT')
+R_hindAnkleJntIK = cmds.duplicate(L_hindAnkleJntIK, n = 'R_HindAnkleIK_JNT')[0]
 xPos = cmds.getAttr(L_hindAnkleJntIK + '.tx')
 cmds.setAttr(R_hindAnkleJntIK + '.tx', -xPos)
 
-R_hindKneeJntIK = cmds.duplicate(L_hindKneeJntIK, n = 'R_HindKneeIK_JNT')
+R_hindKneeJntIK = cmds.duplicate(L_hindKneeJntIK, n = 'R_HindKneeIK_JNT')[0]
 xPos = cmds.getAttr(L_hindKneeJntIK + '.tx')
 cmds.setAttr(R_hindKneeJntIK + '.tx', -xPos)
 
-R_hindUpperKneeJntIK = cmds.duplicate(L_hindUpperKneeJntIK, n = 'R_HindUpperKneeIK_JNT')
+R_hindUpperKneeJntIK = cmds.duplicate(L_hindUpperKneeJntIK, n = 'R_HindUpperKneeIK_JNT')[0]
 xPos = cmds.getAttr(L_hindUpperKneeJntIK + '.tx')
-cmds.setAttr(R_hindUpperKneeJntIK[0] + '.tx', -xPos)
+cmds.setAttr(R_hindUpperKneeJntIK + '.tx', -xPos)
 
-R_hindFemurJntIK = cmds.duplicate(L_hindFemurJntIK, n = 'R_HindFemurIK_JNT')
+R_hindFemurJntIK = cmds.duplicate(L_hindFemurJntIK, n = 'R_HindFemurIK_JNT')[0]
 xPos = cmds.getAttr(L_hindFemurJntIK + '.tx')
 cmds.setAttr(R_hindFemurJntIK + '.tx', -xPos)
 
@@ -329,23 +329,23 @@ cmds.delete(constraint)
 cmds.select(d = True)
 
 # Mirror FK joints to L & R sides
-R_hindToeJntFK = cmds.duplicate(L_hindToeJntFK, n = 'R_HindToeFK_JNT')
+R_hindToeJntFK = cmds.duplicate(L_hindToeJntFK, n = 'R_HindToeFK_JNT')[0]
 xPos = cmds.getAttr(L_hindToeJntFK + '.tx')
 cmds.setAttr(R_hindToeJntFK + '.tx', -xPos)
 
-R_hindAnkleJntFK = cmds.duplicate(L_hindAnkleJntFK, n = 'R_HindAnkleFK_JNT')
+R_hindAnkleJntFK = cmds.duplicate(L_hindAnkleJntFK, n = 'R_HindAnkleFK_JNT')[0]
 xPos = cmds.getAttr(L_hindAnkleJntFK + '.tx')
 cmds.setAttr(R_hindAnkleJntFK + '.tx', -xPos)
 
-R_hindKneeJntFK = cmds.duplicate(L_hindKneeJntFK, n = 'R_HindKneeFK_JNT')
+R_hindKneeJntFK = cmds.duplicate(L_hindKneeJntFK, n = 'R_HindKneeFK_JNT')[0]
 xPos = cmds.getAttr(L_hindKneeJntFK + '.tx')
 cmds.setAttr(R_hindKneeJntFK + '.tx', -xPos)
 
-R_hindUpperKneeJntFK = cmds.duplicate(L_hindUpperKneeJntFK, n = 'R_HindUpperKneeFK_JNT')
+R_hindUpperKneeJntFK = cmds.duplicate(L_hindUpperKneeJntFK, n = 'R_HindUpperKneeFK_JNT')[0]
 xPos = cmds.getAttr(L_hindUpperKneeJntFK + '.tx')
 cmds.setAttr(R_hindUpperKneeJntFK + '.tx', -xPos)
 
-R_hindFemurJntFK = cmds.duplicate(L_hindFemurJntFK, n = 'R_HindFemurFK_JNT')
+R_hindFemurJntFK = cmds.duplicate(L_hindFemurJntFK, n = 'R_HindFemurFK_JNT')[0]
 xPos = cmds.getAttr(L_hindFemurJntFK + '.tx')
 cmds.setAttr(R_hindFemurJntFK + '.tx', -xPos)
 
@@ -408,29 +408,24 @@ cmds.delete(constraint)
 cmds.select(d = True)
 
 # Mirror joints to L & R sides
-R_frontToeJnt = cmds.duplicate(L_frontToeJnt, n = 'R_FrontToe_JNT')
+R_frontToeJnt = cmds.duplicate(L_frontToeJnt, n = 'R_FrontToe_JNT')[0]
 xPos = cmds.getAttr(L_frontToeJnt + '.tx')
-R_frontToeJnt = R_frontToeJnt[0]
 cmds.setAttr(R_frontToeJnt + '.tx', -xPos)
 
-R_frontAnkleJnt = cmds.duplicate(L_frontAnkleJnt, n = 'R_FrontAnkle_JNT')
+R_frontAnkleJnt = cmds.duplicate(L_frontAnkleJnt, n = 'R_FrontAnkle_JNT')[0]
 xPos = cmds.getAttr(L_frontAnkleJnt + '.tx')
-R_frontAnkleJnt = R_frontAnkleJnt[0]
 cmds.setAttr(R_frontAnkleJnt + '.tx', -xPos)
 
-R_frontKneeJnt = cmds.duplicate(L_frontKneeJnt, n = 'R_FrontKnee_JNT')
+R_frontKneeJnt = cmds.duplicate(L_frontKneeJnt, n = 'R_FrontKnee_JNT')[0]
 xPos = cmds.getAttr(L_frontKneeJnt + '.tx')
-R_frontKneeJnt = R_frontKneeJnt[0]
 cmds.setAttr(R_frontKneeJnt + '.tx', -xPos)
 
-R_frontUpperKneeJnt = cmds.duplicate(L_frontUpperKneeJnt, n = 'R_FrontUpperKnee_JNT')
+R_frontUpperKneeJnt = cmds.duplicate(L_frontUpperKneeJnt, n = 'R_FrontUpperKnee_JNT')[0]
 xPos = cmds.getAttr(L_frontUpperKneeJnt + '.tx')
-R_frontUpperKneeJnt = R_frontUpperKneeJnt[0]
 cmds.setAttr(R_frontUpperKneeJnt + '.tx', -xPos)
 
-R_frontFemurJnt = cmds.duplicate(L_frontFemurJnt, n = 'R_FrontFemur_JNT')
+R_frontFemurJnt = cmds.duplicate(L_frontFemurJnt, n = 'R_FrontFemur_JNT')[0]
 xPos = cmds.getAttr(L_frontFemurJnt + '.tx')
-R_frontFemurJnt = R_frontFemurJnt[0]
 cmds.setAttr(R_frontFemurJnt + '.tx', -xPos)
 
 # End joints for Maya skinning
@@ -495,25 +490,25 @@ cmds.delete(constraint)
 cmds.select(d = True)
 
 # Mirror IK joints to L & R sides
-R_frontToeJntIK = cmds.duplicate(L_frontToeJntIK, n = 'R_FrontToeIK_JNT')
-xPos = cmds.getAttr(R_frontToeJntIK[0] + '.tx')
-cmds.setAttr(R_frontToeJntIK[0] + '.tx', -xPos)
+R_frontToeJntIK = cmds.duplicate(L_frontToeJntIK, n = 'R_FrontToeIK_JNT')[0]
+xPos = cmds.getAttr(R_frontToeJntIK + '.tx')
+cmds.setAttr(R_frontToeJntIK + '.tx', -xPos)
 
-R_frontAnkleJntIK = cmds.duplicate(L_frontAnkleJntIK, n = 'R_FrontAnkleIK_JNT')
-xPos = cmds.getAttr(R_frontAnkleJntIK[0] + '.tx')
-cmds.setAttr(R_frontAnkleJntIK[0] + '.tx', -xPos)
+R_frontAnkleJntIK = cmds.duplicate(L_frontAnkleJntIK, n = 'R_FrontAnkleIK_JNT')[0]
+xPos = cmds.getAttr(R_frontAnkleJntIK + '.tx')
+cmds.setAttr(R_frontAnkleJntIK + '.tx', -xPos)
 
-R_frontKneeJntIK = cmds.duplicate(L_frontKneeJntIK, n = 'R_FrontKneeIK_JNT')
-xPos = cmds.getAttr(R_frontKneeJntIK[0] + '.tx')
-cmds.setAttr(R_frontKneeJntIK[0] + '.tx', -xPos)
+R_frontKneeJntIK = cmds.duplicate(L_frontKneeJntIK, n = 'R_FrontKneeIK_JNT')[0]
+xPos = cmds.getAttr(R_frontKneeJntIK + '.tx')
+cmds.setAttr(R_frontKneeJntIK + '.tx', -xPos)
 
-R_frontUpperKneeJntIK = cmds.duplicate(L_frontUpperKneeJntIK, n = 'R_FrontUpperKneeIK_JNT')
-xPos = cmds.getAttr(R_frontUpperKneeJntIK[0] + '.tx')
-cmds.setAttr(R_frontUpperKneeJntIK[0] + '.tx', -xPos)
+R_frontUpperKneeJntIK = cmds.duplicate(L_frontUpperKneeJntIK, n = 'R_FrontUpperKneeIK_JNT')[0]
+xPos = cmds.getAttr(R_frontUpperKneeJntIK + '.tx')
+cmds.setAttr(R_frontUpperKneeJntIK + '.tx', -xPos)
 
-R_frontFemurJntIK = cmds.duplicate(L_frontFemurJntIK, n = 'R_FrontFemurIK_JNT')
-xPos = cmds.getAttr(R_frontFemurJntIK[0] + '.tx')
-cmds.setAttr(R_frontFemurJntIK[0] + '.tx', -xPos)
+R_frontFemurJntIK = cmds.duplicate(L_frontFemurJntIK, n = 'R_FrontFemurIK_JNT')[0]
+xPos = cmds.getAttr(R_frontFemurJntIK + '.tx')
+cmds.setAttr(R_frontFemurJntIK + '.tx', -xPos)
 
 # Parent front leg IK joints, set up both L & R IK joint chains
 cmds.parent(L_frontToeJntIK, L_frontAnkleJntIK)
@@ -562,29 +557,24 @@ cmds.delete(constraint)
 cmds.select(d = True)
 
 # Mirror FK joints to L & R sides
-R_frontToeJntFK = cmds.duplicate(L_frontToeJntFK, n = 'R_FrontToeFK_JNT')
+R_frontToeJntFK = cmds.duplicate(L_frontToeJntFK, n = 'R_FrontToeFK_JNT')[0]
 xPos = cmds.getAttr(L_frontToeJntFK + '.tx')
-R_frontToeJntFK = R_frontToeJntFK[0]
 cmds.setAttr(R_frontToeJntFK + '.tx', -xPos)
 
-R_frontAnkleJntFK = cmds.duplicate(L_frontAnkleJntFK, n = 'R_FrontAnkleFK_JNT')
+R_frontAnkleJntFK = cmds.duplicate(L_frontAnkleJntFK, n = 'R_FrontAnkleFK_JNT')[0]
 xPos = cmds.getAttr(L_frontAnkleJntFK + '.tx')
-R_frontAnkleJntFK = R_frontAnkleJntFK[0]
 cmds.setAttr(R_frontAnkleJntFK + '.tx', -xPos)
 
-R_frontKneeJntFK = cmds.duplicate(L_frontKneeJntFK, n = 'R_FrontKneeFK_JNT')
+R_frontKneeJntFK = cmds.duplicate(L_frontKneeJntFK, n = 'R_FrontKneeFK_JNT')[0]
 xPos = cmds.getAttr(L_frontKneeJntFK + '.tx')
-R_frontKneeJntFK = R_frontKneeJntFK[0]
 cmds.setAttr(R_frontKneeJntFK + '.tx', -xPos)
 
-R_frontUpperKneeJntFK = cmds.duplicate(L_frontUpperKneeJntFK, n = 'R_FrontUpperKneeFK_JNT')
+R_frontUpperKneeJntFK = cmds.duplicate(L_frontUpperKneeJntFK, n = 'R_FrontUpperKneeFK_JNT')[0]
 xPos = cmds.getAttr(L_frontUpperKneeJntFK + '.tx')
-R_frontUpperKneeJntFK = R_frontUpperKneeJntFK[0]
 cmds.setAttr(R_frontUpperKneeJntFK + '.tx', -xPos)
 
-R_frontFemurJntFK = cmds.duplicate(L_frontFemurJntFK, n = 'R_FrontFemurFK_JNT')
+R_frontFemurJntFK = cmds.duplicate(L_frontFemurJntFK, n = 'R_FrontFemurFK_JNT')[0]
 xPos = cmds.getAttr(L_frontFemurJntFK + '.tx')
-R_frontFemurJntFK = R_frontFemurJntFK[0]
 cmds.setAttr(R_frontFemurJntFK + '.tx', -xPos)
 
 # Parent front leg FK joints, set up both L & R FK joint chains
@@ -641,7 +631,7 @@ cmds.parent(L_IK_Toe[0], L_hindIKCtrl)
 cmds.setAttr(L_IK_Toe[0] + '.visibility', 0)
 
 ''' IK Controller: Right hind leg '''
-R_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_HindLeg_IK', sj = R_hindUpperKneeJntIK[0], ee = R_hindAnkleJntIK)
+R_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_HindLeg_IK', sj = R_hindUpperKneeJntIK, ee = R_hindAnkleJntIK)
 R_hindIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1), (-1,0,1), (1,0,1),(1,0,-1)],k=[0,1,2,3,4], n='R_FootIK_CTRL')
 
 cmds.scale(distance,distance,distance)
@@ -696,7 +686,7 @@ cmds.delete(constraint)
 SetColorOverrideBlue(L_frontLeg_Rotation)
 
 ''' IK Controller: Right front leg '''
-R_Front_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_FrontLeg_IK', sj = R_frontUpperKneeJntIK[0], ee = R_frontAnkleJntIK[0])
+R_Front_IK = cmds.ikHandle(sol = 'ikRPsolver', n = 'R_FrontLeg_IK', sj = R_frontUpperKneeJntIK, ee = R_frontAnkleJntIK)
 R_frontIKCtrl = cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='R_Front_Foot_IK_CTRL')
 cmds.setAttr(R_frontIKCtrl + '.sx', distance)
 cmds.setAttr(R_frontIKCtrl + '.sy', distance)
@@ -1145,26 +1135,54 @@ fkJoints=[L_hindToeJntFK,L_hindAnkleJntFK,L_hindKneeJntFK,L_hindUpperKneeJntFK,L
 master = Ik_FK_Hind_Reverse + '.ox'
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
 
-# TODO: shift the below lines up to correct places
-R_hindToeJnt = R_hindToeJnt[0]
-R_hindAnkleJnt = R_hindAnkleJnt[0]
-R_hindKneeJnt = R_hindKneeJnt[0]
-R_hindUpperKneeJnt = R_hindUpperKneeJnt[0]
-R_hindFemurJnt = R_hindFemurJnt[0]
-R_hindToeJntIK = R_hindToeJntIK[0]
-R_hindAnkleJntIK = R_hindAnkleJntIK[0]
-R_hindKneeJntIK = R_hindKneeJntIK[0]
-R_hindUpperKneeJntIK = R_hindUpperKneeJntIK[0]
-R_hindFemurJntIK = R_hindFemurJntIK[0]
-R_hindToeJntFK = R_hindToeJntFK[0]
-R_hindAnkleJntFK = R_hindAnkleJntFK[0]
-R_hindKneeJntFK = R_hindKneeJntFK[0]
-R_hindUpperKneeJntFK = R_hindUpperKneeJntFK[0]
-R_hindFemurJntFK = R_hindFemurJntFK[0]
-
 skinJoints=[R_hindToeJnt,R_hindAnkleJnt,R_hindKneeJnt,R_hindUpperKneeJnt,R_hindFemurJnt]
 ikJoints=[R_hindToeJntIK,R_hindAnkleJntIK,R_hindKneeJntIK,R_hindUpperKneeJntIK,R_hindFemurJntIK]
 fkJoints=[R_hindToeJntFK,R_hindAnkleJntFK,R_hindKneeJntFK,R_hindUpperKneeJntFK,R_hindFemurJntFK]
 master = Ik_FK_Hind_Reverse + '.ox'
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
 
+skinJoints=[L_frontToeJnt,L_frontAnkleJnt,L_frontKneeJnt,L_frontUpperKneeJnt,L_frontFemurJnt]
+ikJoints=[L_frontToeJntIK,L_frontAnkleJntIK,L_frontKneeJntIK,L_frontUpperKneeJntIK,L_frontFemurJntIK]
+fkJoints=[L_frontToeJntFK,L_frontAnkleJntFK,L_frontKneeJntFK,L_frontUpperKneeJntFK,L_frontFemurJntFK]
+master= IkFkfrontRev +'.ox'
+BlendJoints(ikJoints,fkJoints,skinJoints,master)
+
+skinJoints=[R_frontToeJnt,R_frontAnkleJnt,R_frontKneeJnt,R_frontUpperKneeJnt,R_frontFemurJnt]
+ikJoints=[R_frontToeJntIK,R_frontAnkleJntIK,R_frontKneeJntIK,R_frontUpperKneeJntIK,R_frontFemurJntIK]
+fkJoints=[R_frontToeJntFK,R_frontAnkleJntFK,R_frontKneeJntFK,R_frontUpperKneeJntFK,R_frontFemurJntFK]
+master= IkFkfrontRev +'.ox'
+BlendJoints(ikJoints,fkJoints,skinJoints,master)
+
+# front femur must be connected to translations...
+def BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master):
+    count=0
+    for e in skinJoints:
+        blendr1=cmds.shadingNode('blendColors',asUtility=True,n='L_IKFK_switch_translate_1')
+        cmds.connectAttr(ikJoints[count]+'.tx',blendr1+'.color1R')
+        cmds.connectAttr(ikJoints[count]+'.ty',blendr1+'.color1G')
+        cmds.connectAttr(ikJoints[count]+'.tz',blendr1+'.color1B')
+        cmds.connectAttr(fkJoints[count]+'.tx',blendr1+'.color2R')
+        cmds.connectAttr(fkJoints[count]+'.ty',blendr1+'.color2G')
+        cmds.connectAttr(fkJoints[count]+'.tz',blendr1+'.color2B')
+        cmds.connectAttr(blendr1+'.output.outputR',skinJoints[count]+'.tx')
+        cmds.connectAttr(blendr1+'.output.outputG',skinJoints[count]+'.ty')
+        cmds.connectAttr(blendr1+'.output.outputB',skinJoints[count]+'.tz')
+        cmds.connectAttr(master,blendr1+'.blender')
+        count+=1    
+
+skinJoints=[L_frontFemurJnt]
+ikJoints=[L_frontFemurJntIK]
+fkJoints=[L_frontFemurJntFK]
+master=IkFkfrontRev+'.ox'
+BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master)
+
+skinJoints=[R_frontFemurJnt]
+ikJoints=[R_frontFemurJntIK]
+fkJoints=[R_frontFemurJntFK]
+BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master)
+
+# set it
+skinJntSet = cmds.sets(L_hindToeJnt,R_hindToeJnt,L_hindAnkleJnt,R_hindAnkleJnt,L_hindKneeJnt,R_hindKneeJnt,
+L_hindUpperKneeJnt,R_hindUpperKneeJnt,L_hindFemurJnt,R_hindFemurJnt,L_frontToeJnt,R_frontToeJnt,
+L_frontAnkleJnt,R_frontAnkleJnt,L_frontKneeJnt,R_frontKneeJnt,L_frontUpperKneeJnt,R_frontUpperKneeJnt,
+L_frontFemurJnt,R_frontFemurJnt,n='Skin_JNT_Set')
