@@ -1132,13 +1132,13 @@ def BlendJoints(ikJoints,fkJoints,skinJoints,master):
 skinJoints=[L_hindToeJnt,L_hindAnkleJnt,L_hindKneeJnt,L_hindUpperKneeJnt,L_hindFemurJnt]
 ikJoints=[L_hindToeJntIK,L_hindAnkleJntIK,L_hindKneeJntIK,L_hindUpperKneeJntIK,L_hindFemurJntIK]
 fkJoints=[L_hindToeJntFK,L_hindAnkleJntFK,L_hindKneeJntFK,L_hindUpperKneeJntFK,L_hindFemurJntFK]
-master = Ik_FK_Hind_Reverse + '.ox'
+master = Ik_FK_Hind_Reverse + '.ox' # Left leg
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
 
 skinJoints=[R_hindToeJnt,R_hindAnkleJnt,R_hindKneeJnt,R_hindUpperKneeJnt,R_hindFemurJnt]
 ikJoints=[R_hindToeJntIK,R_hindAnkleJntIK,R_hindKneeJntIK,R_hindUpperKneeJntIK,R_hindFemurJntIK]
 fkJoints=[R_hindToeJntFK,R_hindAnkleJntFK,R_hindKneeJntFK,R_hindUpperKneeJntFK,R_hindFemurJntFK]
-master = Ik_FK_Hind_Reverse + '.ox'
+master = Ik_FK_Hind_Reverse + '.ox' # Right leg
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
 
 skinJoints=[L_frontToeJnt,L_frontAnkleJnt,L_frontKneeJnt,L_frontUpperKneeJnt,L_frontFemurJnt]
@@ -1153,7 +1153,7 @@ fkJoints=[R_frontToeJntFK,R_frontAnkleJntFK,R_frontKneeJntFK,R_frontUpperKneeJnt
 master= IkFkfrontRev +'.ox'
 BlendJoints(ikJoints,fkJoints,skinJoints,master)
 
-# front femur must be connected to translations...
+# Front femur must be connected to translations
 def BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master):
     count=0
     for e in skinJoints:
@@ -1173,7 +1173,7 @@ def BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master):
 skinJoints=[L_frontFemurJnt]
 ikJoints=[L_frontFemurJntIK]
 fkJoints=[L_frontFemurJntFK]
-master=IkFkfrontRev+'.ox'
+master=IkFkfrontRev+'.ox' 
 BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master)
 
 skinJoints=[R_frontFemurJnt]
@@ -1181,8 +1181,38 @@ ikJoints=[R_frontFemurJntIK]
 fkJoints=[R_frontFemurJntFK]
 BlendJointsTranslate(ikJoints,fkJoints,skinJoints,master)
 
-# set it
+# Set of skinning joints
 skinJntSet = cmds.sets(L_hindToeJnt,R_hindToeJnt,L_hindAnkleJnt,R_hindAnkleJnt,L_hindKneeJnt,R_hindKneeJnt,
 L_hindUpperKneeJnt,R_hindUpperKneeJnt,L_hindFemurJnt,R_hindFemurJnt,L_frontToeJnt,R_frontToeJnt,
 L_frontAnkleJnt,R_frontAnkleJnt,L_frontKneeJnt,R_frontKneeJnt,L_frontUpperKneeJnt,R_frontUpperKneeJnt,
 L_frontFemurJnt,R_frontFemurJnt,n='Skin_JNT_Set')
+
+''' Create tail/spine module '''
+# Meassure the distance between joints and get tail root placement
+dist=cmds.createNode('distanceDimShape', n='TEMP_DELETE')
+tailStart=cmds.xform(tailRoot,q=True,ws=True,rp=True)
+tailEnd=cmds.xform(tailEnd,q=True,ws=True,rp=True)
+cmds.setAttr(dist+'.endPoint',*(tailEnd))
+cmds.setAttr(dist+'.startPoint',*(tailStart))
+distance=cmds.getAttr(dist+'.distance')
+cmds.delete(cmds.listRelatives(dist, p=True))
+
+# Joints in chain. TODO: Expose initialAmmountOfJoints in UI
+initialAmmountOfJoints = 5
+ammountOfJoints = initialAmmountOfJoints - 1
+cmds.select(d=True)
+tailRootJnt=cmds.joint(n='C_TailRoot_JNT')
+while ammountOfJoints > 0:
+    tailJnt=cmds.joint(n='C_Tail'+str(ammountOfJoints)+'_JNT')
+    ammountOfJoints-=1
+cmds.select(tailRootJnt, hi=True)
+tailJointChain=cmds.ls(sl=True)
+
+# Calculate translation distance between each joint...
+ammountOfJoints = initialAmmountOfJoints - 1
+distancePerJoint=distance/ammountOfJoints
+for e in tailJointChain:
+    cmds.setAttr(e+'.tz',-distancePerJoint)
+cmds.setAttr(tailRootJnt+'.tz',0)
+cmds.rename(tailJointChain[-1],tailJointChain[-1]+'End')
+constraint=cmds.pointConstraint(tailRoot,tailJointChain[0])
