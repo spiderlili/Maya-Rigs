@@ -1197,64 +1197,69 @@ cmds.setAttr(dist+'.startPoint',*(tailStart))
 distance=cmds.getAttr(dist+'.distance')
 cmds.delete(cmds.listRelatives(dist, p=True))
 
-# Joints in chain. TODO: Expose initialAmmountOfJoints in UI
+# Joints chain in the tail. TODO: Expose initialAmmountOfJoints in UI
 initialAmmountOfJoints = 5
 ammountOfJoints = initialAmmountOfJoints - 1
 cmds.select(d=True)
 tailRootJnt=cmds.joint(n='C_TailRoot_JNT')
 while ammountOfJoints > 0:
-    tailJnt=cmds.joint(n='C_Tail'+str(ammountOfJoints)+'_JNT')
+    tailJnt=cmds.joint(n='C_Tail'+str(ammountOfJoints)+'_JNT') 
     ammountOfJoints-=1
 cmds.select(tailRootJnt, hi=True)
 tailJointChain=cmds.ls(sl=True)
 
-# Calculate translation distance between each joint...
+# Calculate translation distance between each joint
 ammountOfJoints = initialAmmountOfJoints - 1
 distancePerJoint=distance/ammountOfJoints
 for e in tailJointChain:
-    cmds.setAttr(e+'.tz',-distancePerJoint)
+    cmds.setAttr(e+'.tz',-distancePerJoint) # TODO: Expose tail direction in UI. Set to - OR + depending on tail direction (left/right)
 cmds.setAttr(tailRootJnt+'.tz',0)
-cmds.rename(tailJointChain[-1],tailJointChain[-1]+'End')
-constraint=cmds.pointConstraint(tailRootLoc,tailJointChain[0])
+cmds.rename(tailJointChain[-1],tailJointChain[-1]+'End') # Not going to skin the end joint of the joint chain
+# Point constrain the tail root joint to the tail root locator to avoid rotation influence being added to the joint
+constraint=cmds.pointConstraint(tailRootLoc,tailJointChain[0])  
 
-# rotate joint to aim for the end of the chain...
-tempcon=cmds.aimConstraint(tailEndLoc, tailRootJnt, aimVector=(0,0,-1))
+# Rotate joint to aim for the end of the chain
+# Place the tail's joint chain in case modeller hadn't figured out that the tail needs to be modelled straight (-z)
+tempcon=cmds.aimConstraint(tailEndLoc, tailRootJnt, aimVector=(0,0,-1)) 
 rotation=cmds.getAttr(tailRootJnt+'.rx')
 cmds.delete(tempcon)
-cmds.parent(tailJointChain[1],w=True)
+
+cmds.parent(tailJointChain[1],w=True) # Parent the 2nd joint to the world => can change the root tail joint without affecting all the other joints
 cmds.setAttr(tailRootJnt+'.rx',0)
 cmds.setAttr(tailRootJnt+'.ry',0)
 cmds.setAttr(tailRootJnt+'.rz',0)
 cmds.parent(tailJointChain[1],tailRootJnt)
-cmds.joint(e=True, zso=True, oj='xyz', secondaryAxisOrient='yup', ch=True)
+cmds.joint(e=True, zso=True, oj='xyz', secondaryAxisOrient='yup', ch=True) # Orient joint chain: y points up
 
-# create IK solver...
+# Create IK Spline solver from root to end of tail joint chain
 IK_Tail_Handle=cmds.ikHandle(sol='ikSplineSolver', ns=4, n='C_TailSolver_IK', sj=tailRootJnt, ee=tailJointChain[-1]+'End')
-IK_Handle_GRP=cmds.group(IK_Tail_Handle[0],IK_Tail_Handle[2], n='C_IK_TailSystem_GRP' )
-cmds.setAttr(IK_Handle_GRP+'.inheritsTransform',0)
+IK_Handle_GRP=cmds.group(IK_Tail_Handle[0],IK_Tail_Handle[2], n='C_IK_TailSystem_GRP' ) # Effector is not grouped to stay at the end of joint chain
+cmds.setAttr(IK_Handle_GRP+'.inheritsTransform',0) # For scalability
 cmds.rename(IK_Tail_Handle[1], 'C_TailSolver_Effector')
 cmds.rename(IK_Tail_Handle[2], 'C_TailSolver_Curve')
 
-# create clusters for the tail...
+# Create clusters for the tail - needed to control spline. Create 3 controllers for the tails, 3 clusters controlling each third of the spline curve
 cmds.select('C_TailSolver_Curve.cv[1:2]')
 tailRootCluster=cmds.cluster( rel=True, n='Tail_Root_Cluster') # cls1
 cmds.select('C_TailSolver_Curve.cv[3:4]')
 tailMidCluster=cmds.cluster( rel=True, n='Tail_Mid_Cluster') # cls2_
 cmds.select('C_TailSolver_Curve.cv[5:6]')
 tailEndCluster=cmds.cluster( rel=True, n='Tail_End_Cluster') # cls3_
+
+# Put each tail cluster into an offset group
 cluster1_GRP=cmds.group(tailRootCluster, n='TailCluster1_Root_GRP')
 cluster2_GRP=cmds.group(tailMidCluster, n='TailCluster2_Mid_GRP')
 cluster3_GRP=cmds.group(tailEndCluster, n='TailCluster3_End_GRP')
 
-# a left over cv to be static in rig...
+# 1 left-over cv to be static in rig. take the root cv of curve & create a cluster on it with an offset group.
 cmds.select('C_TailSolver_Curve.cv[0]')
 cluster4Neutral=cmds.cluster( rel=True, n='C_Neutral_Cluster') # cls4
 cluster4Neutral_GRP=cmds.group(cluster4Neutral, n='C_Cluster4_GRP')
 
-# group them...
+# Group tail clusters to create IK hierarchy structure
 cmds.parent(cluster1_GRP,cluster2_GRP,cluster3_GRP,cluster4Neutral_GRP,IK_Handle_GRP)
 
-# create controllers for the tail...
+# Create controllers for the tail, scale them and freeze the transforms, lock scale so they can't be changed by animator
 tail_CTRL_Root = cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_TailRoot_CTRL') # tailCtl1
 cmds.scale(distance/3,distance/3,distance/3)
 cmds.makeIdentity(tail_CTRL_Root,apply=True,t=1,r=1,s=1,n=0)
@@ -1276,7 +1281,7 @@ lockScale(tail_CTRL_Point[0])
 SetColorOverrideYellow(tail_CTRL_Point[0])
 tail_CTRL_Point_GRP=cmds.group(tail_CTRL_Point, n='C_TailPoint_CTRL_GRP') # tailCtl3Grp
 
-# place controllers...
+# Place tail controllers: in case tail is modelled at an angle, rotate controller's offset groups to point at the right direction
 cmds.setAttr(tail_CTRL_Root_GRP+'.rx',rotation)
 cmds.setAttr(tail_CTRL_Mid_GRP+'.rx',rotation)
 cmds.setAttr(tail_CTRL_Point_GRP+'.rx',rotation)
@@ -1293,12 +1298,12 @@ cmds.setAttr(tail_CTRL_Point_GRP+'.tx',clsXform[0])
 cmds.setAttr(tail_CTRL_Point_GRP+'.ty',clsXform[1])
 cmds.setAttr(tail_CTRL_Point_GRP+'.tz',clsXform[2])
 
-# connect tail controllers...
+# Connect tail clusters to their respective controllers 
 cmds.parentConstraint(tail_CTRL_Root,tailRootCluster, mo=True, n='c_tailRoot_controller')
 cmds.parentConstraint(tail_CTRL_Mid,tailMidCluster, mo=True, n='c_tailMid_controller')
 cmds.parentConstraint(tail_CTRL_Point,tailEndCluster, mo=True, n='c_tailPoint_controller')
 
-# tail FK controllers...
+# Create tail FK controllers 
 tail_FK_CTRL=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Tail1_FK_CTRL')
 cmds.scale(distance/4,distance/4,distance/4)
 cmds.makeIdentity(tail_FK_CTRL,apply=True,t=1,r=1,s=1,n=0)
@@ -1319,23 +1324,26 @@ cmds.delete(constraint)
 constraint=cmds.pointConstraint(tail_CTRL_Mid,tail_FK_CTRL2_GRP)
 cmds.delete(constraint)
 
-# place pivot at tail root...
+# Place pivot at tail root: pivot from the beginning of the joint chain they're supposed to influence (NOT from the independent clusters)
 coordinate=cmds.xform(tailRootLoc, ws=True, t=True, q=True)
 cmds.xform(tail_FK_CTRL, piv=(coordinate), ws=True)
 cmds.parent(tail_FK_CTRL2_GRP, tail_FK_CTRL)
 cmds.parent(tail_CTRL_Root_GRP, tail_FK_CTRL)
-cmds.parent(tail_CTRL_Mid_GRP,tail_FK_CTRL2)
+cmds.parent(tail_CTRL_Mid_GRP,tail_FK_CTRL2) # place 2nd FK controller at the middle of the tail
 cmds.parent(tail_CTRL_Point_GRP, tail_FK_CTRL2)
 
-# group the tail elements...
+# Group the tail elements
 tailGRP=cmds.group(tailRootJnt, IK_Handle_GRP, tail_FK_CTRL_GRP, n='C_TailRig_GRP')
 cmds.setAttr(IK_Handle_GRP+'.visibility', 0)
 
-# parentConstraint the neutral cluster to make tail follow the parent group and enable scaling...
+# To make tail module translatable: parentConstraint the neutral cluster (not influenced) to make tail follow the parent group and enable scaling
 cmds.parentConstraint(tail_FK_CTRL, cluster4Neutral, mo=True)
 
-# twist and no twist
+# Tail twist when tail end IK controller rotates and no twist. 
+# For tail rotate to be visually the same direction as the controller: use multiplyDivide node to multiply rotation by -1
 mult=cmds.shadingNode('multiplyDivide', asUtility=True, n='C_TailTwist_ReverseValueRotation_Multiply')
+
+# TODO: IF tail is rotating opposite controller, connect controller directly to the rotation, if NOT need to get a reversed reaction by *-1
 cmds.setAttr(mult+'.input2X',-1)
 cmds.connectAttr(tail_CTRL_Point[0]+'.rz',mult+'.input1X')
 cmds.connectAttr(mult+'.outputX', IK_Tail_Handle[0]+'.twist')
