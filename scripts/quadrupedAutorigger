@@ -121,12 +121,12 @@ cmds.setAttr(tailRoot[0]+'.translateY', 54)
 cmds.setAttr(tailRoot[0]+'.translateZ', -32)
 SetColorOverrideYellow(tailRoot[0])
 
-tailEnd = cmds.spaceLocator(n='TailEnd_LOC')
-cmds.setAttr(tailEnd[0]+'.translateY', 54)
-cmds.setAttr(tailEnd[0]+'.translateZ', -62)
-SetColorOverrideYellow(tailEnd[0])
+tailEndLoc = cmds.spaceLocator(n='TailEnd_LOC')
+cmds.setAttr(tailEndLoc[0]+'.translateY', 54)
+cmds.setAttr(tailEndLoc[0]+'.translateZ', -62)
+SetColorOverrideYellow(tailEndLoc[0])
 
-tailLocGrp = cmds.group(tailRoot, tailEnd, n='TailPlacement_GRP')
+tailLocGrp = cmds.group(tailRoot, tailEndLoc, n='TailPlacement_GRP')
 
 ''' Finalize placement locator module '''
 mainLocGrp = cmds.group(tailLocGrp, neckLocGrp, frontLocGrp, hindLocGrp, n='MainPlacementLoc_GRP')
@@ -1191,7 +1191,7 @@ L_frontFemurJnt,R_frontFemurJnt,n='Skin_JNT_Set')
 # Meassure the distance between joints and get tail root placement
 dist=cmds.createNode('distanceDimShape', n='TEMP_DELETE')
 tailStart=cmds.xform(tailRoot,q=True,ws=True,rp=True)
-tailEnd=cmds.xform(tailEnd,q=True,ws=True,rp=True)
+tailEnd=cmds.xform(tailEndLoc,q=True,ws=True,rp=True)
 cmds.setAttr(dist+'.endPoint',*(tailEnd))
 cmds.setAttr(dist+'.startPoint',*(tailStart))
 distance=cmds.getAttr(dist+'.distance')
@@ -1216,3 +1216,14 @@ for e in tailJointChain:
 cmds.setAttr(tailRootJnt+'.tz',0)
 cmds.rename(tailJointChain[-1],tailJointChain[-1]+'End')
 constraint=cmds.pointConstraint(tailRoot,tailJointChain[0])
+
+# rotate joint to aim for the end of the chain...
+tempcon=cmds.aimConstraint(tailEndLoc, tailRootJnt, aimVector=(0,0,-1))
+rotation=cmds.getAttr(tailRootJnt+'.rx')
+cmds.delete(tempcon)
+cmds.parent(tailJointChain[1],w=True)
+cmds.setAttr(tailRootJnt+'.rx',0)
+cmds.setAttr(tailRootJnt+'.ry',0)
+cmds.setAttr(tailRootJnt+'.rz',0)
+cmds.parent(tailJointChain[1],tailRootJnt)
+cmds.joint(e=True, zso=True, oj='xyz', secondaryAxisOrient='yup', ch=True)
