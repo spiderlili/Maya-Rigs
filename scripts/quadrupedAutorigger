@@ -116,17 +116,17 @@ SetColorOverrideYellow(neckEnd[0])
 neckLocGrp = cmds.group(neckRoot, neckEnd, n='NeckPlacement_GRP')
 
 ''' Tail locators '''
-tailRoot = cmds.spaceLocator(n='TailRoot_LOC')
-cmds.setAttr(tailRoot[0]+'.translateY', 54)
-cmds.setAttr(tailRoot[0]+'.translateZ', -32)
-SetColorOverrideYellow(tailRoot[0])
+tailRootLoc = cmds.spaceLocator(n='TailRoot_LOC')
+cmds.setAttr(tailRootLoc[0]+'.translateY', 54)
+cmds.setAttr(tailRootLoc[0]+'.translateZ', -32)
+SetColorOverrideYellow(tailRootLoc[0])
 
 tailEndLoc = cmds.spaceLocator(n='TailEnd_LOC')
 cmds.setAttr(tailEndLoc[0]+'.translateY', 54)
 cmds.setAttr(tailEndLoc[0]+'.translateZ', -62)
 SetColorOverrideYellow(tailEndLoc[0])
 
-tailLocGrp = cmds.group(tailRoot, tailEndLoc, n='TailPlacement_GRP')
+tailLocGrp = cmds.group(tailRootLoc, tailEndLoc, n='TailPlacement_GRP')
 
 ''' Finalize placement locator module '''
 mainLocGrp = cmds.group(tailLocGrp, neckLocGrp, frontLocGrp, hindLocGrp, n='MainPlacementLoc_GRP')
@@ -1190,7 +1190,7 @@ L_frontFemurJnt,R_frontFemurJnt,n='Skin_JNT_Set')
 ''' Create tail/spine module '''
 # Meassure the distance between joints and get tail root placement
 dist=cmds.createNode('distanceDimShape', n='TEMP_DELETE')
-tailStart=cmds.xform(tailRoot,q=True,ws=True,rp=True)
+tailStart=cmds.xform(tailRootLoc,q=True,ws=True,rp=True)
 tailEnd=cmds.xform(tailEndLoc,q=True,ws=True,rp=True)
 cmds.setAttr(dist+'.endPoint',*(tailEnd))
 cmds.setAttr(dist+'.startPoint',*(tailStart))
@@ -1215,7 +1215,7 @@ for e in tailJointChain:
     cmds.setAttr(e+'.tz',-distancePerJoint)
 cmds.setAttr(tailRootJnt+'.tz',0)
 cmds.rename(tailJointChain[-1],tailJointChain[-1]+'End')
-constraint=cmds.pointConstraint(tailRoot,tailJointChain[0])
+constraint=cmds.pointConstraint(tailRootLoc,tailJointChain[0])
 
 # rotate joint to aim for the end of the chain...
 tempcon=cmds.aimConstraint(tailEndLoc, tailRootJnt, aimVector=(0,0,-1))
@@ -1227,3 +1227,115 @@ cmds.setAttr(tailRootJnt+'.ry',0)
 cmds.setAttr(tailRootJnt+'.rz',0)
 cmds.parent(tailJointChain[1],tailRootJnt)
 cmds.joint(e=True, zso=True, oj='xyz', secondaryAxisOrient='yup', ch=True)
+
+# create IK solver...
+IK_Tail_Handle=cmds.ikHandle(sol='ikSplineSolver', ns=4, n='C_TailSolver_IK', sj=tailRootJnt, ee=tailJointChain[-1]+'End')
+IK_Handle_GRP=cmds.group(IK_Tail_Handle[0],IK_Tail_Handle[2], n='C_IK_TailSystem_GRP' )
+cmds.setAttr(IK_Handle_GRP+'.inheritsTransform',0)
+cmds.rename(IK_Tail_Handle[1], 'C_TailSolver_Effector')
+cmds.rename(IK_Tail_Handle[2], 'C_TailSolver_Curve')
+
+# create clusters for the tail...
+cmds.select('C_TailSolver_Curve.cv[1:2]')
+tailRootCluster=cmds.cluster( rel=True, n='Tail_Root_Cluster') # cls1
+cmds.select('C_TailSolver_Curve.cv[3:4]')
+tailMidCluster=cmds.cluster( rel=True, n='Tail_Mid_Cluster') # cls2_
+cmds.select('C_TailSolver_Curve.cv[5:6]')
+tailEndCluster=cmds.cluster( rel=True, n='Tail_End_Cluster') # cls3_
+cluster1_GRP=cmds.group(tailRootCluster, n='TailCluster1_Root_GRP')
+cluster2_GRP=cmds.group(tailMidCluster, n='TailCluster2_Mid_GRP')
+cluster3_GRP=cmds.group(tailEndCluster, n='TailCluster3_End_GRP')
+
+# a left over cv to be static in rig...
+cmds.select('C_TailSolver_Curve.cv[0]')
+cluster4Neutral=cmds.cluster( rel=True, n='C_Neutral_Cluster') # cls4
+cluster4Neutral_GRP=cmds.group(cluster4Neutral, n='C_Cluster4_GRP')
+
+# group them...
+cmds.parent(cluster1_GRP,cluster2_GRP,cluster3_GRP,cluster4Neutral_GRP,IK_Handle_GRP)
+
+# create controllers for the tail...
+tail_CTRL_Root = cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_TailRoot_CTRL') # tailCtl1
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(tail_CTRL_Root,apply=True,t=1,r=1,s=1,n=0)
+lockScale(tail_CTRL_Root[0])
+SetColorOverrideYellow(tail_CTRL_Root[0])
+tail_CTRL_Root_GRP=cmds.group(tail_CTRL_Root, n='C_TailRoot_CTRL_GRP') # tailCtl1Grp
+
+tail_CTRL_Mid=cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_TailMid_CTRL') # tailCtl2
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(tail_CTRL_Mid,apply=True,t=1,r=1,s=1,n=0)
+lockScale(tail_CTRL_Mid[0])
+SetColorOverrideYellow(tail_CTRL_Mid[0])
+tail_CTRL_Mid_GRP=cmds.group(tail_CTRL_Mid, n='C_TailMid_CTRL_GRP') # tailCtl2Grp
+
+tail_CTRL_Point=cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_TailPoint_CTRL') # tailCtl3
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(tail_CTRL_Point,apply=True,t=1,r=1,s=1,n=0)
+lockScale(tail_CTRL_Point[0])
+SetColorOverrideYellow(tail_CTRL_Point[0])
+tail_CTRL_Point_GRP=cmds.group(tail_CTRL_Point, n='C_TailPoint_CTRL_GRP') # tailCtl3Grp
+
+# place controllers...
+cmds.setAttr(tail_CTRL_Root_GRP+'.rx',rotation)
+cmds.setAttr(tail_CTRL_Mid_GRP+'.rx',rotation)
+cmds.setAttr(tail_CTRL_Point_GRP+'.rx',rotation)
+clsXform=cmds.xform(tailRootCluster[1], piv=True, q=True)
+cmds.setAttr(tail_CTRL_Root_GRP+'.tx',clsXform[0])
+cmds.setAttr(tail_CTRL_Root_GRP+'.ty',clsXform[1])
+cmds.setAttr(tail_CTRL_Root_GRP+'.tz',clsXform[2])
+clsXform=cmds.xform(tailMidCluster[1], piv=True, q=True)
+cmds.setAttr(tail_CTRL_Mid_GRP+'.tx',clsXform[0])
+cmds.setAttr(tail_CTRL_Mid_GRP+'.ty',clsXform[1])
+cmds.setAttr(tail_CTRL_Mid_GRP+'.tz',clsXform[2])
+clsXform=cmds.xform(tailEndCluster[1], piv=True, q=True)
+cmds.setAttr(tail_CTRL_Point_GRP+'.tx',clsXform[0])
+cmds.setAttr(tail_CTRL_Point_GRP+'.ty',clsXform[1])
+cmds.setAttr(tail_CTRL_Point_GRP+'.tz',clsXform[2])
+
+# connect tail controllers...
+cmds.parentConstraint(tail_CTRL_Root,tailRootCluster, mo=True, n='c_tailRoot_controller')
+cmds.parentConstraint(tail_CTRL_Mid,tailMidCluster, mo=True, n='c_tailMid_controller')
+cmds.parentConstraint(tail_CTRL_Point,tailEndCluster, mo=True, n='c_tailPoint_controller')
+
+# tail FK controllers...
+tail_FK_CTRL=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Tail1_FK_CTRL')
+cmds.scale(distance/4,distance/4,distance/4)
+cmds.makeIdentity(tail_FK_CTRL,apply=True,t=1,r=1,s=1,n=0)
+lockScale(tail_FK_CTRL)
+
+tail_FK_CTRL_GRP=cmds.group(tail_FK_CTRL, n='C_Tail_FK_CTRL1_GRP')
+tail_FK_CTRL2=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Tail2_FK_CTRL')
+cmds.scale(distance/4,distance/4,distance/4)
+cmds.makeIdentity(tail_FK_CTRL2,apply=True,t=1,r=1,s=1,n=0)
+lockScale(tail_FK_CTRL2)
+
+tail_FK_CTRL2_GRP=cmds.group(tail_FK_CTRL2, n='C_Tail_FK_CTRL2_GRP')
+rotation=cmds.getAttr(tail_CTRL_Root_GRP+'.rx')
+cmds.setAttr(tail_FK_CTRL_GRP+'.rx',rotation)
+cmds.setAttr(tail_FK_CTRL2_GRP+'.rx',rotation)
+constraint=cmds.pointConstraint(tail_CTRL_Root,tail_FK_CTRL_GRP)
+cmds.delete(constraint)
+constraint=cmds.pointConstraint(tail_CTRL_Mid,tail_FK_CTRL2_GRP)
+cmds.delete(constraint)
+
+# place pivot at tail root...
+coordinate=cmds.xform(tailRootLoc, ws=True, t=True, q=True)
+cmds.xform(tail_FK_CTRL, piv=(coordinate), ws=True)
+cmds.parent(tail_FK_CTRL2_GRP, tail_FK_CTRL)
+cmds.parent(tail_CTRL_Root_GRP, tail_FK_CTRL)
+cmds.parent(tail_CTRL_Mid_GRP,tail_FK_CTRL2)
+cmds.parent(tail_CTRL_Point_GRP, tail_FK_CTRL2)
+
+# group the tail elements...
+tailGRP=cmds.group(tailRootJnt, IK_Handle_GRP, tail_FK_CTRL_GRP, n='C_TailRig_GRP')
+cmds.setAttr(IK_Handle_GRP+'.visibility', 0)
+
+# parentConstraint the neutral cluster to make tail follow the parent group and enable scaling...
+cmds.parentConstraint(tail_FK_CTRL, cluster4Neutral, mo=True)
+
+# twist and no twist
+mult=cmds.shadingNode('multiplyDivide', asUtility=True, n='C_TailTwist_ReverseValueRotation_Multiply')
+cmds.setAttr(mult+'.input2X',-1)
+cmds.connectAttr(tail_CTRL_Point[0]+'.rz',mult+'.input1X')
+cmds.connectAttr(mult+'.outputX', IK_Tail_Handle[0]+'.twist')
