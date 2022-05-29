@@ -1347,3 +1347,160 @@ mult=cmds.shadingNode('multiplyDivide', asUtility=True, n='C_TailTwist_ReverseVa
 cmds.setAttr(mult+'.input2X',-1)
 cmds.connectAttr(tail_CTRL_Point[0]+'.rz',mult+'.input1X')
 cmds.connectAttr(mult+'.outputX', IK_Tail_Handle[0]+'.twist')
+
+''' create spine/spine module '''
+# Meassure the distance between joints and get spine root placement
+dist=cmds.createNode('distanceDimShape', n='TEMP_DELETE')
+spineStart=cmds.xform(hindPelvis,q=True,ws=True,rp=True)
+spineEnd=cmds.xform(frontPelvis,q=True,ws=True,rp=True)
+cmds.setAttr(dist+'.endPoint',*(spineEnd))
+cmds.setAttr(dist+'.startPoint',*(spineStart))
+distance=cmds.getAttr(dist+'.distance')
+cmds.delete(cmds.listRelatives(dist, p=True))
+
+# Joints in spine chain
+initialAmmountOfJoints=8
+ammountOfJoints=initialAmmountOfJoints-1
+cmds.select(d=True)
+spineRootJnt=cmds.joint(n='C_SpineRoot_JNT')
+while ammountOfJoints > 0:
+    spineJnt=cmds.joint(n='C_Spine'+str(ammountOfJoints)+'_JNT')
+    ammountOfJoints-=1
+cmds.select(spineRootJnt, hi=True)
+spineJointChain=cmds.ls(sl=True)
+
+# calculate translation distance between each joint...
+ammountOfJoints=initialAmmountOfJoints-1
+distancePerJoint=distance/ammountOfJoints
+for e in spineJointChain:
+    cmds.setAttr(e+'.tz',-distancePerJoint)
+cmds.setAttr(spineRootJnt+'.tz',0)
+cmds.rename(spineJointChain[-1],spineJointChain[-1]+'End')
+constr=cmds.pointConstraint(frontPelvis,spineJointChain[0])
+
+# rotate joint to aim for the end of the chain...
+tempcon=cmds.aimConstraint(hindPelvis,spineRootJnt, aimVector=(0,0,-1))
+rotation=cmds.getAttr(spineRootJnt+'.rx')
+cmds.delete(tempcon)
+cmds.parent(spineJointChain[1],w=True)
+cmds.setAttr(spineRootJnt+'.rx',0)
+cmds.setAttr(spineRootJnt+'.ry',0)
+cmds.setAttr(spineRootJnt+'.rz',0)
+cmds.parent(spineJointChain[1],spineRootJnt)
+cmds.joint(e=True, zso=True, oj='xyz', secondaryAxisOrient='yup', ch=True)
+
+# create IK solver...
+IKSpineHandle=cmds.ikHandle(sol='ikSplineSolver', ns=4, n='C_SpineSolver_IK', sj=spineRootJnt, ee=spineJointChain[-1]+'End')
+IK_Handle_GRP=cmds.group(IKSpineHandle[0],IKSpineHandle[2], n='C_IK_SpineSystem_GRP' )
+cmds.setAttr(IK_Handle_GRP+'.inheritsTransform',0)
+cmds.rename(IKSpineHandle[1], 'C_SpineSolverEffector')
+cmds.rename(IKSpineHandle[2], 'C_SpineSolverCurve')
+
+# create clusters for the Spine...
+cmds.select('C_SpineSolverCurve.cv[1:2]')
+cluster_Spine_Root =cmds.cluster( rel=True, n='Spine_Root_Cluster') # cls1
+cmds.select('C_SpineSolverCurve.cv[3:4]')
+cluster_Spine_Mid =cmds.cluster( rel=True, n='Spine_Mid_Cluster') # cls2
+cmds.select('C_SpineSolverCurve.cv[5:6]')
+cluster_Spine_End=cmds.cluster( rel=True, n='Spine_End_Cluster') # cls3
+cluster_Spine_Root_GRP=cmds.group(cluster_Spine_Root, n='Spine_Cluster_Root_GRP') # cls1Grp
+cluster_Spine_Mid_GRP=cmds.group(cluster_Spine_Mid, n='Spine_Cluster_Mid_GRP') # cls2Grp
+cluster_Spine_End_GRP=cmds.group(cluster_Spine_End, n='Spine_Cluster_End_GRP') # cls3Grp
+
+# a left over cv to be static in rig...
+cmds.select('C_SpineSolverCurve.cv[0]')
+cluster_Neutral_Spine=cmds.cluster( rel=True, n='C_Neutral_Cluster') # cls4
+cluster_Neutral_Spine_GRP = cmds.group(cluster_Neutral_Spine, n='C_Neutral_Cluster_GRP') # cls4Grp
+
+# Group the spine clusters
+cmds.parent(cluster_Spine_Root_GRP,cluster_Spine_Mid_GRP,cluster_Spine_End_GRP,cluster_Neutral_Spine_GRP,IK_Handle_GRP)
+
+# Create controllers for the Spine
+Spine_CTRL_1=cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_Spine_Root_CTRL')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(Spine_CTRL_1,apply=True,t=1,r=1,s=1,n=0)
+lockScale(Spine_CTRL_1[0])
+SetColorOverrideYellow(Spine_CTRL_1[0])
+Spine_CTRL_1_GRP=cmds.group(Spine_CTRL_1, n='C_Spine_Root_CTRL_GRP')
+
+Spine_CTRL_2=cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_Spine_Mid_CTRL')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(Spine_CTRL_2,apply=True,t=1,r=1,s=1,n=0)
+lockScale(Spine_CTRL_2[0])
+SetColorOverrideYellow(Spine_CTRL_2[0])
+Spine_CTRL_2_GRP=cmds.group(Spine_CTRL_2, n='C_Spine_Mid_CTRL_GRP')
+
+Spine_CTRL_3=cmds.circle( nr=(0,0,1), c=(0,0,0), n='C_Spine_Point_CTRL')
+cmds.scale(distance/3,distance/3,distance/3)
+cmds.makeIdentity(Spine_CTRL_3,apply=True,t=1,r=1,s=1,n=0)
+lockScale(Spine_CTRL_3[0])
+SetColorOverrideYellow(Spine_CTRL_3[0])
+Spine_CTRL_3_GRP=cmds.group(Spine_CTRL_3, n='C_Spine_Point_CTRL_GRP')
+
+# place controllers...
+cmds.setAttr(Spine_CTRL_1_GRP+'.rx',rotation)
+cmds.setAttr(Spine_CTRL_2_GRP+'.rx',rotation)
+cmds.setAttr(Spine_CTRL_3_GRP+'.rx',rotation)
+clsXform=cmds.xform(cluster_Spine_Root[1], piv=True, q=True)
+cmds.setAttr(Spine_CTRL_1_GRP+'.tx',clsXform[0])
+cmds.setAttr(Spine_CTRL_1_GRP+'.ty',clsXform[1])
+cmds.setAttr(Spine_CTRL_1_GRP+'.tz',clsXform[2])
+clsXform=cmds.xform(cluster_Spine_Mid[1], piv=True, q=True)
+cmds.setAttr(Spine_CTRL_2_GRP+'.tx',clsXform[0])
+cmds.setAttr(Spine_CTRL_2_GRP+'.ty',clsXform[1])
+cmds.setAttr(Spine_CTRL_2_GRP+'.tz',clsXform[2])
+clsXform=cmds.xform(cluster_Spine_End[1], piv=True, q=True)
+cmds.setAttr(Spine_CTRL_3_GRP+'.tx',clsXform[0])
+cmds.setAttr(Spine_CTRL_3_GRP+'.ty',clsXform[1])
+cmds.setAttr(Spine_CTRL_3_GRP+'.tz',clsXform[2])
+
+# connect spine controllers...
+cmds.parentConstraint(Spine_CTRL_1,cluster_Spine_Root, mo=True, n='C_Spine_Root_Controller')
+cmds.parentConstraint(Spine_CTRL_2,cluster_Spine_Mid, mo=True, n='C_Spine_Mid_Controller')
+cmds.parentConstraint(Spine_CTRL_3,cluster_Spine_End, mo=True, n='C_Spine_Point_Controller')
+
+# Spine FK controllers...
+Spine_FK_CTRL1=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Spine1_FK_CTRL')
+cmds.scale(distance/4,distance/4,distance/4)
+cmds.makeIdentity(Spine_FK_CTRL1,apply=True,t=1,r=1,s=1,n=0)
+lockScale(Spine_FK_CTRL1)
+
+Spine_FK_CTRL_GRP=cmds.group(Spine_FK_CTRL1, n='C_Spine_FK_CTRL1_GRP')
+Spine_FK_CTRL2=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Spine2_FK_CTRL')
+cmds.scale(distance/4,distance/4,distance/4)
+cmds.makeIdentity(Spine_FK_CTRL2,apply=True,t=1,r=1,s=1,n=0)
+lockScale(Spine_FK_CTRL2)
+Spine_FK_CTRL2_GRP=cmds.group(Spine_FK_CTRL2, n='C_Spine_FK_CTRL2_GRP')
+
+rotation=cmds.getAttr(Spine_CTRL_1_GRP+'.rx')
+cmds.setAttr(Spine_FK_CTRL_GRP+'.rx',rotation)
+cmds.setAttr(Spine_FK_CTRL2_GRP+'.rx',rotation)
+constraint=cmds.pointConstraint(Spine_CTRL_1,Spine_FK_CTRL_GRP)
+cmds.delete(constraint)
+constraint=cmds.pointConstraint(Spine_CTRL_2,Spine_FK_CTRL2_GRP)
+cmds.delete(constraint)
+
+# connect spine end to hind JNT...
+cmds.parentConstraint(Spine_CTRL_1[0],Spine_CTRL_2_GRP, mo=True)
+cmds.parentConstraint(Spine_CTRL_3[0],Spine_CTRL_2_GRP, mo=True)
+cmds.parentConstraint(Spine_CTRL_1[0],frontPelvisJnt, mo=True)
+cmds.parentConstraint(Spine_CTRL_3[0],hindPelvisJnt, mo=True)
+cmds.parentConstraint(Spine_CTRL_3[0],tail_FK_CTRL_GRP, mo=True)
+
+# master Spine controller...
+Spine_Master_CTRL=cmds.curve(d=1, p=[(0.5,0.5,0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,-0.5,-0.5),(0.5,-0.5,-0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,0.5,0.5),(0.5,0.5,0.5),(0.5,-0.5,0.5),(0.5,-0.5,-0.5),(-0.5,-0.5,-0.5),(-0.5,-0.5,0.5),(0.5,-0.5,0.5),(-0.5,-0.5,0.5),(-0.5,0.5,0.5)], k=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],n='c_Spine_Master__CTRL')
+cmds.scale(distance/4,distance/4,distance*1.5)
+cmds.makeIdentity(Spine_Master_CTRL, apply=True, t=1, r=1, s=1, n=0)
+Spine_Master_CTRL_GRP=cmds.group(Spine_Master_CTRL, n='c_Spine_Master_CTRL_GRP')
+constr=cmds.pointConstraint(Spine_FK_CTRL2, Spine_Master_CTRL_GRP)
+cmds.delete(constr)
+dist=cmds.getAttr(Spine_Master_CTRL_GRP+'.ty')
+cmds.setAttr(Spine_Master_CTRL_GRP+'.ty',dist*1.5)
+cmds.parent(Spine_FK_CTRL2_GRP, Spine_FK_CTRL1)
+cmds.parent(Spine_CTRL_1_GRP, Spine_FK_CTRL1)
+cmds.parent(Spine_CTRL_2_GRP,Spine_FK_CTRL2)
+cmds.parent(Spine_CTRL_3_GRP, Spine_FK_CTRL2)
+cmds.parentConstraint(Spine_CTRL_1[0],cluster_Neutral_Spine, mo=True)
+
+cmds.setAttr(IK_Handle_GRP+'.visibility',0)
+Spine__GRP=cmds.group(IK_Handle_GRP, spineRootJnt, Spine_FK_CTRL_GRP, n='c_Spine_Rig_GRP')
