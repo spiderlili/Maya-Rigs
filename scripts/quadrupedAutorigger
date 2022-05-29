@@ -1349,7 +1349,7 @@ cmds.connectAttr(tail_CTRL_Point[0]+'.rz',mult+'.input1X')
 cmds.connectAttr(mult+'.outputX', IK_Tail_Handle[0]+'.twist')
 
 ''' create spine/spine module '''
-# Meassure the distance between joints and get spine root placement
+# Measure the distance between joints and get spine root placement
 dist=cmds.createNode('distanceDimShape', n='TEMP_DELETE')
 spineStart=cmds.xform(hindPelvis,q=True,ws=True,rp=True)
 spineEnd=cmds.xform(frontPelvis,q=True,ws=True,rp=True)
