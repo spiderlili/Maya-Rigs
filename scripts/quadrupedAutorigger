@@ -1548,7 +1548,7 @@ cmds.joint(e=True, zso=True, oj='xyz', secondaryAxisOrient='yup', ch=True)
 
 # create IK_ solver...
 IK_Neck_Handle=cmds.ikHandle(sol='ikSplineSolver', ns=4, n='C_Neck_Solver_IK_', sj=neckRootJnt, ee=neckJointChain[-1]+'End')
-IK_Handle_GRP=cmds.group(IK_Neck_Handle[0],IK_Neck_Handle[2], n='C_IK_NeckSystem__GRP' )
+IK_Handle_GRP=cmds.group(IK_Neck_Handle[0],IK_Neck_Handle[2], n='C_IK_NeckSystem_GRP' )
 cmds.setAttr(IK_Handle_GRP+'.inheritsTransform',0)
 cmds.rename(IK_Neck_Handle[1], 'C_Neck_Solver_Effector')
 cmds.rename(IK_Neck_Handle[2], 'C_Neck_Solver_Curve')
@@ -1621,12 +1621,12 @@ Neck_FK_CTRL1=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], 
 cmds.scale(distance/4,distance/4,distance/4)
 cmds.makeIdentity(Neck_FK_CTRL1,apply=True,t=1,r=1,s=1,n=0)
 lockScale(Neck_FK_CTRL1)
-Neck_FK_CTRL_GRP=cmds.group(Neck_FK_CTRL1, n='C_Neck_FK_Ctrl1_GRP')
+Neck_FK_CTRL_GRP=cmds.group(Neck_FK_CTRL1, n='C_Neck_FK_CTRL1_GRP')
 Neck_FK_CTRL2=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Neck2_FK_CTRL')
 cmds.scale(distance/4,distance/4,distance/4)
 cmds.makeIdentity(Neck_FK_CTRL2,apply=True,t=1,r=1,s=1,n=0)
 lockScale(Neck_FK_CTRL2)
-Neck_FK_CTRL2_GRP=cmds.group(Neck_FK_CTRL2, n='C_Neck_FK_Ctrl2_GRP')
+Neck_FK_CTRL2_GRP=cmds.group(Neck_FK_CTRL2, n='C_Neck_FK_CTRL2_GRP')
 
 rotation=cmds.getAttr(Neck_CTRL_1_GRP+'.rx')
 cmds.setAttr(Neck_FK_CTRL_GRP+'.rx',rotation)
@@ -1634,6 +1634,7 @@ cmds.setAttr(Neck_FK_CTRL2_GRP+'.rx',rotation)
 constraint=cmds.pointConstraint(Neck_CTRL_1,Neck_FK_CTRL_GRP)
 cmds.delete(constraint)
 constraint=cmds.pointConstraint(Neck_CTRL_2,Neck_FK_CTRL2_GRP)
+cmds.delete(constraint)
 
 # move neck root pivot and parent controllers...
 coordinate=cmds.xform(neckRoot, ws=True, t=True, q=True)
@@ -1647,4 +1648,7 @@ cmds.parent(Neck_CTRL_3_GRP, Neck_FK_CTRL2)
 cmds.setAttr(IK_Handle_GRP+'.visibility',0)
 
 # neckGRP causes Warning: Cycle on 'C_Neck_Mid_CTRL.parentMatrix[0]' may not evaluate as expected. 
+# Debug: cmds.cycleCheck('C_Neck_Mid_CTRL.parentMatrix[0]', list=True) 
 neckGRP=cmds.group(neckRootJnt,IK_Handle_GRP,Neck_FK_CTRL_GRP, n='C_Neck_Rig_GRP') 
+
+''' Create foot roll module '''
