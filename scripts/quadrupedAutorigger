@@ -1503,4 +1503,4 @@ cmds.parent(Spine_CTRL_3_GRP, Spine_FK_CTRL2)
 cmds.parentConstraint(Spine_CTRL_1[0],cluster_Neutral_Spine, mo=True)
 
 cmds.setAttr(IK_Handle_GRP+'.visibility',0)
-Spine__GRP=cmds.group(IK_Handle_GRP, spineRootJnt, Spine_FK_CTRL_GRP, n='C_Spine_Rig_GRP')
+Spine_GRP=cmds.group(IK_Handle_GRP, spineRootJnt, Spine_FK_CTRL_GRP, n='C_Spine_Rig_GRP')
