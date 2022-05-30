@@ -129,7 +129,7 @@ SetColorOverrideYellow(tailEndLoc[0])
 tailLocGrp = cmds.group(tailRootLoc, tailEndLoc, n='TailPlacement_GRP')
 
 ''' Finalize placement locator module '''
-mainLocGrp = cmds.group(tailLocGrp, neckLocGrp, frontLocGrp, hindLocGrp, n='MainPlacementLoc_GRP')
+mainLocGrp = cmds.group(tailLocGrp, neckLocGrp, frontLocGrp, hindLocGrp, n='MainPlacementLoC_GRP')
 
 ''' World Controller. TODO: Replace with Custom Curves'''
 worldCtrl = cmds.circle(nr = [0,1,0], n = 'World Controller')[0]
@@ -1299,9 +1299,9 @@ cmds.setAttr(tail_CTRL_Point_GRP+'.ty',clsXform[1])
 cmds.setAttr(tail_CTRL_Point_GRP+'.tz',clsXform[2])
 
 # Connect tail clusters to their respective controllers 
-cmds.parentConstraint(tail_CTRL_Root,tailRootCluster, mo=True, n='c_tailRoot_controller')
-cmds.parentConstraint(tail_CTRL_Mid,tailMidCluster, mo=True, n='c_tailMid_controller')
-cmds.parentConstraint(tail_CTRL_Point,tailEndCluster, mo=True, n='c_tailPoint_controller')
+cmds.parentConstraint(tail_CTRL_Root,tailRootCluster, mo=True, n='C_tailRoot_controller')
+cmds.parentConstraint(tail_CTRL_Mid,tailMidCluster, mo=True, n='C_tailMid_controller')
+cmds.parentConstraint(tail_CTRL_Point,tailEndCluster, mo=True, n='C_tailPoint_controller')
 
 # Create tail FK controllers 
 tail_FK_CTRL=cmds.curve(d=1, p=[(1,0,-1),(-1,0,-1),(-1,0,1),(1,0,1),(1,0,-1)], k=[0,1,2,3,4], n='C_Tail1_FK_CTRL')
@@ -1488,10 +1488,10 @@ cmds.parentConstraint(Spine_CTRL_3[0],hindPelvisJnt, mo=True)
 cmds.parentConstraint(Spine_CTRL_3[0],tail_FK_CTRL_GRP, mo=True)
 
 # master Spine controller...
-Spine_Master_CTRL=cmds.curve(d=1, p=[(0.5,0.5,0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,-0.5,-0.5),(0.5,-0.5,-0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,0.5,0.5),(0.5,0.5,0.5),(0.5,-0.5,0.5),(0.5,-0.5,-0.5),(-0.5,-0.5,-0.5),(-0.5,-0.5,0.5),(0.5,-0.5,0.5),(-0.5,-0.5,0.5),(-0.5,0.5,0.5)], k=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],n='c_Spine_Master__CTRL')
+Spine_Master_CTRL=cmds.curve(d=1, p=[(0.5,0.5,0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,-0.5,-0.5),(0.5,-0.5,-0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,0.5,0.5),(0.5,0.5,0.5),(0.5,-0.5,0.5),(0.5,-0.5,-0.5),(-0.5,-0.5,-0.5),(-0.5,-0.5,0.5),(0.5,-0.5,0.5),(-0.5,-0.5,0.5),(-0.5,0.5,0.5)], k=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],n='C_Spine_Master__CTRL')
 cmds.scale(distance/4,distance/4,distance*1.5)
 cmds.makeIdentity(Spine_Master_CTRL, apply=True, t=1, r=1, s=1, n=0)
-Spine_Master_CTRL_GRP=cmds.group(Spine_Master_CTRL, n='c_Spine_Master_CTRL_GRP')
+Spine_Master_CTRL_GRP=cmds.group(Spine_Master_CTRL, n='C_Spine_Master_CTRL_GRP')
 constr=cmds.pointConstraint(Spine_FK_CTRL2, Spine_Master_CTRL_GRP)
 cmds.delete(constr)
 dist=cmds.getAttr(Spine_Master_CTRL_GRP+'.ty')
@@ -1503,4 +1503,4 @@ cmds.parent(Spine_CTRL_3_GRP, Spine_FK_CTRL2)
 cmds.parentConstraint(Spine_CTRL_1[0],cluster_Neutral_Spine, mo=True)
 
 cmds.setAttr(IK_Handle_GRP+'.visibility',0)
-Spine__GRP=cmds.group(IK_Handle_GRP, spineRootJnt, Spine_FK_CTRL_GRP, n='c_Spine_Rig_GRP')
+Spine__GRP=cmds.group(IK_Handle_GRP, spineRootJnt, Spine_FK_CTRL_GRP, n='C_Spine_Rig_GRP')
