@@ -1488,7 +1488,7 @@ cmds.parentConstraint(Spine_CTRL_3[0],hindPelvisJnt, mo=True)
 cmds.parentConstraint(Spine_CTRL_3[0],tail_FK_CTRL_GRP, mo=True)
 
 # master Spine controller...
-Spine_Master_CTRL=cmds.curve(d=1, p=[(0.5,0.5,0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,-0.5,-0.5),(0.5,-0.5,-0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,0.5,0.5),(0.5,0.5,0.5),(0.5,-0.5,0.5),(0.5,-0.5,-0.5),(-0.5,-0.5,-0.5),(-0.5,-0.5,0.5),(0.5,-0.5,0.5),(-0.5,-0.5,0.5),(-0.5,0.5,0.5)], k=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],n='C_Spine_Master__CTRL')
+Spine_Master_CTRL=cmds.curve(d=1, p=[(0.5,0.5,0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,-0.5,-0.5),(0.5,-0.5,-0.5),(0.5,0.5,-0.5),(-0.5,0.5,-0.5),(-0.5,0.5,0.5),(0.5,0.5,0.5),(0.5,-0.5,0.5),(0.5,-0.5,-0.5),(-0.5,-0.5,-0.5),(-0.5,-0.5,0.5),(0.5,-0.5,0.5),(-0.5,-0.5,0.5),(-0.5,0.5,0.5)], k=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],n='C_Spine_Master_CTRL')
 cmds.scale(distance/4,distance/4,distance*1.5)
 cmds.makeIdentity(Spine_Master_CTRL, apply=True, t=1, r=1, s=1, n=0)
 Spine_Master_CTRL_GRP=cmds.group(Spine_Master_CTRL, n='C_Spine_Master_CTRL_GRP')
