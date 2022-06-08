@@ -1829,3 +1829,47 @@ cmds.setAttr(L_hindFemurJntIK+'.visibility',0)
 cmds.setAttr(R_hindFemurJntIK+'.visibility',0)
 cmds.setAttr(L_frontFemurJntIK+'.visibility',0)
 cmds.setAttr(R_frontFemurJntIK+'.visibility',0)
+
+''' Stretchy spine '''
+baseLoc = cmds.spaceLocator(n = 'baseSpine_LOC')
+poseLoc = cmds.spaceLocator(n = 'poseSpine_LOC')
+targetLoc = cmds.spaceLocator(n = 'targetSpine_LOC')
+cmds.setAttr(baseLoc[0] + '.visibility',0)
+cmds.setAttr(poseLoc[0] + '.visibility',0)
+cmds.setAttr(targetLoc[0] + '.visibility',0)
+cmds.parent(baseLoc, spineJointChain[0], r = True)
+cmds.parent(targetLoc, hindPelvisJnt, r = True)
+spineStretchGRP = cmds.group(baseLoc[0], poseLoc[0], targetLoc[0], n='C_SpineDistanceReader_GRP')
+cmds.pointConstraint(Spine_CTRL_3[0], poseLoc[0], sk=('x', 'y'), mo = True)
+
+dist = cmds.createNode('distanceDimShape', n = 'distanceMasterSpine')
+cmds.connectAttr(baseLoc[0] + '.worldPosition[0]', dist + '.startPoint')
+cmds.connectAttr(poseLoc[0] + '.worldPosition[0]', dist + '.endPoint')
+
+dist2 = cmds.createNode('distanceDimShape', n = 'distancePoseSpine')
+cmds.connectAttr(baseLoc[0] + '.worldPosition[0]', dist2 + '.startPoint')
+cmds.connectAttr(targetLoc[0] + '.worldPosition[0]', dist2 + '.endPoint')
+
+divide = cmds.shadingNode('multiplyDivide', asUtility = True, n = 'StretchSpine_DivideWithScale')
+cmds.setAttr(divide + '.operation', 2)
+cmds.connectAttr(dist + '.distance', divide + '.input1X')
+cmds.connectAttr(dist2 + '.distance', divide + '.input2X')
+cmds.addAttr(baseLoc[0], longName = 'output_value', at = 'enum', en = ('____'), max = 1, min = 0, k = True)
+cmds.addAttr(baseLoc[0], longName='distance', at='float', k=True)
+cmds.connectAttr(divide+'.outputX', baseLoc[0]+'.distance')
+
+nonShape=cmds.listRelatives(dist, p=True)
+cmds.setAttr(nonShape[0]+'.visibility', 0)
+nonShape=cmds.rename(nonShape[0], 'distanceMaster_DST')
+nonShape2=cmds.listRelatives(dist2, p=True)
+cmds.setAttr(nonShape2[0]+'.visibility', 0)
+nonShape2=cmds.rename(nonShape2[0], 'distancePose_DST')
+
+for e in spineJointChain:
+    try:
+        cmds.connectAttr(baseLoc[0]+'.distance', e+'.scaleX')
+    except:      
+        print ("spine end jnt ignored")
+cmds.parent(nonShape, nonShape2, spineStretchGRP)
+cmds.parent(spineStretchGRP, Spine_GRP)
+cmds.select(d=True) 
