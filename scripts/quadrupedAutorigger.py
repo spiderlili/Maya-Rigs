@@ -1,7 +1,14 @@
 import maya.cmds as cmds
 
-''' Place locators to define rig shape '''
+def showWindow():
+    name = "Quadruped Auto-rigger"
+    if cmds.window(name, query = True, exists = True):
+        cmds.deleteUI(name)
+    
+    cmds.window(name)
+    cmds.showWindow()
 
+''' Place locators to define rig shape '''
 def SetColorOverrideBlue(s):
     cmds.setAttr(s + '.overrideEnabled', 1)
     cmds.setAttr(s + '.overrideColor', 15)
