@@ -33,6 +33,7 @@ quadrupedAutorigger.showWindow()
 add your own path:
     sys.path.append('drive:/path/to/my/scripts/folder')
     
+check maya script path:
 import sys
 for path in sys.path:
     print(path)
