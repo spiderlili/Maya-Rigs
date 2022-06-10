@@ -3,9 +3,10 @@ sys.path.append(folderPath)
 
 import importlib
 import quadrupedAutorigger
-importlib.reload(quadrupedAutorigger)
+# importlib.reload(quadrupedAutorigger)
 quadrupedAutorigger.showWindow()
 
+# TODO: Expose neck joints, spinen joints, tail joints, name convention prefix to UI
 
 ''' script folders
 /Applications/Autodesk/maya2022/plug-ins/MASH/scripts

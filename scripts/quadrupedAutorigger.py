@@ -1,11 +1,14 @@
 import maya.cmds as cmds
 
 def showWindow():
-    name = "Quadruped Auto-rigger"
+    name = "Quadruped Auto Rigger"
     if cmds.window(name, query = True, exists = True):
         cmds.deleteUI(name)
     
     cmds.window(name)
+    cmds.columnLayout(w = 400, adjustableColumn = True, rowSpacing = 10)
+    cmds.button(label = 'Create Skeleton')
+    cmds.button(label = 'Skin Selected Objects')
     cmds.showWindow()
 
 ''' Place locators to define rig shape '''
@@ -1370,7 +1373,7 @@ cmds.setAttr(dist+'.startPoint',*(spineStart))
 distance=cmds.getAttr(dist+'.distance')
 cmds.delete(cmds.listRelatives(dist, p=True))
 
-# Joints in spine chain
+# Joints in spine chain. TODO: Expose initial amount of spine joints to UI
 initialAmmountOfJoints=8
 ammountOfJoints=initialAmmountOfJoints-1
 cmds.select(d=True)
