@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Wed, Jun 22, 2022 01:20:21 PM
+//Last modified: Wed, Jun 22, 2022 02:12:28 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -10,18 +10,18 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "8D9A79B0-D34A-0FA4-1166-0B989883B931";
+fileInfo "UUID" "A45DF81E-CD49-EEC7-4DA0-7BB344DDDD8E";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" -5.1441378744742163 12.478377328263264 -0.98195184725819207 ;
-	setAttr ".r" -type "double3" -57.938352725913575 -454.59999999957455 0 ;
+	setAttr ".t" -type "double3" -7.6199699510421119 3.6814600777038682 -1.4992544018630012 ;
+	setAttr ".r" -type "double3" -23.138352731466398 -434.59999999989498 0 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2900D348-2B43-571F-44AF-28AFEB7DD5C9";
 	setAttr -k off ".v";
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 12.642996896451359;
+	setAttr ".coi" 8.294210899051679;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -34100,7 +34100,7 @@ createNode joint -n "R_hip";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 1;
 	setAttr ".t" -type "double3" -0.659605 3.42544 -2.52396 ;
-	setAttr ".r" -type "double3" 1.5902773407317587e-14 -2.2263882770244617e-14 -9.541664044390555e-15 ;
+	setAttr ".r" -type "double3" -7.0127766197421677e-06 -1.817658849186816e-06 1.6800406037056903e-13 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" 90.000000063986747 -15.425834676574 89.999999759439987 ;
@@ -34115,7 +34115,7 @@ createNode joint -n "R_knee" -p "R_hip";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 2;
 	setAttr ".t" -type "double3" -1.6958325489214854 -4.2962876847241205e-06 6.8635666039540411e-09 ;
-	setAttr ".r" -type "double3" -3.8534553318840887e-22 2.9260863990706103e-14 -3.7925334204592721e-06 ;
+	setAttr ".r" -type "double3" -8.7852609589118474e-14 3.2062576593477815e-12 -2.7341997017709337e-05 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" -6.7009555315091745e-15 -1.9769789042570703e-14 37.448103455151625 ;
@@ -34129,7 +34129,7 @@ createNode joint -n "R_hind_paw" -p "R_knee";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 3;
 	setAttr ".t" -type "double3" -1.0926629242815202 7.4733818111738515e-07 3.5109246621090051e-09 ;
-	setAttr ".r" -type "double3" 179.99999979432002 -4.1530477945196366e-14 5.5373970800658781e-14 ;
+	setAttr ".r" -type "double3" 97.124453478116706 0.00051325837018389693 -0.00045769935362016331 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" -180 -5.6507054614225125e-15 -59.998954480627376 ;
@@ -34143,7 +34143,7 @@ createNode joint -n "R_hind_toes" -p "R_hind_paw";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 4;
 	setAttr ".t" -type "double3" -0.91900262076825578 -8.3711580178835732e-06 3.4350808864047622e-09 ;
-	setAttr ".r" -type "double3" 179.9999998637964 -6.3458139407169015e-08 -158.5474094110792 ;
+	setAttr ".r" -type "double3" 52.51351804141472 77.146804368153852 -112.48875626333643 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" 1.2074182643518044e-06 -6.4874638350620005e-15 79.273705533874775 ;
@@ -34250,6 +34250,18 @@ createNode joint -n "R_hindToe1_tip" -p "R_hindToe1";
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jot" -type "string" "___";
 	setAttr ".radi" 0.5;
+createNode ikEffector -n "effector9" -p "R_hind_toes";
+	rename -uid "78681B6A-2446-1EFA-F3BD-1DB72E25F27E";
+	setAttr ".v" no;
+	setAttr ".hd" yes;
+createNode ikEffector -n "effector8" -p "R_hind_paw";
+	rename -uid "62CDE6E0-3740-D35F-72E9-A49E2BC7F24A";
+	setAttr ".v" no;
+	setAttr ".hd" yes;
+createNode ikEffector -n "effector7" -p "R_knee";
+	rename -uid "A71B5A79-9848-A267-D618-A1904075BFD1";
+	setAttr ".v" no;
+	setAttr ".hd" yes;
 createNode transform -n "neck_offset";
 	rename -uid "1B58277D-8F44-F572-8742-78AECCF48DFD";
 	setAttr ".t" -type "double3" 4.0054467595952494e-16 4.2646346731935765 1.5409222315548805 ;
@@ -35727,6 +35739,146 @@ createNode nurbsCurve -n "R_Hip_CTRLShape" -p "R_Hip_CTRL";
 	rename -uid "2C7F8CDE-9147-1AC0-7BCC-809ADF8E2A9F";
 	setAttr -k off ".v";
 	setAttr ".tw" yes;
+createNode transform -n "R_HindFoot_CTRL";
+	rename -uid "C17F6EF7-A142-E895-2E17-35AEA848DF7C";
+	addAttr -ci true -sn "flex" -ln "flex" -at "double";
+	setAttr ".rp" -type "double3" -0.7 0 -3.2153835110261291 ;
+	setAttr ".sp" -type "double3" -0.7 0 -3.2153835110261291 ;
+	setAttr -k on ".flex";
+createNode nurbsCurve -n "R_HindFoot_CTRLShape" -p "R_HindFoot_CTRL";
+	rename -uid "7458A9A3-F847-B67A-72D4-83907122BDFA";
+	setAttr -k off ".v";
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		-0.19065244382070368 3.1188542716425042e-17 -3.9989951359173528
+		-0.70000000000000007 4.4107260100220936e-17 -4.3235776985805172
+		-1.2093475561792957 3.1188542716425066e-17 -3.9989951359173532
+		-1.4203262219103521 1.2781180500522109e-32 -3.2153835110261295
+		-1.2093475561792959 -3.1188542716425054e-17 -2.4317718861349049
+		-0.70000000000000018 -4.4107260100220948e-17 -2.1071893234717409
+		-0.19065244382070445 -3.1188542716425066e-17 -2.4317718861349045
+		0.020326221910352271 -2.3690095441381149e-32 -3.2153835110261286
+		-0.19065244382070368 3.1188542716425042e-17 -3.9989951359173528
+		-0.70000000000000007 4.4107260100220936e-17 -4.3235776985805172
+		-1.2093475561792957 3.1188542716425066e-17 -3.9989951359173532
+		;
+createNode ikHandle -n "R_HindToe_IK" -p "R_HindFoot_CTRL";
+	rename -uid "00B2C503-D842-47E8-5861-18A72E472877";
+	setAttr ".rp" -type "double3" -0.65960500169921243 0.14601516626173891 -2.5679393283027552 ;
+	setAttr ".sp" -type "double3" -0.65960500169921243 0.14601516626173891 -2.5679393283027552 ;
+	setAttr ".roc" yes;
+createNode ikHandle -n "R_hindHelper_IK" -p "R_HindFoot_CTRL";
+	rename -uid "D5E97443-224E-7D54-4068-1F9E75DA1B64";
+	setAttr ".rp" -type "double3" -0.65960498894975106 0.21927411460921542 -3.7322563588726418 ;
+	setAttr ".sp" -type "double3" -0.65960498894975106 0.21927411460921542 -3.7322563588726418 ;
+	setAttr ".pv" -type "double3" 4.2061745592402758e-08 0.2170156083017836 -0.37430206435553359 ;
+	setAttr ".roc" yes;
+createNode transform -n "R_Hind_Flex_offset" -p "R_HindFoot_CTRL";
+	rename -uid "68BC85B5-1E44-DFA4-7B57-8BBCE7071DED";
+	setAttr ".rp" -type "double3" -0.65232405015954287 0.21591592475231097 -3.7261936624626855 ;
+	setAttr ".sp" -type "double3" -0.65232405015954287 0.21591592475231097 -3.7261936624626855 ;
+createNode transform -n "R_Hind_Flex_pivot" -p "R_Hind_Flex_offset";
+	rename -uid "D24B93E7-6348-E9F8-73A7-BD8148800847";
+	setAttr ".rp" -type "double3" -0.65473660504806275 0.22332131560882984 -3.7429597404884216 ;
+	setAttr ".sp" -type "double3" -0.65473660504806275 0.22332131560882984 -3.7429597404884216 ;
+createNode ikHandle -n "R_HindLeg_IK" -p "R_Hind_Flex_pivot";
+	rename -uid "7F0B921C-E642-9939-CAD8-86BCFF1275C8";
+	setAttr ".rp" -type "double3" -0.65960499999999933 1.1311998432460462 -3.8462298813355855 ;
+	setAttr ".sp" -type "double3" -0.65960499999999933 1.1311998432460462 -3.8462298813355855 ;
+	setAttr ".pv" -type "double3" -1.306095627441446e-10 -0.3072895938901532 0.34656115920308156 ;
+	setAttr ".roc" yes;
+createNode ikHandle -n "R_HindAnkle_IK" -p "R_Hind_Flex_pivot";
+	rename -uid "F7609C1C-704F-2733-18AB-EAAAAC2A7929";
+	setAttr ".rp" -type "double3" -0.65960499999999911 0.21929269075191768 -3.7322493582297462 ;
+	setAttr ".sp" -type "double3" -0.65960499999999911 0.21929269075191768 -3.7322493582297462 ;
+	setAttr ".roc" yes;
+createNode parentConstraint -n "R_Hind_Flex_offset_parentConstraint1" -p "R_Hind_Flex_offset";
+	rename -uid "2378E8B3-924C-2E8D-4CA7-EDBF55DBBD98";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "R_hind_toes_HelperW0" -dv 1 -min 
+		0 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".tg[0].tot" -type "double3" 0.0047415047972583224 0.0050548838908610616 
+		0.0072809310741044353 ;
+	setAttr ".tg[0].tor" -type "double3" -162.15029941145107 -89.999995120951326 0 ;
+	setAttr ".lr" -type "double3" 179.99999999999974 -179.99999074547608 -180.00000010132118 ;
+	setAttr ".rst" -type "double3" -1.1102230246251565e-16 -5.5511151231257827e-17 -8.8817841970012523e-16 ;
+	setAttr ".rsrr" -type "double3" 179.99999999999974 -179.99999074547608 -180.00000010132118 ;
+	setAttr -k on ".w0";
+createNode joint -n "R_hip_hindHelper";
+	rename -uid "5FB3047D-B345-9A0E-E671-66A82619811F";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".v" no;
+	setAttr ".uoc" 1;
+	setAttr ".oc" 1;
+	setAttr ".t" -type "double3" -0.659605 3.42544 -2.52396 ;
+	setAttr ".r" -type "double3" -4.8157827592320662e-06 -3.722096111289238e-07 0.00047371051517835762 ;
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".jo" -type "double3" 90.000000063986747 -15.425834676574004 89.999999759439987 ;
+	setAttr ".pa" -type "double3" -1.2598790972136055e-06 2.3189407007555226e-07 6.9921002358619734e-15 ;
+	setAttr ".bps" -type "matrix" 4.0473146853482871e-09 -0.96397556693475761 -0.26599080125600688 0
+		 -3.2874676068499771e-16 0.26599080125600705 -0.96397556693475761 0 1 3.9015125424387835e-09 1.0765481290253694e-09 0
+		 0.65960470823829098 3.425441769531627 -2.5239626391226477 1;
+	setAttr ".radi" 0.54239267937585367;
+createNode joint -n "R_knee_hindHelper" -p "R_hip_hindHelper";
+	rename -uid "A1C50D4A-8846-EBB9-A6D3-4DBF9B2E3298";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".uoc" 1;
+	setAttr ".oc" 2;
+	setAttr ".t" -type "double3" -1.6958325489214854 -4.2962876847241205e-06 6.8635666039540411e-09 ;
+	setAttr ".r" -type "double3" 7.2900194276493809e-12 4.2757121168898511e-10 -0.0018899957983929338 ;
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".jo" -type "double3" 0 0 37.448103455151625 ;
+	setAttr ".bps" -type "matrix" 3.2131809400570754e-09 -0.60357077144708116 -0.79730942792292059 0
+		 -2.4609397409709045e-09 0.7973094279229207 -0.60357077144708127 0 1 3.9015125424387835e-09 1.0765481290253694e-09 0
+		 0.65960471510184415 1.790704060660427 -2.975037550086121 1;
+	setAttr ".radi" 0.50479331561263707;
+createNode joint -n "R_hind_paw_Helper" -p "R_knee_hindHelper";
+	rename -uid "0F28A916-B047-B0BF-60A6-90A364D87964";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".uoc" 1;
+	setAttr ".oc" 3;
+	setAttr ".t" -type "double3" -1.0926629242815202 7.4733818111738515e-07 3.5109246621090051e-09 ;
+	setAttr ".r" -type "double3" -1.1316777209267819e-11 -2.2083297391654298e-10 -0.0030281684314277064 ;
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".jo" -type "double3" -180 0 -59.99895448062739 ;
+	setAttr ".bps" -type "matrix" 3.7378551269183897e-09 -0.99227786850353439 0.1240348002702561 0
+		 -2.0376349089541789e-09 -0.12403480027025594 -0.99227786850353439 0 1 3.4562532657809399e-09 -2.4855241685137021e-09 0
+		 0.65960471861279291 1.1311999219725779 -3.8462342554357103 1;
+	setAttr ".radi" 0.5;
+createNode joint -n "R_hind_toes_Helper" -p "R_hind_paw_Helper";
+	rename -uid "4CEBE1AE-434B-4A90-06CB-E6B95ACB4B91";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".uoc" 1;
+	setAttr ".oc" 4;
+	setAttr ".t" -type "double3" -0.91900262076825578 -8.3711580178835732e-06 3.4350808864047622e-09 ;
+	setAttr ".r" -type "double3" 179.9999999030112 -9.9903946655160627e-15 -158.54740941107926 ;
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".jo" -type "double3" 0 0 79.273705533874775 ;
+	setAttr ".bps" -type "matrix" 2.6977128060895757e-09 -0.06281274564476666 0.998025329831145 0
+		 -9.1610405422888035e-10 0.99802532983114511 0.062812745644766591 0 -1 -1.0837457858161457e-09 2.634842732306615e-09 0
+		 0.65960472204789533 0.21929305205599359 -3.7322458353918799 1;
+	setAttr ".radi" 0.50861793206314854;
+createNode ikEffector -n "effector10" -p "R_hind_paw_Helper";
+	rename -uid "F48DE4CC-CF4E-F806-B7DD-16B1AFD3F4E2";
+	setAttr ".v" no;
+	setAttr ".hd" yes;
 createNode lightLinker -s -n "lightLinker1";
 	rename -uid "288398CD-9E45-C0A4-C5A9-A6AF59D46DC4";
 	setAttr -s 4 ".lnk";
@@ -36385,7 +36537,7 @@ createNode dagPose -n "bindPose1";
 createNode objectSet -n "bindJoints";
 	rename -uid "0DDFAD93-CA42-5AD9-E017-228E3E6725F1";
 	setAttr ".ihi" 0;
-	setAttr -s 66 ".dsm";
+	setAttr -s 70 ".dsm";
 	setAttr ".an" -type "string" "gCharacterSet";
 createNode dagPose -n "bindPose3";
 	rename -uid "474B7A80-8D40-656E-971D-D7AF036A4C56";
@@ -36956,6 +37108,9 @@ createNode makeNurbCircle -n "makeNurbCircle1";
 createNode makeNurbCircle -n "makeNurbCircle2";
 	rename -uid "F83A0DED-3449-C4BD-22A7-018341AB0372";
 	setAttr ".nr" -type "double3" 0 1 0 ;
+createNode unitConversion -n "unitConversion145";
+	rename -uid "88F1625A-E24A-B4B6-C64A-40BE41160720";
+	setAttr ".cf" 0.017453292519943295;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -cb on ".ihi";
@@ -37741,6 +37896,18 @@ connectAttr "R_hind_toes.s" "R_hindToe1.is";
 connectAttr "guideJoints.di" "R_hindToe1.do";
 connectAttr "R_hindToe1.s" "R_hindToe1_tip.is";
 connectAttr "guideJoints.di" "R_hindToe1_tip.do";
+connectAttr "R_hind_toe_tip.tx" "effector9.tx";
+connectAttr "R_hind_toe_tip.ty" "effector9.ty";
+connectAttr "R_hind_toe_tip.tz" "effector9.tz";
+connectAttr "R_hind_toe_tip.opm" "effector9.opm";
+connectAttr "R_hind_toes.tx" "effector8.tx";
+connectAttr "R_hind_toes.ty" "effector8.ty";
+connectAttr "R_hind_toes.tz" "effector8.tz";
+connectAttr "R_hind_toes.opm" "effector8.opm";
+connectAttr "R_hind_paw.tx" "effector7.tx";
+connectAttr "R_hind_paw.ty" "effector7.ty";
+connectAttr "R_hind_paw.tz" "effector7.tz";
+connectAttr "R_hind_paw.opm" "effector7.opm";
 connectAttr "makeNurbCircle1.oc" "L_FrontFoot_CTRLShape.cr";
 connectAttr "L_shoulder.msg" "L_FrontLeg_IK.hsj";
 connectAttr "effector1.hp" "L_FrontLeg_IK.hee";
@@ -37761,6 +37928,63 @@ connectAttr "R_front_toes.msg" "R_FrontToes_IK.hsj";
 connectAttr "effector5.hp" "R_FrontToes_IK.hee";
 connectAttr "ikSCsolver.msg" "R_FrontToes_IK.hsv";
 connectAttr "makeNurbCircle2.oc" "R_Hip_CTRLShape.cr";
+connectAttr "R_hind_toes.msg" "R_HindToe_IK.hsj";
+connectAttr "effector9.hp" "R_HindToe_IK.hee";
+connectAttr "ikSCsolver.msg" "R_HindToe_IK.hsv";
+connectAttr "R_hip_hindHelper.msg" "R_hindHelper_IK.hsj";
+connectAttr "effector10.hp" "R_hindHelper_IK.hee";
+connectAttr "ikRPsolver.msg" "R_hindHelper_IK.hsv";
+connectAttr "R_Hind_Flex_offset_parentConstraint1.ctx" "R_Hind_Flex_offset.tx";
+connectAttr "R_Hind_Flex_offset_parentConstraint1.cty" "R_Hind_Flex_offset.ty";
+connectAttr "R_Hind_Flex_offset_parentConstraint1.ctz" "R_Hind_Flex_offset.tz";
+connectAttr "R_Hind_Flex_offset_parentConstraint1.crx" "R_Hind_Flex_offset.rx";
+connectAttr "R_Hind_Flex_offset_parentConstraint1.cry" "R_Hind_Flex_offset.ry";
+connectAttr "R_Hind_Flex_offset_parentConstraint1.crz" "R_Hind_Flex_offset.rz";
+connectAttr "unitConversion145.o" "R_Hind_Flex_pivot.rx";
+connectAttr "R_hip.msg" "R_HindLeg_IK.hsj";
+connectAttr "effector7.hp" "R_HindLeg_IK.hee";
+connectAttr "ikRPsolver.msg" "R_HindLeg_IK.hsv";
+connectAttr "R_hind_paw.msg" "R_HindAnkle_IK.hsj";
+connectAttr "effector8.hp" "R_HindAnkle_IK.hee";
+connectAttr "ikSCsolver.msg" "R_HindAnkle_IK.hsv";
+connectAttr "R_Hind_Flex_offset.ro" "R_Hind_Flex_offset_parentConstraint1.cro";
+connectAttr "R_Hind_Flex_offset.pim" "R_Hind_Flex_offset_parentConstraint1.cpim"
+		;
+connectAttr "R_Hind_Flex_offset.rp" "R_Hind_Flex_offset_parentConstraint1.crp";
+connectAttr "R_Hind_Flex_offset.rpt" "R_Hind_Flex_offset_parentConstraint1.crt";
+connectAttr "R_hind_toes_Helper.t" "R_Hind_Flex_offset_parentConstraint1.tg[0].tt"
+		;
+connectAttr "R_hind_toes_Helper.rp" "R_Hind_Flex_offset_parentConstraint1.tg[0].trp"
+		;
+connectAttr "R_hind_toes_Helper.rpt" "R_Hind_Flex_offset_parentConstraint1.tg[0].trt"
+		;
+connectAttr "R_hind_toes_Helper.r" "R_Hind_Flex_offset_parentConstraint1.tg[0].tr"
+		;
+connectAttr "R_hind_toes_Helper.ro" "R_Hind_Flex_offset_parentConstraint1.tg[0].tro"
+		;
+connectAttr "R_hind_toes_Helper.s" "R_Hind_Flex_offset_parentConstraint1.tg[0].ts"
+		;
+connectAttr "R_hind_toes_Helper.pm" "R_Hind_Flex_offset_parentConstraint1.tg[0].tpm"
+		;
+connectAttr "R_hind_toes_Helper.jo" "R_Hind_Flex_offset_parentConstraint1.tg[0].tjo"
+		;
+connectAttr "R_hind_toes_Helper.ssc" "R_Hind_Flex_offset_parentConstraint1.tg[0].tsc"
+		;
+connectAttr "R_hind_toes_Helper.is" "R_Hind_Flex_offset_parentConstraint1.tg[0].tis"
+		;
+connectAttr "R_Hind_Flex_offset_parentConstraint1.w0" "R_Hind_Flex_offset_parentConstraint1.tg[0].tw"
+		;
+connectAttr "guideJoints.di" "R_hip_hindHelper.do";
+connectAttr "R_hip_hindHelper.s" "R_knee_hindHelper.is";
+connectAttr "guideJoints.di" "R_knee_hindHelper.do";
+connectAttr "R_knee_hindHelper.s" "R_hind_paw_Helper.is";
+connectAttr "guideJoints.di" "R_hind_paw_Helper.do";
+connectAttr "R_hind_paw_Helper.s" "R_hind_toes_Helper.is";
+connectAttr "guideJoints.di" "R_hind_toes_Helper.do";
+connectAttr "R_hind_toes_Helper.tx" "effector10.tx";
+connectAttr "R_hind_toes_Helper.ty" "effector10.ty";
+connectAttr "R_hind_toes_Helper.tz" "effector10.tz";
+connectAttr "R_hind_toes_Helper.opm" "effector10.opm";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" "dawg:initialShadingGroup.message" ":defaultLightSet.message";
@@ -37953,6 +38177,10 @@ connectAttr "R_ear_4.iog" "bindJoints.dsm" -na;
 connectAttr "R_ear_5.iog" "bindJoints.dsm" -na;
 connectAttr "R_ear_6.iog" "bindJoints.dsm" -na;
 connectAttr "R_eye.iog" "bindJoints.dsm" -na;
+connectAttr "R_hip_hindHelper.iog" "bindJoints.dsm" -na;
+connectAttr "R_knee_hindHelper.iog" "bindJoints.dsm" -na;
+connectAttr "R_hind_paw_Helper.iog" "bindJoints.dsm" -na;
+connectAttr "R_hind_toes_Helper.iog" "bindJoints.dsm" -na;
 connectAttr "neck.msg" "bindPose3.m[10]";
 connectAttr "head.msg" "bindPose3.m[11]";
 connectAttr "L_ear_4.msg" "bindPose3.m[15]";
@@ -38090,6 +38318,7 @@ connectAttr ":defaultColorMgtGlobals.wsn" "file1.ws";
 connectAttr "blendShape1.mlpr" "shapeEditorManager.bspr[0]";
 connectAttr "blendShape2.mlpr" "shapeEditorManager.bspr[1]";
 connectAttr "layerManager.dli[2]" "meshLayer.id";
+connectAttr "R_HindFoot_CTRL.flex" "unitConversion145.i";
 connectAttr "dawg:initialShadingGroup.pa" ":renderPartition.st" -na;
 connectAttr "lambert2SG.pa" ":renderPartition.st" -na;
 connectAttr "dogMat.msg" ":defaultShaderList1.s" -na;
