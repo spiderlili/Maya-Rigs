@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Sun, Jul 24, 2022 10:14:12 PM
+//Last modified: Sun, Jul 24, 2022 10:15:20 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -11,18 +11,18 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "88C62AA7-2B4F-0C77-6E46-92B237EC33F7";
+fileInfo "UUID" "18E1FF4F-8049-27B3-ABE9-108FE59CA8D4";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" -1.5765605976711332 0.33740693173472563 3.1172907854417087 ;
-	setAttr ".r" -type "double3" -12.338352738593974 -1104.9999999999989 8.7733845139489813e-16 ;
+	setAttr ".t" -type "double3" -2.0329407842785727 1.4386524301313057 2.6672563401693359 ;
+	setAttr ".r" -type "double3" -33.93835273854215 -1125.7999999999392 6.8431882242179937e-15 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2900D348-2B43-571F-44AF-28AFEB7DD5C9";
 	setAttr -k off ".v";
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 1.1599126199509899;
+	setAttr ".coi" 2.034816340762668;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -35765,7 +35765,11 @@ createNode nurbsCurve -n "R_FrontFoot_CTRLShape" -p "R_FrontFoot_CTRL";
 		-1.2643170607829326e-16 6.7857323231109134e-17 -1.1081941875543879
 		-0.78361162489122427 4.7982373409884713e-17 -0.78361162489122427
 		;
-createNode transform -n "R_FrontToeTip_pivot" -p "R_FrontFoot_CTRL";
+createNode transform -n "R_FrontAnkle_pivot" -p "R_FrontFoot_CTRL";
+	rename -uid "9CB23AB6-3743-3391-59CF-B0944630AD8E";
+	setAttr ".rp" -type "double3" -0.070880017280578578 0.64741998910903931 -0.63836944635186388 ;
+	setAttr ".sp" -type "double3" -0.070880017280578578 0.64741998910903931 -0.63836944635186388 ;
+createNode transform -n "R_FrontToeTip_pivot" -p "R_FrontAnkle_pivot";
 	rename -uid "A6500A65-0441-4648-342D-2E9EBC4A86A3";
 	setAttr ".rp" -type "double3" -0.070880017280578578 0 0.7142047828885536 ;
 	setAttr ".sp" -type "double3" -0.070880017280578578 0 0.7142047828885536 ;
