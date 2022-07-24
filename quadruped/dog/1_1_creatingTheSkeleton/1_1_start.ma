@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Sun, Jul 24, 2022 10:15:20 PM
+//Last modified: Sun, Jul 24, 2022 10:16:31 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -11,18 +11,18 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "18E1FF4F-8049-27B3-ABE9-108FE59CA8D4";
+fileInfo "UUID" "AC106D3A-BF49-DAF7-74AB-0E988EA02EBF";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" -2.0329407842785727 1.4386524301313057 2.6672563401693359 ;
-	setAttr ".r" -type "double3" -33.93835273854215 -1125.7999999999392 6.8431882242179937e-15 ;
+	setAttr ".t" -type "double3" 0.47508927322552991 2.6339040276947232 4.075943146615117 ;
+	setAttr ".r" -type "double3" -47.138352738561309 -1080.9999999999193 1.4414083735150251e-15 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2900D348-2B43-571F-44AF-28AFEB7DD5C9";
 	setAttr -k off ".v";
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 2.034816340762668;
+	setAttr ".coi" 3.1017027411316005;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -35726,7 +35726,11 @@ createNode ikHandle -n "L_FrontFoot_IK" -p "L_FrontFoot_CTRL";
 	setAttr ".r" -type "double3" 89.999999999999972 -45.535314853347977 -89.999999999999986 ;
 	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 1 ;
 	setAttr ".roc" yes;
-createNode ikHandle -n "L_FrontToes_IK" -p "L_FrontFoot_CTRL";
+createNode transform -n "L_FrontToeTap_pivot" -p "L_FrontFoot_CTRL";
+	rename -uid "31FA2CFD-F048-C238-B0A6-25A91D68C8AE";
+	setAttr ".rp" -type "double3" 0.070695840988557856 0.2069016695022583 -0.18954539830956652 ;
+	setAttr ".sp" -type "double3" 0.070695840988557856 0.2069016695022583 -0.18954539830956652 ;
+createNode ikHandle -n "L_FrontToes_IK" -p "L_FrontToeTap_pivot";
 	rename -uid "2FB8CCF7-6A48-E64E-1CAC-11A2689EAAA4";
 	setAttr ".t" -type "double3" 0.070695818835914137 0.19858783711961822 0.67486633601972112 ;
 	setAttr ".r" -type "double3" 89.999999999996689 -89.448951888564892 -89.999999999995367 ;
