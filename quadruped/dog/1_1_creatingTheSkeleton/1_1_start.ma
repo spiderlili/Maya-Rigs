@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Mon, Jul 25, 2022 11:14:14 PM
+//Last modified: Mon, Jul 25, 2022 11:15:29 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -11,10 +11,10 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "AE8F85D9-384D-ACF6-4770-0081DE6B74AA";
+fileInfo "UUID" "0C486B95-F04E-3BEF-9417-94A3A4FF7DCD";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" 8.8623509016696929 1.4875734883251686 -3.987161397249527 ;
+	setAttr ".t" -type "double3" 17.347844997637342 2.7931942252092727 -4.3724854293594975 ;
 	setAttr ".r" -type "double3" -8.7383527412034478 -1347.4000000002379 -2.5444437451708134e-14 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
@@ -22,7 +22,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2900D348-2B43-571F-44AF-28AFEB7DD5C9";
 	setAttr -k off ".v";
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 8.4066966478260206;
+	setAttr ".coi" 17.000690490679581;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
