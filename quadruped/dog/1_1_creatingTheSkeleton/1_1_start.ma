@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Mon, Jul 25, 2022 10:05:12 PM
+//Last modified: Mon, Jul 25, 2022 10:17:51 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -12,18 +12,18 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "C5D37647-CA4C-9DF5-DA4B-17B786A944F1";
+fileInfo "UUID" "81642CEA-3440-DDAC-E859-308B4DE19C6D";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" 6.5065641069441273 3.9875105775494228 0.25110856775449264 ;
-	setAttr ".r" -type "double3" -21.93835273993173 -1342.5999999998962 0 ;
+	setAttr ".t" -type "double3" 1.6336916997809696 0.67906318121086617 -2.2324630806989583 ;
+	setAttr ".r" -type "double3" -5.1383527399250077 -1016.9999999996628 8.7572170654587959e-16 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2900D348-2B43-571F-44AF-28AFEB7DD5C9";
 	setAttr -k off ".v";
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 6.7607798333825304;
+	setAttr ".coi" 2.0545795856999449;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -60,14 +60,14 @@ createNode camera -s -n "frontShape" -p "front";
 	setAttr ".o" yes;
 createNode transform -s -n "side";
 	rename -uid "09FBB410-964A-95AB-62D5-29AD8469747D";
-	setAttr ".t" -type "double3" 100.21602302948487 0.31713187684659888 1.9696664179147074 ;
+	setAttr ".t" -type "double3" 100.21602302948487 0.43763297337274698 -2.6954580983794196 ;
 	setAttr ".r" -type "double3" 0 89.999999999999986 0 ;
 createNode camera -s -n "sideShape" -p "side";
 	rename -uid "782C5855-474E-0D78-F230-7DB54F0CE1C0";
 	setAttr -k off ".v";
 	setAttr ".rnd" no;
 	setAttr ".coi" 100.1;
-	setAttr ".ow" 10.312348344035117;
+	setAttr ".ow" 1.88448255354567;
 	setAttr ".imn" -type "string" "side";
 	setAttr ".den" -type "string" "side_depth";
 	setAttr ".man" -type "string" "side_mask";
@@ -35770,18 +35770,26 @@ createNode nurbsCurve -n "R_HindFoot_CTRLShape" -p "R_HindFoot_CTRL";
 		-0.70000000000000007 4.4107260100220936e-17 -4.3235776985805172
 		-1.2093475561792957 3.1188542716425066e-17 -3.9989951359173532
 		;
-createNode ikHandle -n "R_HindToe_IK" -p "R_HindFoot_CTRL";
+createNode transform -n "R_HindToeTip_pivot" -p "R_HindFoot_CTRL";
+	rename -uid "1B71E6AF-A34E-2BD0-720D-DE9FF6ACB3C8";
+	setAttr ".rp" -type "double3" -0.73264627319620024 0 -2.6638000565199169 ;
+	setAttr ".sp" -type "double3" -0.73264627319620024 0 -2.6638000565199169 ;
+createNode transform -n "R_HindToeTap_pivot" -p "R_HindToeTip_pivot";
+	rename -uid "1078D5DC-2E4A-25F7-5B61-5FABF2BD564C";
+	setAttr ".rp" -type "double3" -0.65960502624511719 0.21929268538951874 -3.7322492599487305 ;
+	setAttr ".sp" -type "double3" -0.65960502624511719 0.21929268538951874 -3.7322492599487305 ;
+createNode ikHandle -n "R_HindToe_IK" -p "R_HindToeTap_pivot";
 	rename -uid "00B2C503-D842-47E8-5861-18A72E472877";
 	setAttr ".rp" -type "double3" -0.65960500169921243 0.14601516626173891 -2.5679393283027552 ;
 	setAttr ".sp" -type "double3" -0.65960500169921243 0.14601516626173891 -2.5679393283027552 ;
 	setAttr ".roc" yes;
-createNode ikHandle -n "R_hindHelper_IK" -p "R_HindFoot_CTRL";
+createNode ikHandle -n "R_hindHelper_IK" -p "R_HindToeTap_pivot";
 	rename -uid "D5E97443-224E-7D54-4068-1F9E75DA1B64";
 	setAttr ".rp" -type "double3" -0.65960498894975106 0.21927411460921542 -3.7322563588726418 ;
 	setAttr ".sp" -type "double3" -0.65960498894975106 0.21927411460921542 -3.7322563588726418 ;
 	setAttr ".pv" -type "double3" 4.2061745592402758e-08 0.2170156083017836 -0.37430206435553359 ;
 	setAttr ".roc" yes;
-createNode transform -n "R_Hind_Flex_offset" -p "R_HindFoot_CTRL";
+createNode transform -n "R_Hind_Flex_offset" -p "R_HindToeTip_pivot";
 	rename -uid "68BC85B5-1E44-DFA4-7B57-8BBCE7071DED";
 	setAttr ".rp" -type "double3" -0.65232405015954287 0.21591592475231097 -3.7261936624626855 ;
 	setAttr ".sp" -type "double3" -0.65232405015954287 0.21591592475231097 -3.7261936624626855 ;
