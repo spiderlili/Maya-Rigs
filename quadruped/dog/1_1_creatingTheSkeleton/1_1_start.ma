@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Mon, Jul 25, 2022 10:33:33 PM
+//Last modified: Mon, Jul 25, 2022 11:04:02 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -11,18 +11,18 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "C2012719-D84F-7FB8-AE87-C4BDDF8AD5BF";
+fileInfo "UUID" "FB448E41-C54D-4816-89F7-619E0556B71C";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" -5.2347097970529202 3.878279202286782 -3.4366505763934998 ;
-	setAttr ".r" -type "double3" -24.338352741400538 -1182.6000000006431 -2.5444437451708134e-14 ;
+	setAttr ".t" -type "double3" -4.6633532524312997 4.0826126264524962 -4.8455393131562694 ;
+	setAttr ".r" -type "double3" -35.138352741222569 -1192.2000000004587 0 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2900D348-2B43-571F-44AF-28AFEB7DD5C9";
 	setAttr -k off ".v";
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 5.731350332211691;
+	setAttr ".coi" 5.7313503322115498;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -33910,7 +33910,7 @@ createNode joint -n "R_hip";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 1;
 	setAttr ".t" -type "double3" -0.659605 3.4254400000000005 -2.52396 ;
-	setAttr ".r" -type "double3" -20.168187778592582 -5.106593428068348 0.9087430250826638 ;
+	setAttr ".r" -type "double3" -23.687942971552648 -2.1036195666135495 0.44120697095467187 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" 90.000000063986747 -15.425834676574 89.999999759439987 ;
@@ -33925,7 +33925,7 @@ createNode joint -n "R_knee" -p "R_hip";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 2;
 	setAttr ".t" -type "double3" -1.6958325489214854 -4.2962876847241205e-06 6.8635666039540411e-09 ;
-	setAttr ".r" -type "double3" -8.7854089180671906e-14 5.8646814792968362e-13 -2.7341898859559688e-05 ;
+	setAttr ".r" -type "double3" -8.7854087781414565e-14 5.8646813858897021e-13 -2.7341898424083624e-05 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" -6.7009555315091745e-15 -1.9769789042570703e-14 37.448103455151625 ;
@@ -33939,7 +33939,7 @@ createNode joint -n "R_hind_paw" -p "R_knee";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 3;
 	setAttr ".t" -type "double3" -1.0926629242815202 7.4733818111738515e-07 3.5109246621090051e-09 ;
-	setAttr ".r" -type "double3" 113.96580303677558 -12.350472288119317 -1.8356507808209517 ;
+	setAttr ".r" -type "double3" 97.124463153785243 0.00051567780281890887 -0.00044102654173219455 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" -180 -5.6507054614225125e-15 -59.998954480627376 ;
@@ -33953,7 +33953,7 @@ createNode joint -n "R_hind_toes" -p "R_hind_paw";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 4;
 	setAttr ".t" -type "double3" -0.91900262076825578 -8.3711580178835732e-06 3.4350808864047622e-09 ;
-	setAttr ".r" -type "double3" 52.513518326464663 77.146804075501848 -112.4887558595359 ;
+	setAttr ".r" -type "double3" 137.81289076368711 72.084217332383872 -18.094759617725934 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" 1.2074182643518044e-06 -6.4874638350620005e-15 79.273705533874775 ;
@@ -35747,9 +35747,15 @@ createNode nurbsCurve -n "R_Hip_CTRLShape" -p "|R_Hip_Offset|R_Hip_CTRL";
 createNode transform -n "R_HindFoot_CTRL";
 	rename -uid "C17F6EF7-A142-E895-2E17-35AEA848DF7C";
 	addAttr -ci true -sn "flex" -ln "flex" -at "double";
+	addAttr -ci true -sn "toeTap" -ln "toeTap" -at "double";
+	addAttr -ci true -sn "toeTip" -ln "toeTip" -at "double";
+	addAttr -ci true -sn "swivel" -ln "swivel" -at "double";
 	setAttr ".rp" -type "double3" -0.7 0 -3.2153835110261291 ;
 	setAttr ".sp" -type "double3" -0.7 0 -3.2153835110261291 ;
 	setAttr -k on ".flex";
+	setAttr -k on ".toeTap";
+	setAttr -k on ".toeTip";
+	setAttr -k on ".swivel";
 createNode nurbsCurve -n "R_HindFoot_CTRLShape" -p "R_HindFoot_CTRL";
 	rename -uid "7458A9A3-F847-B67A-72D4-83907122BDFA";
 	setAttr -k off ".v";
@@ -35769,30 +35775,11 @@ createNode nurbsCurve -n "R_HindFoot_CTRLShape" -p "R_HindFoot_CTRL";
 		-0.70000000000000007 4.4107260100220936e-17 -4.3235776985805172
 		-1.2093475561792957 3.1188542716425066e-17 -3.9989951359173532
 		;
-createNode transform -n "R_HindKnee_CTRL" -p "R_HindFoot_CTRL";
-	rename -uid "5AFC3B2A-C243-6AA3-BF06-5483E1D9348C";
-	setAttr ".rp" -type "double3" -1.3145000422915167 1.4026191066391691 -1.6976853976901274 ;
-	setAttr ".sp" -type "double3" -1.3145000422915167 1.4026191066391691 -1.6976853976901274 ;
-createNode nurbsCurve -n "R_HindKnee_CTRLShape" -p "R_HindKnee_CTRL";
-	rename -uid "6E6FBDB0-7C46-82FF-D150-8FBBB88DF187";
-	setAttr -k off ".v";
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		-1.3145000422915167 1.598522012861975 -1.8935883039129338
-		-1.3145000422915167 1.6796676535277661 -1.6976853976901274
-		-1.3145000422915167 1.5985220128619753 -1.5017824914673212
-		-1.3145000422915167 1.4026191066391691 -1.4206368508015303
-		-1.3145000422915167 1.2067162004163632 -1.5017824914673212
-		-1.3145000422915167 1.1255705597505721 -1.6976853976901274
-		-1.3145000422915167 1.206716200416363 -1.8935883039129333
-		-1.3145000422915167 1.4026191066391691 -1.9747339445787244
-		-1.3145000422915167 1.598522012861975 -1.8935883039129338
-		-1.3145000422915167 1.6796676535277661 -1.6976853976901274
-		-1.3145000422915167 1.5985220128619753 -1.5017824914673212
-		;
-createNode transform -n "R_HindToeTip_pivot" -p "R_HindFoot_CTRL";
+createNode transform -n "R_HindSwivel_pivot" -p "R_HindFoot_CTRL";
+	rename -uid "B8E8487C-9848-B2C6-4E04-A3A32EA47438";
+	setAttr ".rp" -type "double3" -0.65960502624511719 0.21929268538951874 -3.7322492599487305 ;
+	setAttr ".sp" -type "double3" -0.65960502624511719 0.21929268538951874 -3.7322492599487305 ;
+createNode transform -n "R_HindToeTip_pivot" -p "R_HindSwivel_pivot";
 	rename -uid "1B71E6AF-A34E-2BD0-720D-DE9FF6ACB3C8";
 	setAttr ".rp" -type "double3" -0.73264627319620024 0 -2.6638000565199169 ;
 	setAttr ".sp" -type "double3" -0.73264627319620024 0 -2.6638000565199169 ;
@@ -35809,8 +35796,25 @@ createNode ikHandle -n "R_hindHelper_IK" -p "R_HindToeTap_pivot";
 	rename -uid "D5E97443-224E-7D54-4068-1F9E75DA1B64";
 	setAttr ".rp" -type "double3" -0.65960498894975106 0.21927411460921542 -3.7322563588726418 ;
 	setAttr ".sp" -type "double3" -0.65960498894975106 0.21927411460921542 -3.7322563588726418 ;
-	setAttr ".pv" -type "double3" 4.2061745592402758e-08 0.2170156083017836 -0.37430206435553359 ;
+	setAttr ".twi" 180;
 	setAttr ".roc" yes;
+createNode poleVectorConstraint -n "R_hindHelper_IK_poleVectorConstraint1" -p "R_hindHelper_IK";
+	rename -uid "8152507C-0B40-7387-72CC-38BB754433F6";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "R_HindKnee_CTRLW0" -dv 1 -min 0 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".rst" -type "double3" -0.65489504229151674 -2.0228208933608309 0.82627460230987282 ;
+	setAttr -k on ".w0";
 createNode transform -n "R_Hind_Flex_offset" -p "R_HindToeTip_pivot";
 	rename -uid "68BC85B5-1E44-DFA4-7B57-8BBCE7071DED";
 	setAttr ".rp" -type "double3" -0.65232405015954287 0.21591592475231097 -3.7261936624626855 ;
@@ -35865,10 +35869,33 @@ createNode parentConstraint -n "R_Hind_Flex_offset_parentConstraint1" -p "R_Hind
 	setAttr ".tg[0].tot" -type "double3" 0.0047415047972583224 0.0050548838908610616 
 		0.0072809310741044353 ;
 	setAttr ".tg[0].tor" -type "double3" -162.15029941145107 -89.999995120951326 0 ;
-	setAttr ".lr" -type "double3" 179.99999999930063 -179.9999906031602 -180.00000014059182 ;
+	setAttr ".lr" -type "double3" 181.73297244015743 -157.83609272480564 -188.83093791743786 ;
 	setAttr ".rst" -type "double3" -1.1102230246251565e-16 -5.5511151231257827e-17 -8.8817841970012523e-16 ;
 	setAttr ".rsrr" -type "double3" 179.99999999999974 -179.99999074547608 -180.00000010132118 ;
 	setAttr -k on ".w0";
+createNode transform -n "R_HindKnee_CTRL" -p "R_HindSwivel_pivot";
+	rename -uid "5AFC3B2A-C243-6AA3-BF06-5483E1D9348C";
+	setAttr ".rp" -type "double3" -1.3145000422915167 1.4026191066391691 -1.6976853976901274 ;
+	setAttr ".sp" -type "double3" -1.3145000422915167 1.4026191066391691 -1.6976853976901274 ;
+createNode nurbsCurve -n "R_HindKnee_CTRLShape" -p "R_HindKnee_CTRL";
+	rename -uid "6E6FBDB0-7C46-82FF-D150-8FBBB88DF187";
+	setAttr -k off ".v";
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		-1.3145000422915167 1.598522012861975 -1.8935883039129338
+		-1.3145000422915167 1.6796676535277661 -1.6976853976901274
+		-1.3145000422915167 1.5985220128619753 -1.5017824914673212
+		-1.3145000422915167 1.4026191066391691 -1.4206368508015303
+		-1.3145000422915167 1.2067162004163632 -1.5017824914673212
+		-1.3145000422915167 1.1255705597505721 -1.6976853976901274
+		-1.3145000422915167 1.206716200416363 -1.8935883039129333
+		-1.3145000422915167 1.4026191066391691 -1.9747339445787244
+		-1.3145000422915167 1.598522012861975 -1.8935883039129338
+		-1.3145000422915167 1.6796676535277661 -1.6976853976901274
+		-1.3145000422915167 1.5985220128619753 -1.5017824914673212
+		;
 createNode transform -n "L_HindFoot_CTRL";
 	rename -uid "86726765-E34E-B58C-3C54-71BE6B88FCB0";
 	addAttr -ci true -sn "flex" -ln "flex" -at "double";
@@ -35992,7 +36019,7 @@ createNode joint -n "R_hip_hindHelper";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 1;
 	setAttr ".t" -type "double3" -0.659605 3.42544 -2.52396 ;
-	setAttr ".r" -type "double3" -4.9634174268367992e-06 -3.8998628668639949e-07 0.00047370974638790136 ;
+	setAttr ".r" -type "double3" -23.687958991802436 -2.103430420424119 0.4416360528641618 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" 90.000000063986747 -15.425834676574004 89.999999759439987 ;
@@ -37304,6 +37331,15 @@ createNode unitConversion -n "unitConversion155";
 createNode unitConversion -n "unitConversion156";
 	rename -uid "228EC29A-294C-AE9C-92C5-4385AA600DCC";
 	setAttr ".cf" 0.017453292519943295;
+createNode unitConversion -n "unitConversion157";
+	rename -uid "28401DC8-944D-CECB-F7BE-7DA737F85BB3";
+	setAttr ".cf" 0.017453292519943295;
+createNode unitConversion -n "unitConversion158";
+	rename -uid "1CE9D9DE-474E-1E70-141B-369392BB8C40";
+	setAttr ".cf" 0.017453292519943295;
+createNode unitConversion -n "unitConversion159";
+	rename -uid "15D73E95-2049-EB73-C7E1-07AA1F3DDFEA";
+	setAttr ".cf" 0.017453292519943295;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -cb on ".ihi";
@@ -38178,12 +38214,31 @@ connectAttr "R_FrontElbow_CTRL.pm" "R_FrontLeg_IK_poleVectorConstraint1.tg[0].tp
 		;
 connectAttr "R_FrontLeg_IK_poleVectorConstraint1.w0" "R_FrontLeg_IK_poleVectorConstraint1.tg[0].tw"
 		;
+connectAttr "unitConversion159.o" "R_HindSwivel_pivot.ry";
+connectAttr "unitConversion158.o" "R_HindToeTip_pivot.rx";
+connectAttr "unitConversion157.o" "R_HindToeTap_pivot.rx";
 connectAttr "R_hind_toes.msg" "R_HindToe_IK.hsj";
 connectAttr "effector9.hp" "R_HindToe_IK.hee";
 connectAttr "ikSCsolver.msg" "R_HindToe_IK.hsv";
 connectAttr "R_hip_hindHelper.msg" "R_hindHelper_IK.hsj";
 connectAttr "effector10.hp" "R_hindHelper_IK.hee";
 connectAttr "ikRPsolver.msg" "R_hindHelper_IK.hsv";
+connectAttr "R_hindHelper_IK_poleVectorConstraint1.ctx" "R_hindHelper_IK.pvx";
+connectAttr "R_hindHelper_IK_poleVectorConstraint1.cty" "R_hindHelper_IK.pvy";
+connectAttr "R_hindHelper_IK_poleVectorConstraint1.ctz" "R_hindHelper_IK.pvz";
+connectAttr "R_hindHelper_IK.pim" "R_hindHelper_IK_poleVectorConstraint1.cpim";
+connectAttr "R_hip_hindHelper.pm" "R_hindHelper_IK_poleVectorConstraint1.ps";
+connectAttr "R_hip_hindHelper.t" "R_hindHelper_IK_poleVectorConstraint1.crp";
+connectAttr "R_HindKnee_CTRL.t" "R_hindHelper_IK_poleVectorConstraint1.tg[0].tt"
+		;
+connectAttr "R_HindKnee_CTRL.rp" "R_hindHelper_IK_poleVectorConstraint1.tg[0].trp"
+		;
+connectAttr "R_HindKnee_CTRL.rpt" "R_hindHelper_IK_poleVectorConstraint1.tg[0].trt"
+		;
+connectAttr "R_HindKnee_CTRL.pm" "R_hindHelper_IK_poleVectorConstraint1.tg[0].tpm"
+		;
+connectAttr "R_hindHelper_IK_poleVectorConstraint1.w0" "R_hindHelper_IK_poleVectorConstraint1.tg[0].tw"
+		;
 connectAttr "R_Hind_Flex_offset_parentConstraint1.ctx" "R_Hind_Flex_offset.tx";
 connectAttr "R_Hind_Flex_offset_parentConstraint1.cty" "R_Hind_Flex_offset.ty";
 connectAttr "R_Hind_Flex_offset_parentConstraint1.ctz" "R_Hind_Flex_offset.tz";
@@ -38632,6 +38687,9 @@ connectAttr "L_FrontFoot_CTRL.toeTip" "unitConversion153.i";
 connectAttr "L_FrontFoot_CTRL.toeTap" "unitConversion154.i";
 connectAttr "L_FrontFoot_CTRL.swivel" "unitConversion155.i";
 connectAttr "L_FrontFoot_CTRL.flex" "unitConversion156.i";
+connectAttr "R_HindFoot_CTRL.toeTap" "unitConversion157.i";
+connectAttr "R_HindFoot_CTRL.toeTip" "unitConversion158.i";
+connectAttr "R_HindFoot_CTRL.swivel" "unitConversion159.i";
 connectAttr "dawg:initialShadingGroup.pa" ":renderPartition.st" -na;
 connectAttr "lambert2SG.pa" ":renderPartition.st" -na;
 connectAttr "dogMat.msg" ":defaultShaderList1.s" -na;
