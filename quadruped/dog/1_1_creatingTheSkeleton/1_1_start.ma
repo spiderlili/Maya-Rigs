@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: 1_1_start.ma
-//Last modified: Fri, Jul 29, 2022 12:31:04 PM
+//Last modified: Fri, Jul 29, 2022 12:40:20 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires -nodeType "ikSpringSolver" "ikSpringSolver" "1.0";
@@ -11,11 +11,11 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "0A1D070E-5341-6580-F4AB-CE8F8BB3E834";
+fileInfo "UUID" "53E5DA97-3F40-6D0B-1D96-1D83EF479F4A";
 createNode transform -s -n "persp";
 	rename -uid "482387F8-BF47-6083-E0BB-039AC2D4B11A";
-	setAttr ".t" -type "double3" -14.911442329719593 8.7851128141805273 -2.7181801496326194 ;
-	setAttr ".r" -type "double3" -19.538352740674142 -1537.7999999973504 0 ;
+	setAttr ".t" -type "double3" -13.689333713633712 9.7358574480477778 4.7142718818820599 ;
+	setAttr ".r" -type "double3" -23.138352740731236 -1508.9999999973018 4.4375545931337323e-15 ;
 	setAttr ".rp" -type "double3" 4.4408920985006262e-16 0 -4.4408920985006262e-16 ;
 	setAttr ".rpt" -type "double3" 8.2558923915687908e-17 -2.479352628855613e-16 6.7988637104888953e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
