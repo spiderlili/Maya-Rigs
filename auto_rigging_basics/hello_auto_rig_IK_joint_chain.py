@@ -28,5 +28,6 @@ def create_ik_arm(joint_positions):
 
 if __name__ == "__main__":
 	cmds.file(newFile=True, force=True) 
-	joint_positions = [(0, 0, 4), (-2, 0, 0), (0, 0, -4)]
+	# joint_positions = [(0, 0, 4), (-2, 0, 0), (0, 0, -4)]
+	joint_positions = selected_object_positions()
 	create_ik_arm(joint_positions)
