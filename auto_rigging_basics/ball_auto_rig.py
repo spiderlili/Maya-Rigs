@@ -12,9 +12,13 @@ class BallAutoRig(object):
         
     def construct_rig(self, name = "ball"):
         cmds.select(clear = True)
+        root_grp = cmds.group(name=name, empty=True, world=True)
+        anim_controls_grp = cmds.group(name="anim_controls", empty=True, parent=root_grp)
+        geometry_grp = cmds.group(name="geometry_do_not_touch", empty=True, parent=root_grp) # Anything in this group should not be animated
+
         print("TODO: Construct Rig")
 
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
-    ball.construct_rig
+    ball.construct_rig()
