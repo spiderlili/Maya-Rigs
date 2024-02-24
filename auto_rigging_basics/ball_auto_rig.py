@@ -18,6 +18,9 @@ class BallAutoRig(object):
 
         print("TODO: Construct Rig")
 
+    def create_ball(self, name, parent=None):
+        return
+    
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
