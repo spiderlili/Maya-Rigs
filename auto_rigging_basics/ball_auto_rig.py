@@ -1,6 +1,11 @@
 import maya.cmds as cmds
 import maya.mel as mel
 
+class Helpers(object):
+    @classmethod
+    def add_attr(cls, node, long_name, attr_type, default_value, keyable=False):
+        return
+
 class BallAutoRig(object):
     def __init__(self):
         self.primary_color = [0.0, 0.0, 1.0]
