@@ -4,7 +4,15 @@ import maya.mel as mel
 class Helpers(object):
     @classmethod
     def add_attr(cls, node, long_name, attr_type, default_value, keyable=False):
-        return
+        cmds.addAttr(node, longName=long_name, attributeType=attr_type, defaultValue=default_value, keyable=keyable)
+    
+    @classmethod
+    def set_attr(cls, node, attr, value, value_type=None):
+        if value_type:
+            # Expect a list that will be unpacked for the command
+            cmds.setAttr("{0}.{1}".format(node, attr), *value, type=value_type)
+        else:
+            cmds.setAttr("{0}.{1}".format(node, attr), value)
 
 class BallAutoRig(object):
     def __init__(self):
