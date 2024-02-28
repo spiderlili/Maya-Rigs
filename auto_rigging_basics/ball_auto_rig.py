@@ -18,6 +18,14 @@ class Helpers(object):
     def connect_attr(cls, node_a, attr_a, node_b, attr_b, force=False):
         cmds.connectAttr("{0}.{1}".format(node_a, attr_a), "{0}.{1}".format(node_b, attr_b), force=force)
     
+    @classmethod
+    def lock_and_hide_attrs(cls, node, attrs, lock=True, hide=True, channelBox=False):
+        # If an attribute is hidden it is not key-able.   
+        keyable = not hide 
+        for attr in attrs:
+            full_name = "{0}.{1}".format(node, attr)
+            cmds.setAttr(full_name, lock=lock, keyable=keyable, channelBox=channelBox)
+
 class BallAutoRig(object):
     def __init__(self):
         self.primary_color = [0.0, 0.0, 1.0]
