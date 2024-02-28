@@ -14,6 +14,10 @@ class Helpers(object):
         else:
             cmds.setAttr("{0}.{1}".format(node, attr), value)
 
+    @classmethod
+    def connect_attr(cls, node_a, attr_a, node_b, attr_b, force=False):
+        cmds.connectAttr("{0}.{1}".format(node_a, attr_a), "{0}.{1}".format(node_b, attr_b), force=force)
+    
 class BallAutoRig(object):
     def __init__(self):
         self.primary_color = [0.0, 0.0, 1.0]
