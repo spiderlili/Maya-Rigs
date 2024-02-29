@@ -41,6 +41,7 @@ class BallAutoRig(object):
         anim_controls_grp = cmds.group(name="anim_controls", empty=True, parent=root_grp)
         geometry_grp = cmds.group(name="geometry_do_not_touch", empty=True, parent=root_grp) # Anything in this group should not be animated
         ball_geo = self.create_ball("ball_geo", parent=geometry_grp)
+        ball_ctrl = self.create_ball_ctrl("ball_ctrl", parent=anim_controls_grp)
 
         print("TODO: Construct Rig")
 
@@ -50,6 +51,13 @@ class BallAutoRig(object):
             ball_geo = cmds.parent(ball_geo, parent)[0]
         return ball_geo
     
+    def create_ball_ctrl(self, name, parent = None):
+        # Ball control's radius should be slightly bigger than the ball geometry's radius, get transform node name
+        ball_ctrl = cmds.circle(center=(0,0,0), normal=(0,1,0), radius=1.5, n=name)[0]
+        if parent:
+            ball_ctrl = cmds.parent(ball_ctrl, parent)[0]
+        return ball_ctrl
+
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
