@@ -26,6 +26,12 @@ class Helpers(object):
             full_name = "{0}.{1}".format(node, attr)
             cmds.setAttr(full_name, lock=lock, keyable=keyable, channelBox=channelBox)
 
+class CurveLibrary():
+    @classmethod
+    def circle(cls, radius=1, name="circle_curve"):
+        return cmds.circle(center=(0, 0, 0), normal=(0, 1, 0), radius=radius, name=name)[0]
+
+
 class BallAutoRig(object):
     def __init__(self):
         self.primary_color = [0.0, 0.0, 1.0]
@@ -54,7 +60,8 @@ class BallAutoRig(object):
     
     def create_ball_ctrl(self, name, parent = None):
         # Ball control's radius should be slightly bigger than the ball geometry's radius, get transform node name
-        ball_ctrl = cmds.circle(center=(0,0,0), normal=(0,1,0), radius=1.5, n=name)[0]
+        ball_ctrl = CurveLibrary.circle(radius=1.5, name=name)
+
         if parent:
             ball_ctrl = cmds.parent(ball_ctrl, parent)[0]
         Helpers.lock_and_hide_attrs(ball_ctrl, ["sx", "sy", "sz", "v"])
