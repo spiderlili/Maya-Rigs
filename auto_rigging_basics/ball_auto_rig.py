@@ -43,7 +43,8 @@ class BallAutoRig(object):
         ball_geo = self.create_ball("ball_geo", parent=geometry_grp)
         ball_ctrl = self.create_ball_ctrl("ball_ctrl", parent=anim_controls_grp)
 
-        print("TODO: Construct Rig")
+        # Add a parent constraint so the geometry follows the control
+        cmds.parentConstraint(ball_ctrl, ball_geo, maintainOffset=True, weight=1)
 
     def create_ball(self, name, parent=None):
         ball_geo = cmds.sphere(pivot=(0,0,0), axis=(0,1,0), radius=1, name=name)[0]
@@ -56,8 +57,12 @@ class BallAutoRig(object):
         ball_ctrl = cmds.circle(center=(0,0,0), normal=(0,1,0), radius=1.5, n=name)[0]
         if parent:
             ball_ctrl = cmds.parent(ball_ctrl, parent)[0]
-        return ball_ctrl
+        Helpers.lock_and_hide_attrs(ball_ctrl, ["sx", "sy", "sz", "v"])
 
+        # Change the rotation order of the control to be xzy
+        Helpers.set_attr(ball_ctrl, "rotateOrder", 3) 
+        return ball_ctrl
+    
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
