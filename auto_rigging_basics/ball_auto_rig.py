@@ -31,6 +31,9 @@ class CurveLibrary():
     def circle(cls, radius=1, name="circle_curve"):
         return cmds.circle(center=(0, 0, 0), normal=(0, 1, 0), radius=radius, name=name)[0]
 
+    @classmethod
+    def two_way_arrow(cls, name="two_way_arrow_curve"):
+        return cmds.curve(degree=1, point=[], knot=[], name=name)
 
 class BallAutoRig(object):
     def __init__(self):
