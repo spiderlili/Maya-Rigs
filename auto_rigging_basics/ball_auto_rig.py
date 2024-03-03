@@ -26,6 +26,15 @@ class Helpers(object):
             full_name = "{0}.{1}".format(node, attr)
             cmds.setAttr(full_name, lock=lock, keyable=keyable, channelBox=channelBox)
 
+    @classmethod
+    def create_display_layer(cls, name, members, reference=False):
+        display_layer = cmds.createDisplayLayer(name=name, empty=True)
+        if reference:
+            cmds.setAttr("{0}.displayType".format(display_layer), 2) # 0 = normal, 1 = template, 2 = reference
+        if members:
+            cmds.editDisplayLayerMembers(display_layer, members, noRecurse=True)
+        return display_layer
+    
 class CurveLibrary():
     @classmethod
     def circle(cls, radius=1, name="circle_curve"):
@@ -33,7 +42,9 @@ class CurveLibrary():
 
     @classmethod
     def two_way_arrow(cls, name="two_way_arrow_curve"):
-        return cmds.curve(degree=1, point=[], knot=[], name=name)
+        return cmds.curve(degree=1, 
+                          point=[(-1,0,-2),(-2,0,-2),(0,0,-4),(2,0,-2),(1,0,-2),(1,0,2),(2,0,2),(0,0,4),(-2,0,2),(-1,0,2),(-1,0,-2)], 
+                          knot=[0,1,2,3,4,5,6,7,8,9,10], name=name)
 
 class BallAutoRig(object):
     def __init__(self):
@@ -55,6 +66,9 @@ class BallAutoRig(object):
         # Add a parent constraint so the geometry follows the control
         cmds.parentConstraint(ball_ctrl, ball_geo, maintainOffset=True, weight=1)
 
+        # Prevent the ball geometry from being selected by adding it to a reference display layer
+        Helpers.create_display_layer("ball_geometry", [ball_geo], True)
+
     def create_ball(self, name, parent=None):
         ball_geo = cmds.sphere(pivot=(0,0,0), axis=(0,1,0), radius=1, name=name)[0]
         if parent: # Check if a parent has been set
@@ -63,7 +77,8 @@ class BallAutoRig(object):
     
     def create_ball_ctrl(self, name, parent = None):
         # Ball control's radius should be slightly bigger than the ball geometry's radius, get transform node name
-        ball_ctrl = CurveLibrary.circle(radius=1.5, name=name)
+        # ball_ctrl = CurveLibrary.circle(radius=1.5, name=name)
+        ball_ctrl = CurveLibrary.two_way_arrow(name=name)
 
         if parent:
             ball_ctrl = cmds.parent(ball_ctrl, parent)[0]
