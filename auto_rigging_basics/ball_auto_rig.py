@@ -35,6 +35,20 @@ class Helpers(object):
             cmds.editDisplayLayerMembers(display_layer, members, noRecurse=True)
         return display_layer
     
+    @classmethod
+    def create_and_assign_lambert_shader(cls, name, shape_node):
+        shader = cmds.shadingNode("lambert", name=name, asShader=True)
+        shader_shading_group = cmds.sets(name="{0}SG".format(shader), renderable=True, noSurfaceShader=True, empty=True)
+        # Connect the outColor attribute from the shading node to the shader group’s surface shader attribute
+        cls.connect_attr(shader, "outColor", shader_shading_group, "surfaceShader")
+        cmds.sets([shape_node], edit=True, forceElement=shader_shading_group) # assign the material to the shapeNode
+        return shader 
+
+# TODO: this will expect transform_node to have >= 1 shape node which may not always be the case - add additional error checking, include support for the case where a transform node has > 1 shape node
+    @classmethod
+    def get_shape_from_transform(cls, transform_node):
+        return cmds.listRelatives(transform_node, shapes=True, fullPath=True)[0]
+    
 class CurveLibrary():
     @classmethod
     def circle(cls, radius=1, name="circle_curve"):
@@ -73,8 +87,14 @@ class BallAutoRig(object):
         ball_geo = cmds.sphere(pivot=(0,0,0), axis=(0,1,0), radius=1, name=name)[0]
         if parent: # Check if a parent has been set
             ball_geo = cmds.parent(ball_geo, parent)[0]
+        self.create_ball_shader(ball_geo)
         return ball_geo
     
+    def create_ball_shader(self, ball_geo):
+        ball_shape = Helpers.get_shape_from_transform(ball_geo)
+        ball_shader = Helpers.create_and_assign_lambert_shader("ballShader", ball_shape)
+        return
+
     def create_ball_ctrl(self, name, parent = None):
         # Ball control's radius should be slightly bigger than the ball geometry's radius, get transform node name
         # ball_ctrl = CurveLibrary.circle(radius=1.5, name=name)
