@@ -79,6 +79,11 @@ class BallAutoRig(object):
 
         # Add a parent constraint so the geometry follows the control
         cmds.parentConstraint(ball_ctrl, ball_geo, maintainOffset=True, weight=1)
+        
+        # Add Squash & stretch
+        squash_grp = cmds.group(name="squash_grp", empty=True, parent=anim_controls_grp)
+        squash_ctrl = self.create_squash_ctrl("squash_ctrl", parent=squash_grp)
+        cmds.pointConstraint(ball_ctrl, squash_grp, offset=[0,0,0], weight=1)
 
         # Prevent the ball geometry from being selected by adding it to a reference display layer
         Helpers.create_display_layer("ball_geometry", [ball_geo], True)
@@ -123,6 +128,16 @@ class BallAutoRig(object):
         Helpers.set_attr(ball_ctrl, "rotateOrder", 3) 
         return ball_ctrl
     
+    # Squash & stretch
+    def create_squash_ctrl(self, name, parent=None):
+        squash_ctrl = CurveLibrary.circle(radius=1.6, name=name)
+        if parent:
+            squash_ctrl = cmds.parent(squash_ctrl, parent)[0]
+        Helpers.lock_and_hide_attrs(squash_ctrl, ["sx", "sy", "sz", "v"])
+        Helpers.set_attr(squash_ctrl, "rotateOrder", 3) 
+        Helpers.add_attr(squash_ctrl, "squashStretch", "double", 0, keyable=True)
+        return squash_ctrl
+
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
