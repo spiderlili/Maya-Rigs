@@ -93,6 +93,21 @@ class BallAutoRig(object):
     def create_ball_shader(self, ball_geo):
         ball_shape = Helpers.get_shape_from_transform(ball_geo)
         ball_shader = Helpers.create_and_assign_lambert_shader("ballShader", ball_shape)
+
+        ramp = cmds.shadingNode("ramp", name="ballRamp", asTexture=True)
+        Helpers.set_attr(ramp, "interpolation", 0)
+        Helpers.set_attr(ramp, "colorEntryList[0].position", 0.0)
+        Helpers.set_attr(ramp, "colorEntryList[0].color", self.primary_color, value_type="double3")
+        Helpers.set_attr(ramp, "colorEntryList[1].position", 0.5)
+        Helpers.set_attr(ramp, "colorEntryList[1].color", self.secondary_color, value_type="double3")
+
+        place2d_util = cmds.shadingNode("place2dTexture", name="ballPlace2dTexture", asUtility=True)
+        Helpers.set_attr(place2d_util, "repeatU", 1)
+        Helpers.set_attr(place2d_util, "repeatV", 3)
+
+        Helpers.connect_attr(place2d_util, "outUV", ramp, "uv")
+        Helpers.connect_attr(place2d_util, "outUvFilterSize", ramp, "uvFilterSize")
+        Helpers.connect_attr(ramp, "outColor", ball_shader, "color")
         return
 
     def create_ball_ctrl(self, name, parent = None):
