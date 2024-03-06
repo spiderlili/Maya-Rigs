@@ -27,6 +27,12 @@ class Helpers(object):
             cmds.setAttr(full_name, lock=lock, keyable=keyable, channelBox=channelBox)
 
     @classmethod
+    def make_unselectable(cls, transform_node):
+        shape_node = cls.get_shape_from_transform(transform_node)
+        cls.set_attr(shape_node, "overrideEnabled", True)
+        cls.set_attr(shape_node, "overrideDisplayType", 2)
+
+    @classmethod
     def create_display_layer(cls, name, members, reference=False):
         display_layer = cmds.createDisplayLayer(name=name, empty=True)
         if reference:
@@ -59,6 +65,26 @@ class CurveLibrary():
         return cmds.curve(degree=1, 
                           point=[(-1,0,-2),(-2,0,-2),(0,0,-4),(2,0,-2),(1,0,-2),(1,0,2),(2,0,2),(0,0,4),(-2,0,2),(-1,0,2),(-1,0,-2)], 
                           knot=[0,1,2,3,4,5,6,7,8,9,10], name=name)
+
+    @classmethod
+    def disc(cls, radius=2, name="disc"):
+        outer_circle = cls.circle(radius=radius, name="outer_circle_curve")
+        Helpers.make_unselectable(outer_circle)
+
+        inner_circle = cls.circle(radius=radius * 0.1, name="inner_circle_curve")
+        Helpers.make_unselectable(inner_circle)
+
+        disc_geo = cmds.loft(outer_circle, inner_circle, uniform=True, autoReverse=True, degree=3, polygon=False, reverseSurfaceNormals=True, name=name)[0]
+        outer_circle, inner_circle = cmds.parent(outer_circle, inner_circle, disc_geo)
+
+        disc_geo_shape = Helpers.get_shape_from_transform(disc_geo)
+
+        disc_shader = Helpers.create_and_assign_lambert_shader("discShader", disc_geo_shape)
+        Helpers.set_attr(disc_shader, "color", [0.5, 0.5, 0.5], value_type="double3")
+        Helpers.set_attr(disc_shader, "transparency", [0.7, 0.7, 0.7], value_type="double3")
+        return disc_geo
+
+# TODO: Separate classes, import helper & curve library module
 
 class BallAutoRig(object):
     def __init__(self):
@@ -130,7 +156,7 @@ class BallAutoRig(object):
     
     # Squash & stretch
     def create_squash_ctrl(self, name, parent=None):
-        squash_ctrl = CurveLibrary.circle(radius=1.6, name=name)
+        squash_ctrl = CurveLibrary.disc(radius=1.6, name=name)
         if parent:
             squash_ctrl = cmds.parent(squash_ctrl, parent)[0]
         Helpers.lock_and_hide_attrs(squash_ctrl, ["sx", "sy", "sz", "v"])
