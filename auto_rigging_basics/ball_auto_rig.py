@@ -62,9 +62,12 @@ class CurveLibrary():
 
     @classmethod
     def two_way_arrow(cls, name="two_way_arrow_curve"):
-        return cmds.curve(degree=1, 
+        two_way_arrow = cmds.curve(degree=1, 
                           point=[(-1,0,-2),(-2,0,-2),(0,0,-4),(2,0,-2),(1,0,-2),(1,0,2),(2,0,2),(0,0,4),(-2,0,2),(-1,0,2),(-1,0,-2)], 
                           knot=[0,1,2,3,4,5,6,7,8,9,10], name=name)
+        # Delete construction history
+        cmds.delete(two_way_arrow, ch=True)
+        return two_way_arrow
 
     @classmethod
     def disc(cls, radius=2, name="disc"):
@@ -76,6 +79,9 @@ class CurveLibrary():
 
         disc_geo = cmds.loft(outer_circle, inner_circle, uniform=True, autoReverse=True, degree=3, polygon=False, reverseSurfaceNormals=True, name=name)[0]
         outer_circle, inner_circle = cmds.parent(outer_circle, inner_circle, disc_geo)
+
+        # Delete construction history
+        cmds.delete(outer_circle, inner_circle, disc_geo, ch=True)
 
         disc_geo_shape = Helpers.get_shape_from_transform(disc_geo)
 
@@ -110,6 +116,8 @@ class BallAutoRig(object):
         squash_grp = cmds.group(name="squash_grp", empty=True, parent=anim_controls_grp)
         squash_ctrl = self.create_squash_ctrl("squash_ctrl", parent=squash_grp)
         cmds.pointConstraint(ball_ctrl, squash_grp, offset=[0,0,0], weight=1)
+
+        self.create_squash_deformer(ball_geo, squash_ctrl)
 
         # Prevent the ball geometry from being selected by adding it to a reference display layer
         Helpers.create_display_layer("ball_geometry", [ball_geo], True)
@@ -164,6 +172,11 @@ class BallAutoRig(object):
         Helpers.add_attr(squash_ctrl, "squashStretch", "double", 0, keyable=True)
         return squash_ctrl
 
+    def create_squash_deformer(self, squash_obj, squash_ctrl):
+        cmds.select(squash_obj, replace=True) # Make sure nothing else is selected
+        cmds.Squash()
+        return
+    
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
