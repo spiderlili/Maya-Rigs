@@ -175,8 +175,15 @@ class BallAutoRig(object):
     def create_squash_deformer(self, squash_obj, squash_ctrl):
         cmds.select(squash_obj, replace=True) # Make sure nothing else is selected
         cmds.Squash()
+        squash_handle, squash_deformer = cmds.ls(sl=True, long=True)
+        squash_handle = cmds.rename(squash_handle, "ball_squash_handle")
+        Helpers.set_attr(squash_handle, "visibility", False)
+        Helpers.lock_and_hide_attrs(squash_handle, ["v"], hide=False)
+        cmds.parent(squash_handle, squash_ctrl) # Squash handle should follow the main controller when moved
+        Helpers.connect_attr(squash_ctrl, "squashStretch", squash_deformer, "factor", force=True)
+        cmds.select(clear=True)
         return
-    
+
 if __name__ == "__main__":
     cmds.file(newFile = True, force = True)
     ball = BallAutoRig()
