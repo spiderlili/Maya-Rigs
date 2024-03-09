@@ -192,15 +192,15 @@ if __name__ == "__main__":
 #------------------------------------------------------------------------------
 # Auto-Rig UI
 #------------------------------------------------------------------------------
-class ZurbriggColorButton(QtWidgets.QWidget):
+class ColorButton(QtWidgets.QWidget):
 
     color_changed = QtCore.Signal()
 
 
     def __init__(self, color=(1.0, 1.0, 1.0), parent=None):
-        super(ZurbriggColorButton, self).__init__(parent)
+        super(ColorButton, self).__init__(parent)
 
-        self.setObjectName("ZurbriggColorButton")
+        self.setObjectName("ColorButton")
 
         self.create_control()
 
@@ -281,10 +281,10 @@ class BallAutoRigUi(QtWidgets.QDialog):
         self.name_le = QtWidgets.QLineEdit()
         self.name_le.setPlaceholderText("ball")
 
-        self.primary_color_btn = ZurbriggColorButton()
+        self.primary_color_btn = ColorButton()
         self.primary_color_btn.set_color((0.0, 0.0, 1.0))
 
-        self.secondary_color_btn = ZurbriggColorButton()
+        self.secondary_color_btn = ColorButton()
         self.secondary_color_btn.set_color((1.0, 1.0, 1.0))
 
         self.create_btn = QtWidgets.QPushButton("Create")
