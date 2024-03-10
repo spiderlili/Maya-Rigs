@@ -103,7 +103,7 @@ class BallAutoRig(object):
         self.primary_color = [0.0, 0.0, 1.0]
         self.secondary_color = [1.0, 1.0, 1.0]
         
-    def set_colors():
+    def set_colors(self, primary, secondary):
         self.primary_color = primary
         self.secondary_color = secondary
         
