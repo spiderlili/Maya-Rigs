@@ -1,5 +1,11 @@
 import maya.cmds as cmds
 import maya.mel as mel
+from PySide2 import QtCore, QtWidgets
+from shiboken2 import wrapInstance
+from functools import partial
+import maya.OpenMayaUI as omui
+import sys
+
 
 class Helpers(object):
     @classmethod
